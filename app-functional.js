@@ -186,6 +186,10 @@ class StudyingFlashApp {
         this.showSection('dashboard');
         this.updateStats();
         
+        // Actualizar opciones de decks al inicializar
+        this.updateDeckOptions();
+        this.updateDecksList();
+        
         // Navegación principal
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
