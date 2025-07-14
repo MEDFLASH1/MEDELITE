@@ -340,6 +340,22 @@ const result = await flashcardService.reviewFlashcard(flashcardId, {
 - **Deploy Automático**: Cada push a `main` despliega automáticamente
 - **Entorno de Desarrollo**: `npm run dev` → http://localhost:5174
 
+## 🌐 Acceso en Vivo
+
+**📍 GitHub Pages**: [https://medflash1.github.io/MEDELITE/](https://medflash1.github.io/MEDELITE/)
+
+**🔗 Dominio Personalizado**: [https://www.medicineflash.com/](https://www.medicineflash.com/)
+
+> **Nota**: Si el sitio no carga, GitHub Pages puede estar configurándose. Los cambios pueden tardar 5-10 minutos en propagarse.
+
+## 🔧 Configuración GitHub Pages
+
+Este repositorio está configurado para GitHub Pages con:
+- ✅ Archivo `.nojekyll` para deshabilitar Jekyll
+- ✅ Rutas relativas optimizadas
+- ✅ Dominio personalizado configurado
+- ✅ HTTPS habilitado automáticamente
+
 ## 🧪 Testing
 
 ### **Ejecutar Tests**
