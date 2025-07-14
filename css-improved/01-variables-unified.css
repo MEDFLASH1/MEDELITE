@@ -1,0 +1,246 @@
+/* ===== STUDYINGFLASH - SISTEMA UNIFICADO DE VARIABLES CSS ===== */
+/* 
+ * Versión: 2.0 - Mejorada para estabilidad
+ * Consolidación de todos los sistemas de variables existentes
+ * Eliminación de redundancias y conflictos
+ */
+
+:root {
+  /* ===== COLORES PRINCIPALES ===== */
+  /* Sistema de colores primarios unificado */
+  --primary-50: #f0f9ff;
+  --primary-100: #e0f2fe;
+  --primary-200: #bae6fd;
+  --primary-300: #7dd3fc;
+  --primary-400: #38bdf8;
+  --primary-500: #0ea5e9; /* Color principal */
+  --primary-600: #0284c7;
+  --primary-700: #0369a1;
+  --primary-800: #075985;
+  --primary-900: #0c4a6e;
+
+  /* Sistema secundario */
+  --secondary-50: #f8fafc;
+  --secondary-100: #f1f5f9;
+  --secondary-200: #e2e8f0;
+  --secondary-300: #cbd5e1;
+  --secondary-400: #94a3b8;
+  --secondary-500: #64748b;
+  --secondary-600: #475569;
+  --secondary-700: #334155;
+  --secondary-800: #1e293b;
+  --secondary-900: #0f172a;
+
+  /* Colores de estado */
+  --success-50: #f0fdf4;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --success-700: #15803d;
+
+  --warning-50: #fffbeb;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+
+  --error-50: #fef2f2;
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+
+  /* ===== SISTEMA DE COLORES ADAPTATIVOS ===== */
+  /* Light theme (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+
+  /* ===== GLASSMORPHISM UNIFICADO ===== */
+  --glass-bg-light: rgba(255, 255, 255, 0.1);
+  --glass-bg-medium: rgba(255, 255, 255, 0.15);
+  --glass-bg-strong: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --glass-backdrop: blur(16px);
+
+  /* ===== GRADIENTES CONSOLIDADOS ===== */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-warning: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  --gradient-error: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  --gradient-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* ===== TIPOGRAFÍA SISTEMÁTICA ===== */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+
+  /* Pesos de fuente */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Escalado tipográfico fluido */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --font-size-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+  --font-size-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+  --font-size-5xl: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+
+  /* Alturas de línea */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ===== ESPACIADO SISTEMÁTICO ===== */
+  --space-px: 1px;
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-24: 6rem;    /* 96px */
+  --space-32: 8rem;    /* 128px */
+
+  /* ===== BORDER RADIUS SISTEMÁTICO ===== */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-base: 0.25rem;  /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ===== SOMBRAS SISTEMÁTICAS ===== */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* ===== ANIMACIONES Y TRANSICIONES ===== */
+  --duration-fastest: 0.1s;
+  --duration-fast: 0.15s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
+  --duration-slowest: 0.75s;
+
+  --easing-linear: linear;
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Transiciones comunes */
+  --transition-fast: all var(--duration-fast) var(--easing-out);
+  --transition-normal: all var(--duration-normal) var(--easing-out);
+  --transition-slow: all var(--duration-slow) var(--easing-out);
+
+  /* ===== Z-INDEX SISTEMÁTICO ===== */
+  --z-hide: -1;
+  --z-auto: auto;
+  --z-base: 0;
+  --z-docked: 10;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-banner: 1200;
+  --z-overlay: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-skiplink: 1600;
+  --z-toast: 1700;
+  --z-tooltip: 1800;
+
+  /* ===== BREAKPOINTS ===== */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ===== APPLE-STYLE ESPECÍFICAS ===== */
+  --apple-blue: #007AFF;
+  --apple-gray: #F2F2F7;
+  --apple-dark-gray: #8E8E93;
+  --apple-black: #1D1D1F;
+  --apple-white: #FFFFFF;
+  --apple-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --apple-radius: 12px;
+  --apple-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --sidebar-width: 280px;
+
+  /* ===== UTILIDADES PARA COMPONENTES ===== */
+  --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  --focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.5);
+  --focus-ring-success: 0 0 0 3px rgba(34, 197, 94, 0.5);
+}
+
+/* ===== TEMA OSCURO ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Override colores adaptativos para dark mode */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --border-primary: #334155;
+    --border-secondary: #475569;
+
+    /* Glassmorphism para dark mode */
+    --glass-bg-light: rgba(0, 0, 0, 0.1);
+    --glass-bg-medium: rgba(0, 0, 0, 0.15);
+    --glass-bg-strong: rgba(0, 0, 0, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ===== CLASE PARA FORZAR TEMA OSCURO ===== */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border-primary: #334155;
+  --border-secondary: #475569;
+
+  --glass-bg-light: rgba(0, 0, 0, 0.1);
+  --glass-bg-medium: rgba(0, 0, 0, 0.15);
+  --glass-bg-strong: rgba(0, 0, 0, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== VALIDACIÓN DE VARIABLES ===== */
+/* Estas declaraciones ayudan a detectar variables no definidas */
+* {
+  /* Debug: Uncomment to see undefined custom properties */
+  /* background-image: var(--undefined-variable, none); */
+}
