@@ -1202,6 +1202,21 @@ const AuthModule = {
 
 AuthModule.init();
 
+// Função para mostrar menu do usuário
+function showUserMenu() {
+    Utils.showNotification('Menu do usuário em desenvolvimento', 'info');
+}
+
+function checkUserLogin() {
+    const user = JSON.parse(localStorage.getItem('studyingflash_user') || '{}');
+    if (user && user.loggedIn) {
+        updateUIForLoggedUser(user.email);
+    }
+}
+
+// Chamar verificação de login quando a página carregar
+document.addEventListener('DOMContentLoaded', checkUserLogin);
+
 // Exponer funciones de AuthModule globalmente para compatibilidad con HTML
 window.loginWithFacebook = () => AuthModule.loginWithFacebook();
 window.loginWithGoogle = () => AuthModule.loginWithGoogle();
