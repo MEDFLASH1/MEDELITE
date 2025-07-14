@@ -195,6 +195,7 @@ class StudyingFlashApp {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const section = e.currentTarget.getAttribute('data-section');
+                console.log('🔗 Navegación clickeada:', section);
                 this.showSection(section);
             });
         });
@@ -246,21 +247,25 @@ class StudyingFlashApp {
     }
 
     showSection(sectionName) {
+        console.log(`🎯 Mostrando sección: ${sectionName}`);
         Utils.log(`Navegando a sección: ${sectionName}`);
         
         // Ocultar todas las secciones removiendo la clase 'active'
         document.querySelectorAll('.section').forEach(section => {
             section.classList.remove('active');
+            console.log(`❌ Ocultando sección: ${section.id}`);
         });
 
         // Mostrar la sección solicitada añadiendo la clase 'active'
         const targetSection = document.getElementById(sectionName);
         if (targetSection) {
             targetSection.classList.add('active');
+            console.log(`✅ Mostrando sección: ${sectionName}`);
             this.currentSection = sectionName;
             // Cargar contenido específico de la sección
             this.loadSectionContent(sectionName);
         } else {
+            console.error(`❌ Sección ${sectionName} no encontrada`);
             Utils.error(`Sección ${sectionName} no encontrada`);
         }
 
@@ -272,6 +277,7 @@ class StudyingFlashApp {
         const activeLink = document.querySelector(`[data-section="${sectionName}"]`);
         if (activeLink) {
             activeLink.classList.add('active');
+            console.log(`🎯 Enlace activo actualizado: ${sectionName}`);
         }
     }
 
@@ -322,6 +328,9 @@ class StudyingFlashApp {
         Utils.log('Cargando dashboard');
         this.updateDecksList();
         this.updateStats();
+        this.updateDashboardDecks();
+        // Re-inicializar navegación para asegurar que funcione
+        setTimeout(() => this.reinitializeNavigation(), 100);
     }
 
     loadCreateSection() {
@@ -422,6 +431,7 @@ class StudyingFlashApp {
         // Actualizar UI
         this.updateDecksList();
         this.updateDeckOptions();
+        this.updateDashboardDecks();
     }
 
     /**
@@ -623,7 +633,99 @@ class StudyingFlashApp {
         }).join('');
     }
 
-    // ===== SESIÓN DE ESTUDIO =====
+    /**
+     * Actualiza la sección de decks en el dashboard con vista resumida
+     */
+    updateDashboardDecks() {
+        const dashboardDecksList = document.getElementById('dashboard-decks-list');
+        const emptyState = document.getElementById('dashboard-empty-state');
+        
+        if (!dashboardDecksList) {
+            Utils.log('Elemento dashboard-decks-list no encontrado');
+            return;
+        }
+
+        if (this.decks.length === 0) {
+            dashboardDecksList.classList.add('hidden');
+            if (emptyState) emptyState.classList.remove('hidden');
+            return;
+        }
+
+        if (emptyState) emptyState.classList.add('hidden');
+        dashboardDecksList.classList.remove('hidden');
+
+        // Mostrar máximo 6 decks más recientes en dashboard
+        const recentDecks = this.decks.slice(0, 6);
+        
+        dashboardDecksList.innerHTML = recentDecks.map(deck => {
+            const deckFlashcards = this.flashcards.filter(card => card.deckId === deck.id);
+            const studiedCards = deckFlashcards.filter(card => 
+                card.algorithm_data && card.algorithm_data.repetitions > 0
+            ).length;
+            
+            const progress = deckFlashcards.length > 0 
+                ? (studiedCards / deckFlashcards.length) * 100 
+                : 0;
+                
+            const needsReview = deckFlashcards.filter(card => 
+                card.algorithm_data && new Date(card.algorithm_data.next_review) <= new Date()
+            ).length;
+
+            return `
+                <div class="dashboard-deck-card" onclick="app.openDeckActions('${deck.id}')">
+                    <div class="deck-card-header">
+                        <h4 class="deck-card-title">${deck.name}</h4>
+                        <span class="deck-status ${needsReview > 0 ? 'has-reviews' : 'up-to-date'}">
+                            ${needsReview > 0 ? '⏰' : '✅'}
+                        </span>
+                    </div>
+                    
+                    <div class="deck-card-stats">
+                        <span>📚 ${deckFlashcards.length} tarjetas</span>
+                        <span>📈 ${studiedCards} estudiadas</span>
+                        ${needsReview > 0 ? `<span>⏰ ${needsReview} pendientes</span>` : ''}
+                    </div>
+                    
+                    <div class="deck-card-progress">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    
+                    <div class="deck-card-actions">
+                        <button onclick="event.stopPropagation(); app.startStudySession('${deck.id}')" 
+                                class="btn-primary-small"
+                                ${deckFlashcards.length === 0 ? 'disabled' : ''}>
+                            ${deckFlashcards.length === 0 ? 'Sin tarjetas' : 
+                              needsReview > 0 ? 'Estudiar' : 'Repasar'}
+                        </button>
+                        <button onclick="event.stopPropagation(); app.showSection('crear')" 
+                                class="btn-secondary-small">
+                            + Tarjeta
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        Utils.log(`Dashboard actualizado con ${recentDecks.length} decks`);
+    }
+
+    /**
+     * Abre opciones rápidas para un deck desde el dashboard
+     */
+    openDeckActions(deckId) {
+        const deck = this.decks.find(d => d.id === deckId);
+        if (!deck) return;
+
+        const deckFlashcards = this.flashcards.filter(card => card.deckId === deckId);
+        
+        if (deckFlashcards.length === 0) {
+            Utils.showNotification(`El deck "${deck.name}" no tiene tarjetas. ¡Agrega algunas!`, 'info');
+            this.showSection('crear');
+        } else {
+            this.startStudySession(deckId);
+        }
+    }
+
     /**
      * Inicia una sesión de estudio para un deck específico
      * @param {string} deckId - Identificador del deck a estudiar
@@ -669,7 +771,7 @@ class StudyingFlashApp {
 
         this.showStudyCard();
         
-        // Mostrar interface de estudo dentro da seção estudiar
+        // Mostrar interface de estudo dentro da sección estudiar
         const deckSelection = document.getElementById('deck-selection');
         const studyInterface = document.getElementById('study-interface');
         
@@ -957,58 +1059,6 @@ class StudyingFlashApp {
         };
     }
 
-    getStudiedToday() {
-        const today = new Date().toDateString();
-        return this.flashcards.filter(card => {
-            const lastReview = new Date(card.algorithm_data.next_review);
-            return lastReview.toDateString() === today;
-        }).length;
-    }
-
-    getCurrentStreak() {
-        // Implementar lógica de racha
-        return this.stats.currentStreak || 0;
-    }
-
-    calculateRankingStats() {
-        // Datos simulados para ranking - en producción vendría de API
-        return {
-            userRank: Math.floor(Math.random() * 100) + 1,
-            totalUsers: 1000,
-            completedDecks: this.decks.filter(deck => this.isDeckCompleted(deck.id)).length,
-            maxStreak: this.getMaxStreak(),
-            totalScore: this.calculateTotalScore(),
-            topUsers: [
-                { username: 'FlashGenius', score: 14890, isCurrentUser: false },
-                { username: 'Tú', score: this.calculateTotalScore(), isCurrentUser: true },
-                { username: 'MemoryPro', score: 12340, isCurrentUser: false },
-                { username: 'CardWizard', score: 11750, isCurrentUser: false }
-            ].sort((a, b) => b.score - a.score)
-        };
-    }
-
-    isDeckCompleted(deckId) {
-        const deckCards = this.flashcards.filter(card => card.deckId === deckId);
-        if (deckCards.length === 0) return false;
-        
-        // Un deck se considera completado si todas sus cartas han sido estudiadas al menos 3 veces
-        return deckCards.every(card => (card.timesStudied || 0) >= 3);
-    }
-
-    getMaxStreak() {
-        // Calcular racha máxima basada en estadísticas guardadas
-        return this.stats.maxStreak || 0;
-    }
-
-    calculateTotalScore() {
-        // Calcular puntuación total basada en actividad
-        const deckPoints = this.decks.length * 100;
-        const cardPoints = this.flashcards.length * 10;
-        const studyPoints = Object.values(this.stats.dailyStudy || {}).reduce((sum, count) => sum + count, 0) * 5;
-        
-        return deckPoints + cardPoints + studyPoints;
-    }
-
     updateGlobalStats(sessionStats) {
         if (!this.stats.totalSessions) this.stats.totalSessions = 0;
         if (!this.stats.totalCorrect) this.stats.totalCorrect = 0;
@@ -1078,7 +1128,49 @@ class StudyingFlashApp {
 
         this.updateDecksList();
         this.updateDeckOptions();
+        this.updateDashboardDecks();
         Utils.showNotification('Deck eliminado', 'success');
+    }
+
+    /**
+     * Re-inicializa los event listeners de navegación
+     */
+    reinitializeNavigation() {
+        console.log('🔄 Re-inicializando navegación...');
+        
+        // Remover listeners existentes y agregar nuevos
+        document.querySelectorAll('[data-section]').forEach(link => {
+            // Crear nueva función para evitar duplicados
+            const clickHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const section = e.currentTarget.getAttribute('data-section');
+                console.log('🔗 Click navegación:', section);
+                this.showSection(section);
+            };
+            
+            // Remover listeners anteriores
+            link.removeEventListener('click', clickHandler);
+            // Agregar nuevo listener
+            link.addEventListener('click', clickHandler);
+        });
+        
+        // También para la navegación móvil Apple
+        document.querySelectorAll('.apple-nav-item[data-section]').forEach(link => {
+            const clickHandler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const section = e.currentTarget.getAttribute('data-section');
+                console.log('🔗 Click Apple nav:', section);
+                this.showSection(section);
+                this.closeMobileMenu();
+            };
+            
+            link.removeEventListener('click', clickHandler);
+            link.addEventListener('click', clickHandler);
+        });
+        
+        console.log('✅ Navegación re-inicializada');
     }
 }
 
@@ -1099,7 +1191,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.flipCard = () => app.flipCard();
     window.evaluateCard = (difficulty) => app.evaluateCard(difficulty);
     window.exitStudySession = () => app.endStudySession();
-    window.startNewSession = () => app.loadStudySection(); // Assuming this is for starting a new session from summary
+    window.startNewSession = () => app.loadStudySection();
+    window.openDeckActions = (deckId) => app.openDeckActions(deckId);
+    window.fixNavigation = () => app.reinitializeNavigation();
     console.log('✅ App inicializada y expuesta globalmente');
 });
 

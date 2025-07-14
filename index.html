@@ -603,6 +603,37 @@
             </div>
           </div>
           
+          <!-- Dashboard Decks Section -->
+          <div class="dashboard-decks-section">
+            <div class="section-header">
+              <h3 class="section-title">
+                <svg class="icon"><use href="#icon-flashcards"></use></svg>
+                Tus Decks de Estudio
+              </h3>
+              <div class="section-actions">
+                <button onclick="app.showSection('gestionar')" class="btn-link">
+                  Ver todos →
+                </button>
+                <button onclick="app.showSection('gestionar')" class="btn-primary-small">
+                  + Crear Deck
+                </button>
+              </div>
+            </div>
+            
+            <div id="dashboard-decks-list" class="dashboard-decks-grid">
+              <!-- Los decks se cargarán dinámicamente aquí -->
+            </div>
+            
+            <!-- Estado vacío -->
+            <div id="dashboard-empty-state" class="empty-state hidden">
+              <div class="empty-icon">📚</div>
+              <h4>¡Crea tu primer deck!</h4>
+              <p>Los decks te ayudan a organizar tus flashcards por tema</p>
+              <button onclick="app.showSection('gestionar')" class="btn-primary">
+                Crear mi primer deck
+              </button>
+            </div>
+          </div>
 
         </section>
         
@@ -1091,6 +1122,240 @@
   <!-- JavaScript Funcional -->
   <script src="./app-functional.js"></script>
   <script src="./dashboard-enhanced.js"></script>
+  <script src="./health-monitor.js"></script>
+  <script src="./visual-dashboard.js"></script>
+  
+  <!-- Sistema de Navegación Robusto -->
+  <script>
+    // Global App State Management
+    window.appState = {
+      currentSection: 'dashboard',
+      navigationReady: false,
+      lastUpdate: Date.now(),
+      debugMode: true
+    };
+
+    // Robust Navigation System
+    class NavigationManager {
+      constructor() {
+        this.initialized = false;
+        this.retryCount = 0;
+        this.maxRetries = 3;
+        this.init();
+      }
+
+      init() {
+        console.log('🚀 Inicializando sistema de navegación robusto...');
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => this.setup());
+        } else {
+          this.setup();
+        }
+      }
+
+      setup() {
+        try {
+          this.setupEventDelegation();
+          this.verifyNavigation();
+          this.setupStateManagement();
+          this.initialized = true;
+          console.log('✅ Sistema de navegación inicializado correctamente');
+        } catch (error) {
+          console.error('❌ Error en setup de navegación:', error);
+          this.retry();
+        }
+      }
+
+      setupEventDelegation() {
+        // Use event delegation for robust navigation
+        document.addEventListener('click', (e) => {
+          const navElement = e.target.closest('[data-section]');
+          if (navElement) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const section = navElement.getAttribute('data-section');
+            this.navigateToSection(section);
+          }
+        });
+
+        console.log('🔗 Event delegation configurado');
+      }
+
+      navigateToSection(sectionName) {
+        if (!sectionName) return;
+
+        console.log(`🧭 Navegando a: ${sectionName}`);
+
+        try {
+          // Update state
+          window.appState.currentSection = sectionName;
+          window.appState.lastUpdate = Date.now();
+          
+          // Hide all sections
+          document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+          });
+
+          // Show target section
+          const targetSection = document.getElementById(sectionName);
+          if (targetSection) {
+            targetSection.classList.add('active');
+            console.log(`✅ Sección '${sectionName}' activada`);
+          } else {
+            console.warn(`⚠️ Sección '${sectionName}' no encontrada`);
+            return;
+          }
+
+          // Update active nav links
+          document.querySelectorAll('[data-section]').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionName) {
+              link.classList.add('active');
+            }
+          });
+
+          // Save state to localStorage
+          localStorage.setItem('appState', JSON.stringify(window.appState));
+          
+          // Trigger custom event for other components
+          document.dispatchEvent(new CustomEvent('sectionChanged', {
+            detail: { section: sectionName }
+          }));
+
+        } catch (error) {
+          console.error('❌ Error en navegación:', error);
+          this.handleNavigationError(error);
+        }
+      }
+
+      verifyNavigation() {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('[data-section]');
+        
+        console.log(`📊 Verificación: ${sections.length} secciones, ${navLinks.length} enlaces`);
+        
+        if (sections.length === 0 || navLinks.length === 0) {
+          console.warn('⚠️ Elementos de navegación faltantes');
+          setTimeout(() => this.retry(), 1000);
+          return false;
+        }
+        
+        return true;
+      }
+
+      setupStateManagement() {
+        // Restore previous state if available
+        try {
+          const savedState = localStorage.getItem('appState');
+          if (savedState) {
+            const state = JSON.parse(savedState);
+            // Navigate to last section if recent (less than 1 hour old)
+            if (Date.now() - state.lastUpdate < 3600000) {
+              setTimeout(() => this.navigateToSection(state.currentSection), 100);
+            }
+          }
+        } catch (error) {
+          console.warn('⚠️ No se pudo restaurar estado previo:', error);
+        }
+      }
+
+      retry() {
+        if (this.retryCount < this.maxRetries) {
+          this.retryCount++;
+          console.log(`🔄 Reintentando navegación (${this.retryCount}/${this.maxRetries})...`);
+          setTimeout(() => this.setup(), 1000 * this.retryCount);
+        } else {
+          console.error('❌ Máximo de reintentos alcanzado');
+          this.fallbackNavigation();
+        }
+      }
+
+      fallbackNavigation() {
+        console.log('🆘 Activando navegación de respaldo...');
+        
+        // Simple fallback for critical navigation
+        document.querySelectorAll('[data-section]').forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(section);
+            if (target) target.classList.add('active');
+            
+            document.querySelectorAll('[data-section]').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+      }
+
+      handleNavigationError(error) {
+        console.error('🚨 Error de navegación:', error);
+        
+        // Try to recover
+        setTimeout(() => {
+          if (!this.initialized) {
+            this.retry();
+          }
+        }, 2000);
+      }
+
+      // Debug methods
+      getStatus() {
+        return {
+          initialized: this.initialized,
+          retryCount: this.retryCount,
+          currentSection: window.appState.currentSection,
+          sectionsCount: document.querySelectorAll('.section').length,
+          navLinksCount: document.querySelectorAll('[data-section]').length
+        };
+      }
+    }
+
+    // Initialize the navigation system
+    const navManager = new NavigationManager();
+
+    // Global debugging functions
+    window.debugNav = () => {
+      console.table(navManager.getStatus());
+    };
+
+    window.forceNavigationReset = () => {
+      console.log('🔧 Forzando reset de navegación...');
+      navManager.setup();
+    };
+
+    // Cache busting for critical resources
+    function bustCache() {
+      const timestamp = Date.now();
+      const criticalResources = ['app-functional.js', 'dashboard-enhanced.js'];
+      
+      criticalResources.forEach(resource => {
+        const existing = document.querySelector(`script[src*="${resource}"]`);
+        if (existing) {
+          const newScript = document.createElement('script');
+          newScript.src = `${resource}?v=${timestamp}`;
+          existing.parentNode.replaceChild(newScript, existing);
+        }
+      });
+    }
+
+    // Auto-verify navigation every 30 seconds
+    setInterval(() => {
+      if (window.appState.debugMode) {
+        const status = navManager.getStatus();
+        if (!status.initialized) {
+          console.warn('⚠️ Navegación no inicializada, reintentando...');
+          navManager.setup();
+        }
+      }
+    }, 30000);
+
+    console.log('🎯 Sistema de navegación robusto cargado');
+  </script>
 
 
 </body>
