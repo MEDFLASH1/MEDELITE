@@ -1,0 +1,54 @@
+/* ===== MAIN.CSS - ARCHIVO PRINCIPAL DE ESTILOS =====
+ * Este archivo organiza todos los estilos usando @import
+ * Orden de carga optimizado para rendimiento y dependencias
+ */
+
+/* 1. VARIABLES Y CONFIGURACIÓN BASE */
+@import './variables.css';
+
+/* 2. ESTILOS BASE Y LAYOUT */
+@import './styles.css';
+@import './layout.css';
+
+/* 3. TEMAS Y RESPONSIVE */
+@import './meta-dark-theme.css';
+@import './responsive.css';
+
+/* 4. COMPONENTES ESPECÍFICOS */
+@import './section-styles.css';
+@import './footer.css';
+
+/* 5. DASHBOARD Y FUNCIONALIDADES */
+@import './dashboard.css';
+@import './dashboard-modern.css';
+
+/* 6. AUTENTICACIÓN Y LOGIN */
+@import './modern-login-styles.css';
+@import './login-redesign.css';
+
+/* 7. DISPOSITIVOS MÓVILES */
+@import './apple-mobile.css';
+
+/* 8. ARCHIVOS GENERADOS (si existen) */
+@import './index-DlbPgqYZ.css';
+
+/* ===== COMENTARIOS DE ORGANIZACIÓN =====
+ * 
+ * ORDEN DE IMPORTACIÓN:
+ * 1. Variables primero (para que estén disponibles en otros archivos)
+ * 2. Estilos base y layout general
+ * 3. Temas y responsive design
+ * 4. Componentes específicos
+ * 5. Funcionalidades principales
+ * 6. Páginas específicas (login, dashboard)
+ * 7. Optimizaciones móviles
+ * 8. Archivos generados por build tools
+ * 
+ * BENEFICIOS:
+ * - Un solo archivo CSS para cargar en HTML
+ * - Orden de dependencias respetado
+ * - Fácil mantenimiento y organización
+ * - Mejor rendimiento (menos requests HTTP)
+ * - Compatible con todos los navegadores
+ */
+
