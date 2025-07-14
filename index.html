@@ -595,6 +595,32 @@
             </div>
           </div>
           
+          <!-- Dashboard-Flashcard Integration Sections -->
+          
+          <!-- Estadísticas de Flashcards -->
+          <div id="dashboard-flashcard-stats" class="dashboard-flashcard-stats">
+            <!-- El contenido se cargará dinámicamente -->
+            <div class="loading-spinner">Cargando estadísticas...</div>
+          </div>
+          
+          <!-- Tarjetas Pendientes de Repaso -->
+          <div id="dashboard-due-flashcards" class="dashboard-due-flashcards">
+            <!-- El contenido se cargará dinámicamente -->
+            <div class="loading-spinner">Cargando tarjetas pendientes...</div>
+          </div>
+          
+          <!-- Creación Rápida -->
+          <div id="dashboard-quick-create" class="dashboard-quick-create">
+            <!-- El contenido se cargará dinámicamente -->
+            <div class="loading-spinner">Cargando herramientas...</div>
+          </div>
+          
+          <!-- Recomendaciones Personalizadas -->
+          <div id="dashboard-recommendations" class="dashboard-recommendations">
+            <!-- El contenido se cargará dinámicamente -->
+            <div class="loading-spinner">Generando recomendaciones...</div>
+          </div>
+          
           <!-- Dashboard Decks Section -->
           <div class="dashboard-decks-section">
             <div class="section-header">
@@ -998,8 +1024,61 @@
     </main>
   </div>
 
-  <!-- Modals -->  <!-- Login Modal -->
-  <div class="modal-overlay" id="login-modal">
+  <!-- Modal de Autenticación Moderno -->
+  <div class="auth-container" id="auth-container" style="display: none;">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">🧠</div>
+        <h1 class="auth-title">StudyingFlash</h1>
+        <p class="auth-subtitle">Inicia sesión para continuar</p>
+      </div>
+      
+      <form class="auth-form" id="authForm">
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="auth-email">Email</label>
+          <input type="email" id="auth-email" class="auth-form-input" placeholder="tu@email.com" required>
+        </div>
+        
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="auth-password">Contraseña</label>
+          <input type="password" id="auth-password" class="auth-form-input" placeholder="••••••••" required>
+        </div>
+        
+        <button type="submit" class="auth-btn">
+          <span class="auth-btn-text">Iniciar Sesión</span>
+        </button>
+      </form>
+      
+      <div class="auth-messages" id="auth-messages"></div>
+      
+      <div class="auth-demo">
+        <div class="auth-demo-title">
+          🧪 Credenciales de Prueba
+        </div>
+        <div class="auth-demo-grid">
+          <div class="auth-demo-item" onclick="fillDemoCredentials('admin@studyingflash.com', 'admin123')">
+            <strong>Administrador:</strong>
+            <span class="auth-demo-creds">admin@studyingflash.com</span>
+          </div>
+          <div class="auth-demo-item" onclick="fillDemoCredentials('user@studyingflash.com', 'user123')">
+            <strong>Usuario:</strong>
+            <span class="auth-demo-creds">user@studyingflash.com</span>
+          </div>
+          <div class="auth-demo-item" onclick="fillDemoCredentials('test@studyingflash.com', 'test123')">
+            <strong>Test:</strong>
+            <span class="auth-demo-creds">test@studyingflash.com</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="auth-footer">
+        <p>© 2025 StudyingFlash. Sistema de autenticación seguro.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Login Antiguo (Mantener como fallback) -->
+  <div class="modal-overlay" id="login-modal" style="display: none;">
     <div class="modal">
       <div class="modal-header">
         <h2 class="modal-title">Entrar</h2>
@@ -1349,28 +1428,13 @@
     console.log('🎯 Sistema de navegación robusto cargado');
   </script>
 
+  <!-- Dashboard-Flashcard Integration Script -->
+  <script src="js/dashboard-flashcard-integration.js"></script>
 
 </body>
 </html>
 
 
-  <!-- Footer Section -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-section brand-info">
-        <h2 class="footer-logo">StudyingFlash</h2>
-        <p class="footer-description">Sua plataforma de aprendizagem inteligente</p>
-      </div>
-
-      <div class="footer-section">
-        <h3 class="footer-heading">Explorar</h3>
-        <ul class="footer-links">
-          <li><a href="#dashboard">Dashboard</a></li>
-          <li><a href="#estudar">Estudar</a></li>
-          <li><a href="#crear">Criar</a></li>
-          <li><a href="#gestionar">Gerenciar</a></li>
-        </ul>
-      </div>
 
       <div class="footer-section">
         <h3 class="footer-heading">Sobre</h3>
@@ -1394,5 +1458,8 @@
       <p>© 2025 StudyingFlash. Todos os direitos reservados.</p>
     </div>
   </footer>
+  
+  <!-- Scripts de Autenticación -->
+  <script src="js/auth-system-fixed.js?v=2"></script>
 </body>
 </html>

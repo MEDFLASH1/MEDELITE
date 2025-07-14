@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dashboard Integration - StudyingFlash</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background: #f5f7fa;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        /* Importar estilos de la integración */
+        @import url('./css/dashboard-flashcard-integration.css');
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Dashboard-Flashcard Integration</h1>
+    
+    <div class="test-section">
+        <h2>1. Verificación de Componentes del DOM</h2>
+        <div id="dom-test-results"></div>
+        <button onclick="testDOMComponents()">Probar Componentes DOM</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Test de Datos LocalStorage</h2>
+        <div id="storage-test-results"></div>
+        <button onclick="setupTestData()">Crear Datos de Prueba</button>
+        <button onclick="testDataRetrieval()">Probar Obtención de Datos</button>
+        <button onclick="clearTestData()">Limpiar Datos</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Test de Integración Visual</h2>
+        <div class="test-grid">
+            <!-- Contenedores de prueba para los componentes de dashboard -->
+            <div id="dashboard-flashcard-stats" style="min-height: 200px; border: 2px dashed #ccc; padding: 20px;">
+                <p>Área de estadísticas de flashcards</p>
+            </div>
+            
+            <div id="dashboard-due-flashcards" style="min-height: 200px; border: 2px dashed #ccc; padding: 20px;">
+                <p>Área de tarjetas pendientes</p>
+            </div>
+            
+            <div id="dashboard-quick-create" style="min-height: 200px; border: 2px dashed #ccc; padding: 20px;">
+                <p>Área de creación rápida</p>
+            </div>
+            
+            <div id="dashboard-recommendations" style="min-height: 200px; border: 2px dashed #ccc; padding: 20px;">
+                <p>Área de recomendaciones</p>
+            </div>
+        </div>
+        
+        <button onclick="testIntegrationRendering()">Probar Renderizado</button>
+        <button onclick="testQuickCreateModal()">Probar Modal Creación</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Logs de Sistema</h2>
+        <div id="system-logs" style="background: #f8f9fa; padding: 15px; border-radius: 4px; font-family: monospace; max-height: 300px; overflow-y: auto;"></div>
+        <button onclick="clearLogs()">Limpiar Logs</button>
+    </div>
+
+    <!-- Iconos SVG para pruebas -->
+    <svg style="display: none;">
+        <defs>
+            <symbol id="icon-play" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+            </symbol>
+            <symbol id="icon-plus" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </symbol>
+            <symbol id="icon-folder" viewBox="0 0 24 24">
+                <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <script>
+        // Interceptar console.log para mostrar en la página
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logsContainer = document.getElementById('system-logs');
+        
+        function addLogToPage(message, type = 'log') {
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? '#dc3545' : '#28a745';
+            logEntry.style.marginBottom = '5px';
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsContainer.appendChild(logEntry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLogToPage(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLogToPage(args.join(' '), 'error');
+        };
+        
+        // Funciones de prueba
+        function testDOMComponents() {
+            const results = document.getElementById('dom-test-results');
+            results.innerHTML = '';
+            
+            const components = [
+                'dashboard-flashcard-stats',
+                'dashboard-due-flashcards', 
+                'dashboard-quick-create',
+                'dashboard-recommendations'
+            ];
+            
+            components.forEach(id => {
+                const element = document.getElementById(id);
+                const resultDiv = document.createElement('div');
+                resultDiv.className = element ? 'test-result success' : 'test-result error';
+                resultDiv.textContent = `${id}: ${element ? '✅ Encontrado' : '❌ No encontrado'}`;
+                results.appendChild(resultDiv);
+            });
+        }
+        
+        function setupTestData() {
+            // Crear datos de prueba
+            const testDecks = [
+                { id: 'deck1', name: 'Matemáticas Básicas', createdAt: new Date().toISOString() },
+                { id: 'deck2', name: 'Historia Mundial', createdAt: new Date().toISOString() },
+                { id: 'deck3', name: 'Idioma Inglés', createdAt: new Date().toISOString() }
+            ];
+            
+            const testFlashcards = [
+                {
+                    id: 'card1',
+                    deckId: 'deck1',
+                    front_content: { text: '¿Cuánto es 2 + 2?' },
+                    back_content: { text: '4' },
+                    algorithm_data: {
+                        repetitions: 3,
+                        next_review: new Date(Date.now() - 86400000).toISOString() // Vencida
+                    }
+                },
+                {
+                    id: 'card2', 
+                    deckId: 'deck1',
+                    front_content: { text: '¿Cuánto es 5 × 3?' },
+                    back_content: { text: '15' },
+                    algorithm_data: {
+                        repetitions: 1,
+                        next_review: new Date().toISOString() // Pendiente hoy
+                    }
+                },
+                {
+                    id: 'card3',
+                    deckId: 'deck2', 
+                    front_content: { text: '¿En qué año comenzó la Primera Guerra Mundial?' },
+                    back_content: { text: '1914' },
+                    algorithm_data: {
+                        repetitions: 0,
+                        next_review: new Date().toISOString()
+                    }
+                }
+            ];
+            
+            localStorage.setItem('studyingflash_decks', JSON.stringify(testDecks));
+            localStorage.setItem('studyingflash_flashcards', JSON.stringify(testFlashcards));
+            
+            const results = document.getElementById('storage-test-results');
+            results.innerHTML = '<div class="test-result success">✅ Datos de prueba creados: 3 decks, 3 flashcards</div>';
+            
+            console.log('Datos de prueba configurados');
+        }
+        
+        function testDataRetrieval() {
+            const decks = JSON.parse(localStorage.getItem('studyingflash_decks') || '[]');
+            const flashcards = JSON.parse(localStorage.getItem('studyingflash_flashcards') || '[]');
+            
+            const results = document.getElementById('storage-test-results');
+            
+            const resultDiv = document.createElement('div');
+            if (decks.length > 0 && flashcards.length > 0) {
+                resultDiv.className = 'test-result success';
+                resultDiv.innerHTML = `✅ Datos recuperados:<br>
+                    • ${decks.length} decks encontrados<br>
+                    • ${flashcards.length} flashcards encontradas`;
+            } else {
+                resultDiv.className = 'test-result error';
+                resultDiv.textContent = '❌ No se encontraron datos de prueba';
+            }
+            
+            results.appendChild(resultDiv);
+        }
+        
+        function clearTestData() {
+            localStorage.removeItem('studyingflash_decks');
+            localStorage.removeItem('studyingflash_flashcards');
+            
+            const results = document.getElementById('storage-test-results');
+            results.innerHTML = '<div class="test-result info">🗑️ Datos de prueba eliminados</div>';
+        }
+        
+        function testIntegrationRendering() {
+            console.log('Iniciando test de renderizado de integración...');
+            
+            // Verificar que la clase esté disponible
+            if (typeof DashboardFlashcardIntegration === 'undefined') {
+                console.error('❌ DashboardFlashcardIntegration no está definida');
+                return;
+            }
+            
+            try {
+                // Crear instancia de la integración
+                const integration = new DashboardFlashcardIntegration();
+                console.log('✅ Instancia de DashboardFlashcardIntegration creada');
+                
+                // Guardar referencia global para testing
+                window.testIntegration = integration;
+                
+            } catch (error) {
+                console.error('❌ Error creando integración:', error);
+            }
+        }
+        
+        function testQuickCreateModal() {
+            if (window.testIntegration) {
+                console.log('Probando modal de creación rápida...');
+                window.testIntegration.openQuickCreateModal();
+            } else {
+                console.error('❌ No hay instancia de integración disponible');
+            }
+        }
+        
+        function clearLogs() {
+            document.getElementById('system-logs').innerHTML = '';
+        }
+        
+        // Mock de app global para pruebas
+        window.app = {
+            showSection: function(section) {
+                console.log('🔗 Mock app.showSection llamado:', section);
+            },
+            showNotification: function(message, type) {
+                console.log('🔔 Mock app.showNotification:', message, type);
+            },
+            startStudySession: function(deckId) {
+                console.log('📚 Mock app.startStudySession llamado:', deckId);
+            }
+        };
+        
+        // Simular window.Utils
+        window.Utils = {
+            showNotification: function(message, type) {
+                console.log('🔔 Mock Utils.showNotification:', message, type);
+            }
+        };
+        
+        // Auto-ejecutar pruebas básicas al cargar
+        window.addEventListener('load', function() {
+            console.log('🚀 Iniciando tests automáticos...');
+            testDOMComponents();
+            
+            setTimeout(() => {
+                console.log('📝 Tests completados. Usa los botones para probar funcionalidad específica.');
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Cargar el archivo de integración -->
+    <script src="./js/dashboard-flashcard-integration.js"></script>
+</body>
+</html>

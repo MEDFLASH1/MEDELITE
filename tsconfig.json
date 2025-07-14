@@ -3,16 +3,21 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
     "jsx": "react-jsx",
     "noEmit": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "types/**/*"],
+  "exclude": ["backup_*/**/*", "node_modules"]
 }

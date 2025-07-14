@@ -17,6 +17,7 @@
 
 /* 5. DASHBOARD Y FUNCIONALIDADES PRINCIPALES */
 @import './dashboard-modern.css';
+@import './css/dashboard-flashcard-integration.css';
 
 /* 6. MÓVIL Y DISPOSITIVOS ESPECÍFICOS */
 @import './apple-mobile.css';
@@ -24,6 +25,7 @@
 /* 7. AUTENTICACIÓN Y LOGIN */
 @import './modern-login-styles.css';
 @import './login-redesign.css';
+@import './css/auth-system.css';
 
 /* 8. FOOTER */
 @import './footer.css';
