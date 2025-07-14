@@ -1181,14 +1181,19 @@ document.addEventListener('DOMContentLoaded', checkUserLogin);
 
 // Função para alternar a visibilidade da senha
 function togglePasswordVisibility() {
-    const passwordField = document.getElementById("login-password");
-    const toggleIcon = document.querySelector(".input-icon");
+    const passwordField = document.getElementById('login-password');
+    const toggleIcon = document.querySelector('.input-icon');
 
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
+    if (!passwordField || !toggleIcon) {
+        return;
+    }
+
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.textContent = '🙈'; // Ícone de olho fechado
     } else {
-        passwordField.type = "password";
-        toggleIcon.textContent = "👁️"; // Ícone de olho aberto
+        passwordField.type = 'password';
+        toggleIcon.textContent = '👁️'; // Ícone de olho aberto
     }
 }
 
