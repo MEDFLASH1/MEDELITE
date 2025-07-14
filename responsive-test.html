@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Responsivo - StudyingFlash</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Estilos específicos para testing */
+        .test-container {
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .test-title {
+            font-size: 2rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .screen-info {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: monospace;
+        }
+        
+        .responsive-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .responsive-item {
+            background: #2563eb;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .auth-test {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .current-breakpoint {
+            font-weight: bold;
+            color: #059669;
+            font-size: 1.2rem;
+        }
+        
+        /* Indicadores de breakpoint */
+        .breakpoint-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f2937;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Responsive grid adaptativo */
+        @media (min-width: 320px) {
+            .responsive-grid { grid-template-columns: 1fr; }
+            .breakpoint-indicator::before { content: "📱 Móvil Pequeño (320px+)"; }
+        }
+        
+        @media (min-width: 480px) {
+            .responsive-grid { grid-template-columns: repeat(2, 1fr); }
+            .breakpoint-indicator::before { content: "📱 Móvil Grande (480px+)"; }
+        }
+        
+        @media (min-width: 768px) {
+            .responsive-grid { grid-template-columns: repeat(3, 1fr); }
+            .breakpoint-indicator::before { content: "📱 Tablet (768px+)"; }
+        }
+        
+        @media (min-width: 1024px) {
+            .responsive-grid { grid-template-columns: repeat(4, 1fr); }
+            .breakpoint-indicator::before { content: "💻 Desktop (1024px+)"; }
+        }
+        
+        @media (min-width: 1280px) {
+            .responsive-grid { grid-template-columns: repeat(5, 1fr); }
+            .breakpoint-indicator::before { content: "🖥️ Desktop Grande (1280px+)"; }
+        }
+        
+        @media (min-width: 1536px) {
+            .responsive-grid { grid-template-columns: repeat(6, 1fr); }
+            .breakpoint-indicator::before { content: "🖥️ Ultra Wide (1536px+)"; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-card">
+            <h1 class="test-title">🧪 Test de Responsividad - StudyingFlash</h1>
+            
+            <div class="screen-info">
+                <div><strong>Ancho de pantalla:</strong> <span id="screenWidth"></span>px</div>
+                <div><strong>Alto de pantalla:</strong> <span id="screenHeight"></span>px</div>
+                <div><strong>Viewport:</strong> <span id="viewportWidth"></span>px × <span id="viewportHeight"></span>px</div>
+                <div><strong>Ratio de píxeles:</strong> <span id="pixelRatio"></span></div>
+                <div><strong>Orientación:</strong> <span id="orientation"></span></div>
+            </div>
+            
+            <div class="responsive-grid">
+                <div class="responsive-item">Item 1</div>
+                <div class="responsive-item">Item 2</div>
+                <div class="responsive-item">Item 3</div>
+                <div class="responsive-item">Item 4</div>
+                <div class="responsive-item">Item 5</div>
+                <div class="responsive-item">Item 6</div>
+            </div>
+            
+            <div class="auth-test">
+                <h3>Test del Sistema de Autenticación</h3>
+                <button class="btn btn-primary" onclick="testAuth()">
+                    🔐 Probar Modal de Login
+                </button>
+                <div style="margin-top: 1rem;">
+                    <small>Verifica que el modal se adapte correctamente a tu pantalla</small>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="index.html" class="btn btn-secondary">🏠 Volver al Sitio Principal</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="breakpoint-indicator"></div>
+    
+    <script>
+        // Sistema de actualización de información de pantalla
+        function updateScreenInfo() {
+            document.getElementById('screenWidth').textContent = screen.width;
+            document.getElementById('screenHeight').textContent = screen.height;
+            document.getElementById('viewportWidth').textContent = window.innerWidth;
+            document.getElementById('viewportHeight').textContent = window.innerHeight;
+            document.getElementById('pixelRatio').textContent = window.devicePixelRatio || 1;
+            document.getElementById('orientation').textContent = window.innerWidth > window.innerHeight ? 'Landscape' : 'Portrait';
+        }
+        
+        // Función para probar el sistema de autenticación
+        function testAuth() {
+            // Simular la función del sistema de auth si está disponible
+            if (typeof window.AuthSystem !== 'undefined' && window.AuthSystem.showAuthModal) {
+                window.AuthSystem.showAuthModal();
+            } else {
+                // Crear un modal de prueba simple
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                    padding: 1rem;
+                `;
+                
+                modal.innerHTML = `
+                    <div class="auth-card" style="max-width: 400px; width: 100%;">
+                        <h2>🔐 Modal de Prueba</h2>
+                        <p>Este modal se adapta al tamaño de tu pantalla.</p>
+                        <p><strong>Ancho actual:</strong> ${window.innerWidth}px</p>
+                        <p><strong>Alto actual:</strong> ${window.innerHeight}px</p>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">
+                            ✓ Cerrar Modal
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            }
+        }
+        
+        // Actualizar información al cargar y al redimensionar
+        updateScreenInfo();
+        window.addEventListener('resize', updateScreenInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateScreenInfo, 100);
+        });
+        
+        // Mostrar información del navegador
+        console.log('🧪 Test de Responsividad iniciado');
+        console.log('📱 User Agent:', navigator.userAgent);
+        console.log('🖥️ Viewport:', window.innerWidth + 'x' + window.innerHeight);
+    </script>
+</body>
+</html>
