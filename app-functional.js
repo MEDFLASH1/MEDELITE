@@ -9,6 +9,11 @@ const CONFIG = {
 const Utils = {
     log: (message, data = null) => {
         if (CONFIG.DEBUG) {
+            if (data) {
+                console.log(`ℹ️ [StudyingFlash] ${message}`, data);
+            } else {
+                console.log(`ℹ️ [StudyingFlash] ${message}`);
+            }
         }
     },
     
@@ -1100,67 +1105,102 @@ window.CONFIG = CONFIG;
 window.Utils = Utils;
 window.ApiService = ApiService;
 
+// ===== MÓDULO DE AUTENTICACIÓN =====
+const AuthModule = {
+    loginWithFacebook() {
+        Utils.showNotification('Login com Facebook em desenvolvimento', 'info');
+    },
 
+    loginWithGoogle() {
+        Utils.log('Tentativa de login com Google');
+        Utils.showNotification('Login com Google em desenvolvimento', 'info');
+    },
 
+    showForgotPassword() {
+        Utils.log('Mostrando modal de esqueci a senha');
+    },
 
-// Função para login com Facebook
-function loginWithFacebook() {
-    Utils.showNotification('Login com Facebook em desenvolvimento', 'info');
-    // Aqui seria implementada a integração com Facebook SDK
-}
+    showRegisterModal() {
+        Utils.log('Mostrando modal de registro');
+        Utils.showNotification('Modal de registro em desenvolvimento', 'info');
+    },
 
-// Função para login com Google
-function loginWithGoogle() {
-    Utils.log('Tentativa de login com Google');
-    Utils.showNotification('Login com Google em desenvolvimento', 'info');
-    // Aqui seria implementada a integração com Google OAuth
-}
+    handleLoginForm(event) {
+        event.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-// Função para mostrar modal de esqueci a senha
-function showForgotPassword() {
-    Utils.log('Mostrando modal de esqueci a senha');
-    // Aqui seria implementado o modal de recuperação de senha
-}
+        Utils.log('Tentativa de login', { email });
 
-// Função para mostrar modal de registro
-function showRegisterModal() {
-    Utils.log('Mostrando modal de registro');
-    // Esconder modal de login e mostrar modal de registro
-    // Aqui seria implementado o modal de registro separado
-    Utils.showNotification('Modal de registro em desenvolvimento', 'info');
-}
+        if (email && password) {
+            Utils.showNotification('Login realizado com sucesso!', 'success');
+            AuthModule.hideLoginModal();
+            AuthModule.updateUIForLoggedUser(email);
+        } else {
+            Utils.showNotification('Por favor, preencha todos os campos', 'error');
+        }
+    },
 
-// Melhorar a função de login existente
-function handleLoginForm(event) {
-    event.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    
-    Utils.log('Tentativa de login', { email });
-    
-    // Simulação de login bem-sucedido
-    if (email && password) {
-        Utils.showNotification('Login realizado com sucesso!', 'success');
-        hideLoginModal();
-        // Atualizar interface para usuário logado
-        updateUIForLoggedUser(email);
-    } else {
-        Utils.showNotification('Por favor, preencha todos os campos', 'error');
+    updateUIForLoggedUser(email) {
+        const loginButtons = document.querySelectorAll('#apple-login-btn, .btn[onclick*="showLoginModal"]');
+        loginButtons.forEach(btn => {
+            btn.textContent = `👤 ${email.split('@')[0]}`;
+            btn.onclick = () => AuthModule.showUserMenu();
+        });
+
+        localStorage.setItem('studyingflash_user', JSON.stringify({ email, loggedIn: true }));
+    },
+
+    showUserMenu() {
+        Utils.showNotification('Menu do usuário em desenvolvimento', 'info');
+    },
+
+    checkUserLogin() {
+        const user = JSON.parse(localStorage.getItem('studyingflash_user') || '{}');
+        if (user.loggedIn) {
+            AuthModule.updateUIForLoggedUser(user.email);
+        }
+    },
+
+    togglePasswordVisibility() {
+        const passwordField = document.getElementById('login-password');
+        const toggleIcon = document.querySelector('.input-icon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.textContent = '👁️';
+        }
+    },
+
+    showLoginModal() {
+        const loginModal = document.getElementById('login-modal');
+        loginModal.style.display = 'flex';
+
+        const emailField = document.getElementById('login-email');
+        const passwordField = document.getElementById('login-password');
+
+        if (emailField) {
+            emailField.focus();
+        } else if (passwordField) {
+            passwordField.focus();
+        }
+    },
+
+    hideLoginModal() {
+        const loginModal = document.getElementById('login-modal');
+        if (loginModal) {
+            loginModal.style.display = 'none';
+        }
+    },
+
+    init() {
+        document.addEventListener('DOMContentLoaded', () => AuthModule.checkUserLogin());
     }
-}
+};
 
-// Função para atualizar UI quando usuário está logado
-function updateUIForLoggedUser(email) {
-    // Atualizar botões de login para mostrar usuário logado
-    const loginButtons = document.querySelectorAll('#apple-login-btn, .btn[onclick*="showLoginModal"]');
-    loginButtons.forEach(btn => {
-        btn.textContent = `👤 ${email.split('@')[0]}`;
-        btn.onclick = () => showUserMenu();
-    });
-    
-    // Salvar estado de login
-    localStorage.setItem('studyingflash_user', JSON.stringify({ email, loggedIn: true }));
-}
+AuthModule.init();
 
 // Função para mostrar menu do usuário
 function showUserMenu() {
@@ -1177,45 +1217,20 @@ function checkUserLogin() {
 // Chamar verificação de login quando a página carregar
 document.addEventListener('DOMContentLoaded', checkUserLogin);
 
-
-
-// Função para alternar a visibilidade da senha
-function togglePasswordVisibility() {
-    const passwordField = document.getElementById("login-password");
-    const toggleIcon = document.querySelector(".input-icon");
-
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-    } else {
-        passwordField.type = "password";
-        toggleIcon.textContent = "👁️"; // Ícone de olho aberto
-    }
-}
+// Exponer funciones de AuthModule globalmente para compatibilidad con HTML
+window.loginWithFacebook = () => AuthModule.loginWithFacebook();
+window.loginWithGoogle = () => AuthModule.loginWithGoogle();
+window.showForgotPassword = () => AuthModule.showForgotPassword();
+window.showRegisterModal = () => AuthModule.showRegisterModal();
+window.handleLoginForm = event => AuthModule.handleLoginForm(event);
+window.updateUIForLoggedUser = email => AuthModule.updateUIForLoggedUser(email);
+window.showUserMenu = () => AuthModule.showUserMenu();
+window.togglePasswordVisibility = () => AuthModule.togglePasswordVisibility();
+window.showLoginModal = () => AuthModule.showLoginModal();
+window.hideLoginModal = () => AuthModule.hideLoginModal();
 
 
 
-// Função para mostrar o modal de login e focar no campo de email/senha
-function showLoginModal() {
-  const loginModal = document.getElementById("login-modal");
-  loginModal.style.display = "flex";
-
-  const emailField = document.getElementById("login-email");
-  const passwordField = document.getElementById("login-password");
-
-  if (emailField) {
-    emailField.focus();
-  } else if (passwordField) {
-    passwordField.focus();
-  }
-}
-
-// Função para esconder o modal de login
-function hideLoginModal() {
-    const loginModal = document.getElementById("login-modal");
-    if (loginModal) {
-        loginModal.style.display = "none";
-    }
-}
 /**
  * Valida la información del usuario antes del registro
  * @param {Object} userData - Datos del usuario a validar
