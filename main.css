@@ -1,0 +1,44 @@
+/* ===== MAIN.CSS - ARCHIVO PRINCIPAL DE ESTILOS =====
+ * Organización CSS para StudyingFlash
+ * Orden optimizado para rendimiento y dependencias
+ */
+
+/* 1. ESTILOS BASE Y LAYOUT */
+@import './styles.css';
+
+/* 2. TEMAS Y CONFIGURACIÓN */
+@import './meta-dark-theme.css';
+
+/* 3. RESPONSIVE DESIGN */
+@import './responsive.css';
+
+/* 4. COMPONENTES ESPECÍFICOS */
+@import './section-styles.css';
+
+/* 5. DASHBOARD Y FUNCIONALIDADES PRINCIPALES */
+@import './dashboard-modern.css';
+
+/* 6. MÓVIL Y DISPOSITIVOS ESPECÍFICOS */
+@import './apple-mobile.css';
+
+/* 7. AUTENTICACIÓN Y LOGIN */
+@import './modern-login-styles.css';
+@import './login-redesign.css';
+
+/* 8. FOOTER */
+@import './footer.css';
+
+/* ===== COMENTARIOS =====
+ * 
+ * BENEFICIOS DE ESTA ORGANIZACIÓN:
+ * ✅ Un solo request HTTP en lugar de 9
+ * ✅ Orden de dependencias respetado
+ * ✅ Fácil mantenimiento
+ * ✅ Compatible con todos los navegadores
+ * ✅ Mejor rendimiento de carga
+ * 
+ * PRÓXIMOS PASOS:
+ * - Verificar que todos los estilos se cargan correctamente
+ * - Actualizar index.html para usar solo main.css
+ * - Optimizar y consolidar estilos duplicados
+ */

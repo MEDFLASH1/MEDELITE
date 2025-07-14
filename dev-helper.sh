@@ -10,7 +10,7 @@ echo "===================================="
 check_file_changes() {
     echo "📁 Verificando archivos críticos..."
     
-    critical_files=("index.html" "app-functional.js" "dashboard-enhanced.js" "health-monitor.js" "visual-dashboard.js")
+    critical_files=("index.html" "main.css" "app-functional.js" "dashboard-enhanced.js" "health-monitor.js" "visual-dashboard.js")
     
     for file in "${critical_files[@]}"; do
         if [ -f "$file" ]; then
@@ -69,6 +69,22 @@ check_common_issues() {
     else
         echo "  ❌ No se encontraron atributos data-section"
     fi
+    
+    # Check CSS organization
+    if [ -f "main.css" ]; then
+        css_imports=$(grep -c "@import" main.css 2>/dev/null || echo "0")
+        echo "  📱 CSS organizado: main.css con $css_imports imports"
+        
+        # Check if individual CSS files are still linked in HTML
+        individual_css=$(grep -c "stylesheet.*\.css" index.html 2>/dev/null || echo "0")
+        if [ "$individual_css" -eq 1 ]; then
+            echo "  ✅ Usando CSS organizado (solo main.css)"
+        else
+            echo "  ⚠️ Múltiples CSS detectados en HTML ($individual_css enlaces)"
+        fi
+    else
+        echo "  ❌ main.css no encontrado"
+    fi
 }
 
 # Function to bust cache
@@ -76,7 +92,7 @@ bust_cache() {
     echo "🔄 Limpiando cache..."
     
     # Update file timestamps to force browser refresh
-    touch index.html app-functional.js dashboard-enhanced.js health-monitor.js visual-dashboard.js
+    touch index.html main.css app-functional.js dashboard-enhanced.js health-monitor.js visual-dashboard.js
     
     echo "  ✅ Timestamps actualizados"
     echo "  💡 Presiona Ctrl+Shift+R en el navegador para limpiar cache"
@@ -89,7 +105,7 @@ create_backup() {
     backup_dir="backup_$(date +%Y%m%d_%H%M%S)"
     mkdir -p "$backup_dir"
     
-    cp index.html app-functional.js dashboard-enhanced.js health-monitor.js visual-dashboard.js "$backup_dir/" 2>/dev/null
+    cp index.html main.css app-functional.js dashboard-enhanced.js health-monitor.js visual-dashboard.js "$backup_dir/" 2>/dev/null
     
     echo "  ✅ Backup creado en: $backup_dir"
 }
