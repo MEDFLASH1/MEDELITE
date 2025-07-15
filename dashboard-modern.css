@@ -298,11 +298,11 @@
 /* ===== DASHBOARD DECKS SECTION ===== */
 .dashboard-decks-section {
   margin-top: 2rem;
-  background: var(--card-bg, #ffffff);
+  background: transparent;
   border-radius: 16px;
   padding: 1.5rem;
-  border: 1px solid var(--border-color, #e2e8f0);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: none;
+  box-shadow: none;
 }
 
 .section-header {
