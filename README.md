@@ -242,6 +242,12 @@ node scripts/enhanced_agent1_coordinator_fixed.cjs
 
 ### **📋 Protocolo Obligatorio para Todos los Agentes**
 
+**🚨 NUEVO: SISTEMA DE PREVENCIÓN DE ERRORES HTML**
+- ✅ **Footer corregido**: Ahora está dentro de `<body>` correctamente
+- 🛠️ **Validador HTML**: `node scripts/html-validator.js` antes de editar
+- 📚 **Guías específicas**: `AI_AGENT_HTML_GUIDELINES.md` para estructura HTML
+- ⚠️ **Regla crítica**: NUNCA colocar contenido después de `</html>`
+
 **⚠️ CRÍTICO:** Antes de realizar cualquier modificación, TODOS los agentes DEBEN:
 
 1. **Leer archivos base obligatorios:**
@@ -460,4 +466,321 @@ VITE_DEBUG=false
 Antes de realizar cualquier `commit`, por favor, asegúrate de que tu versión local del repositorio esté completamente actualizada con los últimos cambios del repositorio remoto. Para ello, ejecuta `git pull origin main` (o la rama correspondiente) antes de empezar a trabajar y antes de hacer tu `commit` y `push`.
 
 Esto ayuda a prevenir conflictos y asegura que todos los colaboradores estén trabajando con la versión más reciente del código.
+
+## 🗺️ MAPA DE UBICACIONES - DÓNDE ESTÁ CADA COSA
+
+### **🚨 SISTEMA DE PREVENCIÓN DE ERRORES HTML**
+
+**Problema Resuelto:** Footer mal ubicado (fuera de `<body>`) - Corregido ✅
+
+#### **📍 Documentación de Prevención:**
+- **`AI_AGENT_HTML_GUIDELINES.md`** - Reglas críticas para agentes de IA sobre estructura HTML
+- **`AI_AGENT_PROMPT_TEMPLATE.md`** - Template de instrucciones para evitar errores HTML
+- **`ai_agent_html_rules.json`** - Reglas estructuradas en formato JSON
+- **`HTML_ERROR_PREVENTION_SYSTEM.md`** - Sistema completo de prevención
+- **`FOOTER_SOLUTION_SUMMARY.md`** - Resumen de la solución implementada
+
+#### **🛠️ Herramientas de Validación:**
+- **`scripts/html-validator.js`** - Validador automático de estructura HTML
+  ```bash
+  node scripts/html-validator.js  # Validar HTML actual
+  ```
+
+### **📂 ESTRUCTURA DE ARCHIVOS PRINCIPALES**
+
+#### **🌐 Frontend - Interfaz de Usuario:**
+```
+📄 index.html                    # Página principal (FOOTER CORREGIDO ✅)
+├── 🎨 Estilos CSS:
+│   ├── 📄 main.css              # Estilos principales
+│   ├── 📄 footer.css            # Estilos específicos del footer
+│   └── 📄 apple-mobile.css      # Estilos móvil iOS
+├── ⚡ JavaScript Principal:
+│   ├── 📄 app-functional.js     # Aplicación principal
+│   ├── 📄 dashboard-enhanced.js # Dashboard mejorado
+│   └── 📄 health-monitor.js     # Monitor de salud
+└── 🔧 Scripts de Configuración:
+    ├── 📄 build-script.js       # Script de build
+    └── 📄 eslint.config.js      # Configuración ESLint
+```
+
+#### **⚙️ Backend y APIs:**
+```
+📂 backend/ (Si existe)
+├── 📄 flashcards.service.js     # Servicio principal de flashcards
+├── 📄 apiClient.js             # Cliente para comunicación API
+└── 📄 store.js                 # Gestión de estado
+```
+
+#### **🧪 Testing y Calidad:**
+```
+📂 tests/
+├── 📂 unit/                         # Tests unitarios
+├── 📂 integration/                  # Tests de integración
+└── 📂 e2e/                          # Tests end-to-end
+```
+
+### **📊 REPORTES Y AUDITORÍAS**
+
+#### **🔍 Análisis de Código:**
+- **`AUDIT_REPORT.md`** - Reporte general de auditoría
+- **`COMPREHENSIVE_ANALYSIS_FINAL_REPORT.md`** - Análisis comprehensivo
+- **`CRITICAL_FUNCTIONS_REPORT.md`** - Reporte de funciones críticas
+- **`DEEP_HISTORICAL_AUDIT_REPORT.md`** - Auditoría histórica profunda
+
+#### **🐛 Diagnósticos y Correcciones:**
+- **`diagnostico_navegacion.md`** - Diagnóstico de navegación
+- **`diagnostico_todo.md`** - Lista completa de diagnósticos
+- **`DEBUG_PREVENTION_GUIDE.md`** - Guía de prevención de errores
+- **`debug_navigation.md`** - Debug específico de navegación
+
+#### **🔄 Integración y CI/CD:**
+- **`CI_CD_CORRECTIONS_REPORT.md`** - Correcciones de CI/CD
+- **`CORREÇÕES_IMPLEMENTADAS_CI_CD.md`** - Implementaciones de CI/CD
+- **`GITHUB_PAGES_SETUP.md`** - Configuración de GitHub Pages
+
+### **🤖 SISTEMA DE AGENTES DE IA**
+
+#### **📋 Instrucciones para Agentes:**
+- **`AGENTS.md`** - Documentación general de agentes
+- **`AGENT_CODING_STANDARDS.md`** - Estándares de codificación (⚠️ OBLIGATORIO)
+- **`INSTRUCCIONES_AGENTE_1_COORDINADOR.md`** - Agente coordinador
+- **`INSTRUCCIONES_AGENTE_2.md`** - Agente Frontend/HTML
+- **`INSTRUCCIONES_AGENTE_3.md`** - Agente Backend/API
+- **`INSTRUCCIONES_AGENTE_4.md`** - Agente JavaScript/Logic
+- **`INSTRUCCIONES_AGENTE_5.md`** - Agente CSS/Styling
+
+#### **📊 Coordinación y Reportes:**
+- **`agent_distribution_plan.json`** - Plan de distribución
+- **`final_coordination_report.json`** - Reporte final
+- **`enhanced_coordination_report.json`** - Reporte mejorado
+
+### **📚 DOCUMENTACIÓN TÉCNICA**
+
+#### **🎯 Nomenclatura y Estructura:**
+- **`DOCUMENTACION_NOMENCLATURA_UNIFICADA.md`** - Documentación completa
+- **`ESTADO_ACTUAL_SISTEMA.md`** - Estado actual del sistema
+- **`ESTRATEGIA_ELIMINACION_DUPLICADOS.md`** - Estrategia de limpieza
+
+#### **🔧 Análisis y Migración:**
+- **`analyze_html_duplicates.py`** - Análisis de duplicados HTML
+- **`analyze_js_duplicates.py`** - Análisis de duplicados JavaScript
+- **`migration_script.py`** - Script de migración
+- **`fix_syntax_errors.py`** - Corrección de errores de sintaxis
+
+### **🎨 DISEÑO Y UI/UX**
+
+#### **📱 Responsive y Mobile:**
+- **`apple-mobile.css`** - Estilos específicos iOS
+- **`dashboard-modern.css`** - Dashboard moderno
+- **`footer.css`** - Estilos del footer (⚠️ CORREGIDO)
+
+#### **🖼️ Assets y Recursos:**
+- **`icons.svg`** - Iconos del sistema
+- **`dashboard_mockup.png`** - Mockup del dashboard
+- **`ICON_SYSTEM_GUIDE.md`** - Guía del sistema de iconos
+
+### **⚡ FUNCIONALIDADES ESPECÍFICAS**
+
+#### **📚 Sistema de Flashcards:**
+- **`FLASHCARDS_FUNCIONANDO_EXITOSAMENTE.md`** - Estado de flashcards
+- **`DIAGNOSTICO_INTEGRACION_FLASHCARDS.md`** - Diagnóstico de integración
+
+#### **📊 Dashboard y Estadísticas:**
+- **`dashboard-enhanced.js`** - Dashboard mejorado
+- **`DASHBOARD_SOLUTION_REPORT.md`** - Reporte de solución del dashboard
+- **`visual-dashboard.js`** - Dashboard visual
+
+### **🚀 CONFIGURACIÓN Y DEPLOYMENT**
+
+#### **⚙️ Archivos de Configuración:**
+```
+📄 package.json                  # Dependencias y scripts npm
+📄 vite.config.js               # Configuración de Vite
+📄 eslint.config.js             # Configuración ESLint
+📄 CNAME                        # Configuración dominio personalizado
+```
+
+#### **🌐 GitHub Pages:**
+- **Dominio**: https://medflash1.github.io/MEDELITE/
+- **Dominio personalizado**: https://www.medicineflash.com/
+- **Archivo CNAME**: Configurado para dominio personalizado
+
+### **🔍 COMANDOS ÚTILES DE UBICACIÓN**
+
+```bash
+# Encontrar archivos específicos
+find . -name "*.html" -type f                    # Todos los HTML
+find . -name "*footer*" -type f                  # Archivos relacionados con footer
+find . -name "*agent*" -type f                   # Archivos de agentes
+find . -name "*test*" -type f                    # Archivos de testing
+
+# Buscar contenido específico
+grep -r "footer" --include="*.css" .             # Footer en CSS
+grep -r "createDeck" --include="*.js" .          # Función createDeck
+grep -r "AGENT" --include="*.md" .               # Documentación de agentes
+
+# Validar estructura HTML
+node scripts/html-validator.js                   # Validador automático
+grep -n "</body>\|</html>\|<footer" index.html   # Verificar estructura
+```
+
+### **🎯 ACCESO RÁPIDO POR FUNCIONALIDAD**
+
+| **Necesito...** | **Ir a...** |
+|------------------|--------------|
+| 🔧 Corregir HTML | `AI_AGENT_HTML_GUIDELINES.md` + `scripts/html-validator.js` |
+| 🤖 Configurar Agente | `AGENT_CODING_STANDARDS.md` + `INSTRUCCIONES_AGENTE_X.md` |
+| 📊 Ver estado actual | `final_test_results.md` + `ESTADO_ACTUAL_SISTEMA.md` |
+| 🎨 Modificar estilos | `main.css` + `footer.css` + `dashboard-modern.css` |
+| ⚡ Cambiar funcionalidad | `app-functional.js` + `dashboard-enhanced.js` |
+| 🐛 Debug problemas | `DEBUG_PREVENTION_GUIDE.md` + `debug_navigation.md` |
+| 📚 Entender estructura | `DOCUMENTACION_NOMENCLATURA_UNIFICADA.md` |
+
+### **⚠️ UBICACIONES CRÍTICAS - NO TOCAR SIN LEER GUÍAS**
+
+- **`index.html`** - ⚠️ LEER `AI_AGENT_HTML_GUIDELINES.md` PRIMERO
+- **`app-functional.js`** - ⚠️ LEER `AGENT_CODING_STANDARDS.md` PRIMERO  
+- **`final_test_results.md`** - 📊 Estado actual de funcionalidad
+- **`scripts/html-validator.js`** - 🛠️ Herramienta de validación
+
+---
+
+## 🔍 VERIFICACIÓN RÁPIDA - COMANDOS DE DIAGNÓSTICO
+
+### **🚨 Verificar Estado HTML (Footer corregido)**
+```bash
+# Validar estructura HTML completa
+node scripts/html-validator.js
+
+# Verificar posición del footer manualmente
+grep -n "</body>\|</html>\|<footer" index.html
+
+# Contar tags de cierre (debe ser 1 cada uno)
+echo "Conteo </body>: $(grep -c '</body>' index.html)"
+echo "Conteo </html>: $(grep -c '</html>' index.html)"
+```
+
+### **📊 Estado de Funcionalidades**
+```bash
+# Ver resultados de pruebas actuales
+cat final_test_results.md
+
+# Verificar si el servidor está corriendo
+curl -f http://localhost:8080 > /dev/null 2>&1 && echo "✅ Servidor activo" || echo "❌ Servidor inactivo"
+
+# Verificar archivos críticos
+ls -la index.html app-functional.js main.css footer.css
+```
+
+### **🤖 Verificar Sistema de Agentes**
+```bash
+# Verificar documentación de agentes
+ls -la AGENT_CODING_STANDARDS.md AI_AGENT_HTML_GUIDELINES.md
+
+# Verificar configuración de coordinación
+ls -la agent_distribution_plan.json final_coordination_report.json
+
+# Verificar que las guías existen
+echo "Guías de agentes:"
+ls -1 *AGENT*.md | head -10
+```
+
+### **🔧 Diagnóstico de Problemas Comunes**
+
+#### **Si el footer no aparece:**
+```bash
+# 1. Verificar estructura HTML
+node scripts/html-validator.js
+
+# 2. Si hay errores, ubicar el problema
+grep -A5 -B5 "</html>" index.html
+
+# 3. Verificar CSS del footer
+grep -n "footer" main.css footer.css
+```
+
+#### **Si la navegación no funciona:**
+```bash
+# Verificar archivos JavaScript críticos
+ls -la app-functional.js dashboard-enhanced.js health-monitor.js
+
+# Ver diagnóstico de navegación
+cat diagnostico_navegacion.md debug_navigation.md
+```
+
+#### **Si hay errores de CORS:**
+```bash
+# Verificar si se está usando servidor HTTP
+ps aux | grep "python.*http.server" || echo "⚠️ Ejecutar: python3 -m http.server 8080"
+
+# Verificar acceso local
+curl -I http://localhost:8080
+```
+
+### **📋 Checklist de Salud del Sistema**
+
+Ejecuta estos comandos para verificar que todo esté funcionando:
+
+```bash
+echo "🔍 DIAGNÓSTICO COMPLETO DEL SISTEMA"
+echo "=================================="
+
+# 1. Validación HTML
+echo "1. Validando HTML..."
+node scripts/html-validator.js
+
+# 2. Verificar archivos críticos
+echo "2. Verificando archivos críticos..."
+for file in index.html app-functional.js main.css footer.css; do
+  if [ -f "$file" ]; then
+    echo "✅ $file existe"
+  else
+    echo "❌ $file FALTA"
+  fi
+done
+
+# 3. Verificar guías de agentes
+echo "3. Verificando documentación de agentes..."
+for file in AGENT_CODING_STANDARDS.md AI_AGENT_HTML_GUIDELINES.md; do
+  if [ -f "$file" ]; then
+    echo "✅ $file existe"
+  else
+    echo "❌ $file FALTA"
+  fi
+done
+
+# 4. Estado del servidor
+echo "4. Verificando estado del servidor..."
+curl -f http://localhost:8080 > /dev/null 2>&1 && echo "✅ Servidor HTTP activo en puerto 8080" || echo "⚠️ Servidor HTTP inactivo - Ejecutar: python3 -m http.server 8080"
+
+echo "=================================="
+echo "✅ Diagnóstico completado"
+```
+
+### **🆘 Soluciones de Emergencia**
+
+#### **Footer no aparece (RESUELTO):**
+El problema del footer ya fue solucionado. Si vuelve a ocurrir:
+1. Leer `HTML_ERROR_PREVENTION_SYSTEM.md`
+2. Ejecutar `node scripts/html-validator.js`
+3. Seguir `AI_AGENT_HTML_GUIDELINES.md`
+
+#### **Servidor no inicia:**
+```bash
+# Matar procesos conflictivos
+sudo lsof -t -i:8080 | xargs kill -9
+
+# Iniciar servidor
+python3 -m http.server 8080
+
+# Verificar
+curl http://localhost:8080
+```
+
+#### **Agentes sin documentación:**
+Si faltan guías de agentes, verificar que existan:
+- `AGENT_CODING_STANDARDS.md`
+- `AI_AGENT_HTML_GUIDELINES.md`  
+- `INSTRUCCIONES_AGENTE_*.md`
 

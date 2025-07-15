@@ -1,0 +1,77 @@
+{
+  "critical_html_rules": {
+    "title": "Reglas Críticas para Agentes de IA - HTML Structure",
+    "priority": "MÁXIMA",
+    "problem_context": {
+      "issue": "Footer fuera de estructura HTML válida",
+      "cause": "Merge conflictivo mal resuelto",
+      "impact": "Footer no se renderiza en el navegador",
+      "commits_affected": ["6e9ec9c", "1b2cfcc"]
+    },
+    "mandatory_rules": [
+      {
+        "rule": "html_structure_validation",
+        "description": "Validar estructura HTML antes y después de cada edición",
+        "implementation": "grep -c '</body>' index.html && grep -c '</html>' index.html",
+        "expected_result": "Cada tag debe aparecer exactamente 1 vez"
+      },
+      {
+        "rule": "footer_placement",
+        "description": "Footer SIEMPRE dentro de <body>",
+        "forbidden": "Contenido después de </html>",
+        "correct_structure": "<body>...<footer>...</footer></body></html>"
+      },
+      {
+        "rule": "no_duplicate_closing_tags",
+        "description": "Prohibido duplicar </body> o </html>",
+        "validation": "Usar grep para contar ocurrencias"
+      }
+    ],
+    "validation_commands": {
+      "pre_edit": [
+        "grep -n '</body>\\|</html>\\|<footer' index.html",
+        "grep -c '</body>' index.html",
+        "grep -c '</html>' index.html"
+      ],
+      "post_edit": [
+        "Repetir comandos pre_edit",
+        "Verificar que footer esté antes de </body>"
+      ]
+    },
+    "emergency_fixes": {
+      "if_footer_outside_body": "Mover todo el bloque <footer>...</footer> antes de </body>",
+      "if_duplicate_tags": "Eliminar tags duplicados, mantener solo los últimos",
+      "if_content_after_html": "Mover contenido dentro de <body>"
+    },
+    "checklist": [
+      "¿Exactamente un </body>?",
+      "¿Exactamente un </html>?", 
+      "¿Footer dentro de <body>?",
+      "¿Nada después de </html>?",
+      "¿HTML pasa validación básica?"
+    ]
+  },
+  "agent_instructions": {
+    "before_html_edit": [
+      "Leer AI_AGENT_HTML_GUIDELINES.md",
+      "Ejecutar comandos de validación pre_edit",
+      "Verificar estructura actual"
+    ],
+    "during_html_edit": [
+      "Mantener footer dentro de <body>",
+      "No duplicar tags de cierre",
+      "No agregar contenido después de </html>"
+    ],
+    "after_html_edit": [
+      "Ejecutar comandos de validación post_edit",
+      "Completar checklist",
+      "Confirmar que footer se renderiza"
+    ]
+  },
+  "project_specific": {
+    "footer_css": "Incluido en footer.css y main.css",
+    "footer_location": "Última cosa antes de </body>",
+    "main_file": "index.html",
+    "validation_script": "scripts/html-validator.js"
+  }
+}
