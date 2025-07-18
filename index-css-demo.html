@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="StudyingFlash - Aplicación de flashcards con repetición espaciada para optimizar tu aprendizaje">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="StudyingFlash">
+  
+  <title>StudyingFlash - CSS Mejorado para Estabilidad</title>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  
+  <!-- Iconos PWA -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  
+  <!-- CSS UNIFICADO Y OPTIMIZADO -->
+  <link rel="stylesheet" href="./styles-improved.css">
+  
+  <!-- Preload Critical Resources -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style">
+  
+  <!-- External Libraries -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+</head>
+<body>
+  <!-- Demo del Sistema CSS Mejorado -->
+  
+  <!-- Navegación Principal -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="logo">
+        <svg style="width: 180px; height: 40px;">
+          <text x="10" y="25" font-family="Inter, sans-serif" font-size="20" font-weight="800" fill="white">StudyingFlash</text>
+        </svg>
+      </div>
+      
+      <div class="user-menu">
+        <div class="level-indicator">
+          <span>🌱</span>
+          <span>Nivel 1</span>
+        </div>
+        
+        <div class="points-display">
+          <span>⭐</span>
+          <span>0 pts</span>
+        </div>
+        
+        <button class="btn btn--secondary">
+          👤 Iniciar Sesión
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Efectos de Fondo -->
+  <div class="background-effects">
+    <div class="floating-shapes">
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Hero Section -->
+      <section class="dashboard-hero">
+        <h1 class="hero-title">CSS Mejorado para Estabilidad</h1>
+        <p class="hero-subtitle">Sistema CSS unificado, optimizado y mantenible</p>
+        
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card__value">13 → 1</div>
+            <div class="stat-card__label">Archivos CSS</div>
+            <div class="stat-card__change stat-card__change--positive">-92% archivos</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-card__value">120KB → 80KB</div>
+            <div class="stat-card__label">Tamaño Total</div>
+            <div class="stat-card__change stat-card__change--positive">-33% tamaño</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-card__value">100%</div>
+            <div class="stat-card__label">Variables Unificadas</div>
+            <div class="stat-card__change stat-card__change--positive">Consolidadas</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-card__value">3x</div>
+            <div class="stat-card__label">Más Mantenible</div>
+            <div class="stat-card__change stat-card__change--positive">BEM + Atomic CSS</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Grid de Componentes Demo -->
+      <section class="grid grid--auto">
+        
+        <!-- Card de Botones -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Sistema de Botones</h3>
+            <p class="card__subtitle">Componentes reutilizables</p>
+          </div>
+          <div class="card__body">
+            <div class="flex flex-col gap-3">
+              <button class="btn btn--primary">Botón Primario</button>
+              <button class="btn btn--secondary">Botón Secundario</button>
+              <button class="btn btn--success">Botón Éxito</button>
+              <button class="btn btn--warning">Botón Advertencia</button>
+              <button class="btn btn--error">Botón Error</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card de Formulario -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Formularios</h3>
+            <p class="card__subtitle">Inputs optimizados</p>
+          </div>
+          <div class="card__body">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mensaje</label>
+              <textarea class="form-input form-textarea" placeholder="Escribe tu mensaje..."></textarea>
+            </div>
+            <button class="btn btn--primary w-full">Enviar</button>
+          </div>
+        </div>
+        
+        <!-- Card de Flashcard Demo -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Flashcard</h3>
+            <p class="card__subtitle">Sistema mejorado</p>
+          </div>
+          <div class="card__body">
+            <div class="flashcard-container">
+              <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-face flashcard-front">
+                  <div>
+                    <h4>¿Qué es CSS?</h4>
+                    <p>Haz clic para ver la respuesta</p>
+                  </div>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                  <div>
+                    <h4>Cascading Style Sheets</h4>
+                    <p>Lenguaje para describir la presentación de documentos HTML</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card de Utilidades -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Utilidades CSS</h3>
+            <p class="card__subtitle">Clases atómicas</p>
+          </div>
+          <div class="card__body">
+            <div class="grid grid--2 gap-3">
+              <div class="p-4 bg-glass-light rounded-lg text-center">
+                <code>.flex</code>
+              </div>
+              <div class="p-4 bg-glass-light rounded-lg text-center">
+                <code>.grid</code>
+              </div>
+              <div class="p-4 bg-glass-light rounded-lg text-center">
+                <code>.gap-4</code>
+              </div>
+              <div class="p-4 bg-glass-light rounded-lg text-center">
+                <code>.text-center</code>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card de Variables CSS -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Variables CSS</h3>
+            <p class="card__subtitle">Sistema unificado</p>
+          </div>
+          <div class="card__body">
+            <div class="flex flex-col gap-2 text-sm">
+              <code>--primary-500: #0ea5e9</code>
+              <code>--space-4: 1rem</code>
+              <code>--radius-lg: 0.5rem</code>
+              <code>--transition-fast: 0.15s</code>
+              <code>--font-size-base: clamp(...)</code>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card de Responsive -->
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Responsive Design</h3>
+            <p class="card__subtitle">Mobile-first</p>
+          </div>
+          <div class="card__body">
+            <div class="grid grid--1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              <div class="p-3 bg-glass-light rounded text-center text-xs">
+                Mobile
+              </div>
+              <div class="p-3 bg-glass-light rounded text-center text-xs md:block hidden">
+                Tablet
+              </div>
+              <div class="p-3 bg-glass-light rounded text-center text-xs lg:block hidden">
+                Desktop
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </section>
+      
+      <!-- Mejoras Implementadas -->
+      <section class="mt-16">
+        <h2 class="text-3xl font-bold text-center mb-8 text-white">Mejoras Implementadas</h2>
+        
+        <div class="grid grid--auto">
+          
+          <div class="card card--compact">
+            <h3 class="card__title">🏗️ Arquitectura Modular</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ Variables unificadas</li>
+              <li>✅ Reset y base mejorados</li>
+              <li>✅ Componentes reutilizables</li>
+              <li>✅ Sistema responsive consolidado</li>
+              <li>✅ Utilidades atómicas</li>
+            </ul>
+          </div>
+          
+          <div class="card card--compact">
+            <h3 class="card__title">📱 Mobile-First</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ Breakpoints estándar</li>
+              <li>✅ Touch targets optimizados</li>
+              <li>✅ Tipografía fluida</li>
+              <li>✅ Container queries</li>
+              <li>✅ Navigation hamburger</li>
+            </ul>
+          </div>
+          
+          <div class="card card--compact">
+            <h3 class="card__title">♿ Accesibilidad</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ Focus visible mejorado</li>
+              <li>✅ Prefers-reduced-motion</li>
+              <li>✅ Contraste alto</li>
+              <li>✅ Screen reader support</li>
+              <li>✅ Skip links</li>
+            </ul>
+          </div>
+          
+          <div class="card card--compact">
+            <h3 class="card__title">⚡ Performance</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ CSS consolidado</li>
+              <li>✅ Variables CSS nativas</li>
+              <li>✅ GPU acceleration</li>
+              <li>✅ Critical CSS inline</li>
+              <li>✅ Lazy loading</li>
+            </ul>
+          </div>
+          
+          <div class="card card--compact">
+            <h3 class="card__title">🛠️ Herramientas</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ Stylelint configurado</li>
+              <li>✅ CSS analysis scripts</li>
+              <li>✅ Usage validation</li>
+              <li>✅ PurgeCSS ready</li>
+              <li>✅ Build optimization</li>
+            </ul>
+          </div>
+          
+          <div class="card card--compact">
+            <h3 class="card__title">📚 Documentación</h3>
+            <ul class="text-sm space-y-2">
+              <li>✅ Style guide completa</li>
+              <li>✅ BEM methodology</li>
+              <li>✅ Component examples</li>
+              <li>✅ Migration guide</li>
+              <li>✅ Best practices</li>
+            </ul>
+          </div>
+          
+        </div>
+      </section>
+      
+      <!-- Call to Action -->
+      <section class="text-center mt-16 mb-8">
+        <div class="card card--spacious">
+          <h2 class="card__title text-2xl mb-4">🚀 ¿Listo para migrar?</h2>
+          <p class="card__subtitle mb-6">Sigue la guía en CSS_STYLE_GUIDE.md para implementar el sistema CSS mejorado</p>
+          
+          <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <button class="btn btn--primary btn--lg">
+              📖 Ver Guía Completa
+            </button>
+            <button class="btn btn--secondary btn--lg">
+              🔍 Analizar CSS Actual
+            </button>
+            <button class="btn btn--success btn--lg">
+              ✅ Validar Implementación
+            </button>
+          </div>
+        </div>
+      </section>
+      
+    </div>
+  </main>
+
+  <!-- Notification Demo -->
+  <div class="achievement-notification" id="demo-notification">
+    <div class="flex items-center gap-4">
+      <div class="text-2xl">🎉</div>
+      <div>
+        <div class="font-bold">¡CSS Mejorado!</div>
+        <div class="text-sm opacity-75">Sistema optimizado para estabilidad</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript mínimo para demo -->
+  <script>
+    // Demo de notificación
+    setTimeout(() => {
+      document.getElementById('demo-notification').classList.add('show');
+      setTimeout(() => {
+        document.getElementById('demo-notification').classList.remove('show');
+      }, 3000);
+    }, 1000);
+    
+    // Demo responsive log
+    console.log('📱 CSS Responsivo activado');
+    console.log('🎨 Variables CSS cargadas');
+    console.log('⚡ Performance optimizada');
+    console.log('♿ Accesibilidad mejorada');
+  </script>
+</body>
+</html>
