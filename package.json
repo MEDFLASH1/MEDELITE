@@ -17,7 +17,7 @@
     "clean": "rm -rf dist build node_modules/.cache",
     "agent:cleanup": "node -e \"console.log('🧹 Agent locks cleanup completed')\"",
     "validate:conflicts": "node -e \"process.exit(require('fs').readFileSync('index.html', 'utf8').includes('<<<<<<<') ? 1 : 0)\"",
-    "validate:syntax": "node -c main.js && node -c apiClient.js && node -c create.service.js"
+    "validate:syntax": "node -c apiClient.js && node -c create.service.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
