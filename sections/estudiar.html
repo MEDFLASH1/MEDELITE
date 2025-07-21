@@ -1,0 +1,129 @@
+<!-- ===== SECCIÓN ESTUDIAR ===== -->
+<section id="estudiar" class="section">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Estudiar Flashcards</h2>
+      <p class="text-muted">Selecciona un deck para comenzar tu sesión de estudio</p>
+    </div>
+    
+    <!-- Deck Selection -->
+    <div id="deck-selection" class="deck-grid">
+      <!-- Decks for study will be loaded dynamically -->
+    </div>
+    
+    <!-- Study Interface -->
+    <div id="study-interface" class="hidden">
+      <!-- Study Header -->
+      <div class="progress-container">
+        <div class="progress-header">
+          <h3 class="progress-title" id="study-deck-name">Deck Name</h3>
+          <div class="progress-stats">
+            <span id="current-card">1</span> / <span id="total-cards">10</span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="study-progress" style="width: 0%"></div>
+        </div>
+      </div>
+      
+      <!-- Flashcard -->
+      <div class="flashcard-container">
+        <div class="flashcard" id="flashcard" onclick="flipCard(event)">
+          <div class="flashcard-face flashcard-front" id="flashcard-front">
+            <div>
+              <h3>Pregunta</h3>
+              <p id="card-front-text">Cargando...</p>
+            </div>
+          </div>
+          <div class="flashcard-face flashcard-back" id="flashcard-back">
+            <div>
+              <h3>Respuesta</h3>
+              <p id="card-back-text">Cargando...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Study Controls -->
+      <div class="study-controls" id="study-controls">
+        <button class="difficulty-btn btn-again" onclick="evaluateCard(0)">
+          <span class="difficulty-label">Otra vez</span>
+        </button>
+        <button class="difficulty-btn btn-hard" onclick="evaluateCard(1)">
+          <span class="difficulty-label">Difícil</span>
+        </button>
+        <button class="difficulty-btn btn-good" onclick="evaluateCard(2)">
+          <span class="difficulty-label">Bien</span>
+        </button>
+        <button class="difficulty-btn btn-easy" onclick="evaluateCard(3)">
+          <span class="difficulty-label">Fácil</span>
+        </button>
+      </div>
+      
+      <!-- Session Stats -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Estadísticas de Sesión</h3>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-value" id="session-correct">0</div>
+            <div class="stat-label">Correctas</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="session-total">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="session-accuracy">0%</div>
+            <div class="stat-label">Precisión</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="session-points">0</div>
+            <div class="stat-label">Puntos</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exit Button -->
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" onclick="exitStudySession()">
+          ❌ Salir de la Sesión
+        </button>
+      </div>
+    </div>
+    
+    <!-- Study Summary -->
+    <div id="study-summary" class="hidden">
+      <div class="card text-center">
+        <h2 class="card-title mb-4">¡Sesión Completada!</h2>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-value" id="summary-correct">0</div>
+            <div class="stat-label">Correctas</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="summary-total">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="summary-accuracy">0%</div>
+            <div class="stat-label">Precisión</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value" id="summary-points">0</div>
+            <div class="stat-label">Puntos Ganados</div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <button class="btn btn-primary" onclick="startNewSession()">
+            🔄 Nueva Sesión
+          </button>
+          <button class="btn btn-secondary" onclick="showSection('dashboard')">
+            📊 Ver Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

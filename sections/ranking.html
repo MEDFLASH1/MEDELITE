@@ -1,0 +1,199 @@
+<!-- ===== SECCIÓN RANKING ===== -->
+<section id="ranking" class="section">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">
+        <svg style="height: 20px; width: 20px; margin-right: 8px; vertical-align: middle;">
+          <use href="#icon-trophy"></use>
+        </svg> Ranking y Logros
+      </h2>
+      <p class="text-muted">Compite con otros usuarios y desbloquea logros</p>
+    </div>
+    
+    <!-- User Stats -->
+    <div class="hero-stats mb-4">
+      <div class="hero-stat">
+        <div class="stat-value" id="user-total-points">0</div>
+        <div class="stat-label">Puntos Totales</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value" id="user-current-level">1</div>
+        <div class="stat-label">Nivel Actual</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value" id="user-current-streak">0</div>
+        <div class="stat-label">Racha Actual</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-value" id="user-achievements-count">0</div>
+        <div class="stat-label">Logros</div>
+      </div>
+    </div>
+    
+    <!-- Level Progress -->
+    <div class="progress-container">
+      <div class="progress-header">
+        <h3 class="progress-title">Progreso de Nivel</h3>
+        <div class="progress-stats">
+          <span id="level-progress-text">0 / 100 XP</span>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="level-progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <!-- Leaderboard Filters -->
+    <div class="chart-actions mb-3">
+      <button class="chart-action" onclick="loadLeaderboard('global')">Global</button>
+      <button class="chart-action" onclick="loadLeaderboard('weekly')">Semanal</button>
+      <button class="chart-action" onclick="loadLeaderboard('monthly')">Mensual</button>
+    </div>
+    
+    <!-- Leaderboard -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg style="height: 18px; width: 18px; margin-right: 6px; vertical-align: middle;">
+            <use href="#icon-crown"></use>
+          </svg> Tabla de Líderes
+        </h3>
+      </div>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Usuario</th>
+            <th>Puntos</th>
+            <th>Nivel</th>
+            <th>Racha</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Leaderboard data will be loaded dynamically -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Achievements -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg style="height: 18px; width: 18px; margin-right: 6px; vertical-align: middle;">
+            <use href="#icon-medal"></use>
+          </svg> Logros
+        </h3>
+      </div>
+      <div class="achievements-grid" id="achievements-grid">
+        <!-- Achievements will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-table th {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.leaderboard-table td {
+  color: #e2e8f0;
+}
+
+.leaderboard-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.achievement-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.achievement-card.unlocked {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.achievement-card.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.achievement-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.achievement-title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-description {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.position-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.position-1 {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+}
+
+.position-2 {
+  background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+  color: #000;
+}
+
+.position-3 {
+  background: linear-gradient(135deg, #CD7F32, #B87333);
+  color: #fff;
+}
+
+.position-other {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+</style>
