@@ -140,8 +140,8 @@ export default function StudySession({ deck }: { deck: Deck }) {
           easeFactor: card.easeFactor,
           interval: card.interval,
           repetitions: card.repetitions,
-          stability: card.stability || 1,
-          difficulty: card.difficulty || 5,
+          stability: card.stability ?? 1,
+          difficulty: card.difficulty ?? 5,
           lastReview: card.lastReview
         }
       })
