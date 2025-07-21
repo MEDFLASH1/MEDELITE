@@ -130,7 +130,7 @@ export default function StudySession({ deck }: { deck: Deck }) {
     try {
       // Enviar review al microservicio Go
       const response = await studyEngine.processReview({
-        userId: user!.id,
+        userId: user?.id,
         cardId: card.id,
         deckId: deck.id,
         rating,
