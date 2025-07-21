@@ -1,0 +1,50 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "order/properties-alphabetical-order": true,
+    "color-hex-length": "long",
+    "color-hex-case": "lower",
+    "declaration-block-no-duplicate-properties": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "font-family-name-quotes": "always-where-recommended",
+    "length-zero-no-unit": true,
+    "number-no-trailing-zeros": true,
+    "string-quotes": "single",
+    "value-list-comma-space-after": "always-single-line",
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "block-closing-brace-newline-after": "always",
+    "block-closing-brace-newline-before": "always-multi-line",
+    "block-opening-brace-newline-after": "always-multi-line",
+    "block-opening-brace-space-before": "always",
+    "selector-combinator-space-after": "always",
+    "selector-combinator-space-before": "always",
+    "custom-property-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
+    "selector-class-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
+    "max-nesting-depth": 3,
+    "no-duplicate-selectors": true,
+    "no-empty-source": null,
+    "comment-empty-line-before": ["always", {
+      "except": ["first-nested"],
+      "ignore": ["stylelint-commands"]
+    }],
+    "rule-empty-line-before": ["always-multi-line", {
+      "except": ["first-nested"],
+      "ignore": ["after-comment"]
+    }],
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["container"]
+    }],
+    "declaration-empty-line-before": ["always", {
+      "except": ["after-declaration", "first-nested"],
+      "ignore": ["after-comment", "inside-single-line-block"]
+    }]
+  },
+  "ignoreFiles": [
+    "node_modules/**/*",
+    "dist/**/*",
+    "build/**/*",
+    "**/*.min.css"
+  ]
+}
