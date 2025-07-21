@@ -1,4 +1,15 @@
+// @ts-check
+/**
+ * @typedef {import('./types').Deck} Deck
+ * @typedef {import('./types').Flashcard} Flashcard
+ */
 // ===== CONFIGURACIÓN GLOBAL =====
+/**
+ * @typedef {object} AppConfig
+ * @property {string} API_BASE_URL
+ * @property {string} STORAGE_PREFIX
+ * @property {boolean} DEBUG
+ */
 const CONFIG = {
     API_BASE_URL: "https://flashcard-u10n.onrender.com/api",
     STORAGE_PREFIX: "studyingflash_",
@@ -7,6 +18,10 @@ const CONFIG = {
 
 // ===== UTILIDADES GLOBALES =====
 const Utils = {
+    /**
+     * @param {string} message
+     * @param {any} [data]
+     */
     log: (message, data = null) => {
         if (CONFIG.DEBUG) {
             if (data) {
@@ -17,10 +32,18 @@ const Utils = {
         }
     },
     
+    /**
+     * @param {string} message
+     * @param {Error | null} [error]
+     */
     error: (message, error = null) => {
         console.error(`❌ [StudyingFlash] ${message}`, error || "");
     },
     
+    /**
+     * @param {string} message
+     * @param {'success' | 'error'} [type]
+     */
     showNotification: (message, type = "success") => {
         // Crear notificación visual
         const notification = document.createElement("div");
@@ -41,18 +64,27 @@ const Utils = {
         document.body.appendChild(notification);
         
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentElement) {
+                notification.parentElement.removeChild(notification);
+            }
         }, 3000);
     },
     
+    /**
+     * @param {string | number | Date} date
+     */
     formatDate: (date) => {
         return new Date(date).toLocaleDateString("es-ES");
     },
 
-    // Función debounce para optimizar búsquedas
+    /**
+     * @param {Function} func
+     * @param {number} delay
+     */
     debounce: (func, delay) => {
         let timeout;
         return function(...args) {
+            // @ts-ignore
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), delay);
@@ -60,13 +92,23 @@ const Utils = {
     },
 
     generateId: () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }
 };
 
 // ===== API SERVICE =====
+/**
+ * @typedef {object} RequestOptions
+ * @property {string} [method]
+ * @property {Record<string, string>} [headers]
+ * @property {string} [body]
+ */
+
 const ApiService = {
-    // Hacer petición con fallback a localStorage
+    /**
+     * @param {string} endpoint
+     * @param {RequestOptions} [options]
+     */
     async request(endpoint, options = {}) {
         const url = `${CONFIG.API_BASE_URL}${endpoint}`;
         
@@ -76,7 +118,7 @@ const ApiService = {
             const response = await fetch(url, {
                 headers: {
                     "Content-Type": "application/json",
-                    ...options.headers
+                    ...(options.headers || {})
                 },
                 ...options
             });
@@ -90,14 +132,17 @@ const ApiService = {
             return data;
             
         } catch (error) {
-            Utils.error(`API Error: ${endpoint}`, error);
+            Utils.error(`API Error: ${endpoint}`, error instanceof Error ? error : new Error(String(error)));
             
             // Fallback a localStorage para desarrollo
             return this.fallbackToLocalStorage(endpoint, options);
         }
     },
     
-    // Fallback cuando la API no está disponible
+    /**
+     * @param {string} endpoint
+     * @param {RequestOptions} options
+     */
     fallbackToLocalStorage(endpoint, options) {
         Utils.log(`Using localStorage fallback for: ${endpoint}`);
         
@@ -110,6 +155,7 @@ const ApiService = {
                 return stored ? JSON.parse(stored) : [];
                 
             case "POST":
+                if (!options.body) return null;
                 const newData = JSON.parse(options.body);
                 newData.id = Utils.generateId();
                 newData.createdAt = new Date().toISOString();
@@ -121,10 +167,11 @@ const ApiService = {
                 return newData;
                 
             case "PUT":
+                if (!options.body) return null;
                 // Actualizar elemento existente
                 const updateData = JSON.parse(options.body);
                 const allItems = JSON.parse(localStorage.getItem(storageKey) || "[]");
-                const index = allItems.findIndex(item => item.id === updateData.id);
+                const index = allItems.findIndex((item) => item.id === updateData.id);
                 
                 if (index !== -1) {
                     allItems[index] = { ...allItems[index], ...updateData };
@@ -136,7 +183,7 @@ const ApiService = {
             case "DELETE":
                 const deleteId = endpoint.split("/").pop();
                 const items = JSON.parse(localStorage.getItem(storageKey) || "[]");
-                const filtered = items.filter(item => item.id !== deleteId);
+                const filtered = items.filter((item) => item.id !== deleteId);
                 localStorage.setItem(storageKey, JSON.stringify(filtered));
                 return { success: true };
                 
@@ -145,11 +192,17 @@ const ApiService = {
         }
     },
 
-    // Métodos específicos para la API
+    /**
+     * @param {string} endpoint
+     */
     async get(endpoint) {
         return this.request(endpoint, { method: "GET" });
     },
 
+    /**
+     * @param {string} endpoint
+     * @param {any} data
+     */
     async post(endpoint, data) {
         return this.request(endpoint, {
             method: "POST",
@@ -157,6 +210,10 @@ const ApiService = {
         });
     },
 
+    /**
+     * @param {string} endpoint
+     * @param {any} data
+     */
     async put(endpoint, data) {
         return this.request(endpoint, {
             method: "PUT",
@@ -164,17 +221,54 @@ const ApiService = {
         });
     },
 
+    /**
+     * @param {string} endpoint
+     */
     async delete(endpoint) {
         return this.request(endpoint, { method: "DELETE" });
     }
 };
 
+// ===== DEFINICIONES DE TIPOS =====
+/**
+ * @typedef {object} Deck
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} createdAt
+ */
+
+/**
+ * @typedef {object} Flashcard
+ * @property {string} id
+ * @property {string} deckId
+ * @property {string} question
+ * @property {string} answer
+ * @property {number} interval
+ * @property {number} repetitions
+ * @property {number} easeFactor
+ * @property {string} dueDate
+ * @property {string} createdAt
+ */
+
+/**
+ * @typedef {object} Stats
+ * @property {number} totalDecks
+ * @property {number} totalFlashcards
+ * @property {number} studiedToday
+ * @property {number} dueToday
+ */
+
+
 // ===== CLASE PRINCIPAL (MANTENIDA DE app-functional.js) =====
 class StudyingFlashApp {
     constructor() {
         this.currentSection = 'dashboard';
+        /** @type {Deck[]} */
         this.decks = JSON.parse(localStorage.getItem('studyingflash_decks') || '[]');
+        /** @type {Flashcard[]} */
         this.flashcards = JSON.parse(localStorage.getItem('studyingflash_flashcards') || '[]');
+        /** @type {Partial<Stats>} */
         this.stats = JSON.parse(localStorage.getItem('studyingflash_stats') || '{}');
         
         this.init();
@@ -194,9 +288,11 @@ class StudyingFlashApp {
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const section = e.currentTarget.getAttribute('data-section');
-                console.log('🔗 Navegación clickeada:', section);
-                this.showSection(section);
+                const section = /** @type {HTMLElement} */ (e.currentTarget).getAttribute('data-section');
+                if (section) {
+                    console.log('🔗 Navegación clickeada:', section);
+                    this.showSection(section);
+                }
             });
         });
 
@@ -204,9 +300,11 @@ class StudyingFlashApp {
         document.querySelectorAll('.apple-nav-item[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const section = e.currentTarget.getAttribute('data-section');
-                this.showSection(section);
-                this.closeMobileMenu();
+                const section = /** @type {HTMLElement} */ (e.currentTarget).getAttribute('data-section');
+                if (section) {
+                    this.showSection(section);
+                    this.closeMobileMenu();
+                }
             });
         });
 
@@ -239,13 +337,16 @@ class StudyingFlashApp {
             const mobileMenu = document.querySelector('.mobile-menu');
             const menuBtn = document.getElementById('mobile-menu-btn');
             
-            if (mobileMenu && mobileMenu.classList.contains('active') && 
-                !mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            if (mobileMenu && menuBtn && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(/** @type {Node} */ (e.target)) && !menuBtn.contains(/** @type {Node} */ (e.target))) {
                 this.closeMobileMenu();
             }
         });
     }
 
+    /**
+     * @param {string} sectionName
+     */
     showSection(sectionName) {
         console.log(`🎯 Mostrando sección: ${sectionName}`);
         Utils.log(`Navegando a sección: ${sectionName}`);
@@ -281,6 +382,9 @@ class StudyingFlashApp {
         }
     }
 
+    /**
+     * @param {string} sectionName
+     */
     loadSectionContent(sectionName) {
         // Cargar contenido específico según la sección
         switch (sectionName) {

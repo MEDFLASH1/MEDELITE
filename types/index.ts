@@ -2,10 +2,10 @@
 export interface User {
   id: string;
   email: string;
-  displayName: string;
-  stats: UserStats;
+  displayName?: string;
+  stats?: UserStats;
   createdAt: Date;
-  lastActive: Date;
+  lastActive?: Date;
 }
 
 export interface UserStats {
@@ -25,7 +25,7 @@ export interface Deck {
   description: string;
   isPublic: boolean;
   cardCount: number;
-  tags?: string[];
+  tags: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,7 +46,7 @@ export interface Flashcard {
   // Metadatos
   createdAt: Date;
   lastReviewed?: Date;
-  reviewCount: number;
+  reviewCount?: number;
 }
 
 export interface StudySession {
@@ -56,10 +56,12 @@ export interface StudySession {
   algorithm: 'sm2' | 'anki' | 'fsrs' | 'ultra_sm2';
   startedAt: Date;
   completedAt?: Date;
-  cardsStudied: number;
-  correctAnswers: number;
+  cards?: Flashcard[];
+  currentIndex?: number;
+  cardsStudied?: number;
+  correctAnswers?: number;
   // Para real-time
-  isActive: boolean;
+  isActive?: boolean;
   currentCard?: Flashcard;
 }
 
