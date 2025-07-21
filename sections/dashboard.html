@@ -1,0 +1,160 @@
+<!-- ===== SECCIÓN DASHBOARD ===== -->
+<section id="dashboard" class="section active">
+  <div class="dashboard-hero">
+    <h1 class="hero-title">StudyingFlash</h1>
+    <p class="hero-subtitle">Tu plataforma de aprendizaje inteligente con repetición espaciada</p>
+    
+    <div class="hero-stats" id="dashboard-stats">
+      <!-- Estadísticas principales -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-flashcards"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="total-cards" data-stat="total-cards">0</div>
+            <div class="stat-label">Total Flashcards</div>
+            <div class="stat-change" id="total-cards-change">+0 esta semana</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-target"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="studied-today" data-stat="studied-today">0</div>
+            <div class="stat-label">Estudiadas Hoy</div>
+            <div class="stat-change" id="studied-today-change">Meta: 20</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-chart"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="accuracy" data-stat="accuracy">0%</div>
+            <div class="stat-label">Precisión</div>
+            <div class="stat-change" id="accuracy-change">+0% vs ayer</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-flame"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="streak" data-stat="streak">0</div>
+            <div class="stat-label">Racha de Estudio</div>
+            <div class="stat-change" id="streak-change">días consecutivos</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-timer"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="study-time" data-stat="study-time">0m</div>
+            <div class="stat-label">Tiempo de Estudio</div>
+            <div class="stat-change" id="study-time-change">hoy</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><svg class="icon"><use href="#icon-growth"></use></svg></div>
+          <div class="stat-content">
+            <div class="stat-value" id="total-progress" data-stat="total-progress">0%</div>
+            <div class="stat-label">Progreso Total</div>
+            <div class="stat-change" id="total-progress-change">completado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Charts Section -->
+  <div class="charts-grid">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3 class="chart-title">Progreso Semanal</h3>
+        <div class="chart-actions">
+          <button class="chart-action" onclick="updateChartPeriod('7d')">7D</button>
+          <button class="chart-action" onclick="updateChartPeriod('30d')">30D</button>
+          <button class="chart-action" onclick="updateChartPeriod('90d')">90D</button>
+        </div>
+      </div>
+      <div class="chart-canvas">
+        <canvas id="weeklyProgressChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3 class="chart-title">Precisión</h3>
+      </div>
+      <div class="chart-canvas">
+        <canvas id="accuracyTrendChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3 class="chart-title">Distribución por Categoría</h3>
+      </div>
+      <div class="chart-canvas">
+        <canvas id="categoryDistributionChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3 class="chart-title">Rendimiento</h3>
+      </div>
+      <div class="chart-canvas">
+        <canvas id="performanceChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Activity Heatmap -->
+  <div class="activity-heatmap">
+    <div class="heatmap-header">
+      <h3 class="heatmap-title">Actividad de Estudio</h3>
+      <div class="heatmap-legend">
+        <span>Menos</span>
+        <div class="heatmap-day activity-0"></div>
+        <div class="heatmap-day activity-1"></div>
+        <div class="heatmap-day activity-2"></div>
+        <div class="heatmap-day activity-3"></div>
+        <div class="heatmap-day activity-4"></div>
+        <span>Más</span>
+      </div>
+    </div>
+    <div class="heatmap-grid" id="activity-heatmap">
+      <!-- Heatmap will be generated dynamically -->
+    </div>
+  </div>
+  
+  <!-- Dashboard Decks Section -->
+  <div class="dashboard-decks-section">
+    <div class="section-header">
+      <h3 class="section-title">
+        <svg class="icon"><use href="#icon-manage"></use></svg>
+        Mis Decks
+      </h3>
+      <div class="section-actions">
+        <button onclick="app.showSection('gestionar')" class="btn-link">Ver todos</button>
+        <button onclick="app.showSection('crear')" class="btn-primary-small">
+          <svg class="icon"><use href="#icon-plus"></use></svg>
+          Nuevo Deck
+        </button>
+      </div>
+    </div>
+    
+    <div id="dashboard-decks-list" class="dashboard-decks-grid">
+      <!-- Los decks se cargarán dinámicamente aquí -->
+    </div>
+    
+    <!-- Estado vacío -->
+    <div id="dashboard-empty-state" class="empty-state hidden">
+      <div class="empty-icon">📚</div>
+      <h4>¡Crea tu primer deck!</h4>
+      <p>Los decks te ayudan a organizar tus flashcards por tema</p>
+      <button onclick="app.showSection('gestionar')" class="btn-primary">
+        Crear mi primer deck
+      </button>
+    </div>
+  </div>
+</section>
