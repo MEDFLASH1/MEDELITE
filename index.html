@@ -1471,7 +1471,37 @@
     </div>
   </footer>
 
-  <!-- Scripts principais da aplicação -->
+  <!-- Scripts principales da aplicação -->
   <script src="js/auth-system-fixed.js"></script>
+  
+  <!-- Scripts de integración modular -->
+  <script type="module" src="js/services-config.js"></script>
+  <script type="module" src="js/section-integration.js"></script>
+  <script type="module" src="js/app-integration.js"></script>
+  
+  <!-- Script de inicialización -->
+  <script>
+    // Verificar que la integración esté funcionando
+    document.addEventListener('appIntegrationReady', () => {
+      console.log('🎉 [Main] App integration ready!');
+      
+      // Verificar estado de la integración
+      if (window.AppIntegration) {
+        const status = window.AppIntegration.getStatus();
+        console.log('📊 [Main] Integration status:', status);
+      }
+    });
+    
+    // Verificar que las secciones estén funcionando
+    document.addEventListener('sectionIntegrationReady', () => {
+      console.log('🎉 [Main] Section integration ready!');
+      
+      // Verificar estado de las secciones
+      if (window.SectionIntegration) {
+        const status = window.SectionIntegration.getStatus();
+        console.log('📊 [Main] Section status:', status);
+      }
+    });
+  </script>
 </body>
 </html>
