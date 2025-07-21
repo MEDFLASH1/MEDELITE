@@ -12,7 +12,7 @@
  */
 
 // ===== CONFIGURACIÓN GLOBAL =====
-/** @type {{ API_BASE_URL: string, STORAGE_PREFIX: string, DEBUG: boolean }} */
+/** @type {{ apiBaseUrl: string, storagePrefix: string, debug: boolean, maxRetries: number, timeoutMs: number }} */
 const CONFIG = {
     API_BASE_URL: "https://flashcard-u10n.onrender.com/api",
     STORAGE_PREFIX: "studyingflash_",
