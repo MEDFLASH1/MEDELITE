@@ -377,7 +377,7 @@ export const trackEvent = (eventName: string, properties?: Record<string, any>) 
 trackEvent('study_session_complete', {
   deck_id: deck.id,
   cards_studied: sessionStats.studied,
-  accuracy: (sessionStats.correct / sessionStats.studied) * 100,
+  accuracy: sessionStats.studied > 0 ? (sessionStats.correct / sessionStats.studied) * 100 : 0,
   duration: duration
 })
 ```
