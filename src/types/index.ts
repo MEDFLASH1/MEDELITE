@@ -4,8 +4,8 @@ export interface User {
   id: string;
   email: string;
   displayName?: string;
-  createdAt: Date;
-  lastLoginAt?: Date;
+createdAt: string;
+lastLoginAt?: string;
   preferences?: UserPreferences;
 }
 
