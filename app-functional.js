@@ -1,4 +1,8 @@
 // @ts-check
+/**
+ * @typedef {import('./types').Deck} Deck
+ * @typedef {import('./types').Flashcard} Flashcard
+ */
 // ===== CONFIGURACIÓN GLOBAL =====
 /**
  * @typedef {object} AppConfig
