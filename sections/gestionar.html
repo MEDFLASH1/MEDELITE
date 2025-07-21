@@ -1,0 +1,145 @@
+<!-- ===== SECCIÓN GESTIONAR ===== -->
+<section id="gestionar" class="section">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Gestionar Contenido</h2>
+      <p class="text-muted">Edita, elimina y organiza tus decks y flashcards</p>
+    </div>
+    
+    <!-- Search and Filter -->
+    <div class="search-container">
+      <label for="search-input" class="sr-only">Buscar flashcards</label>
+      <input type="text" id="search-input" class="form-input search-input" placeholder="Buscar flashcards...">
+      <label for="deck-filter" class="sr-only">Filtrar por deck</label>
+      <select id="deck-filter" class="form-input filter-select">
+        <option value="">Todos los decks</option>
+      </select>
+      <label for="difficulty-filter" class="sr-only">Filtrar por dificultad</label>
+      <select id="difficulty-filter" class="form-input filter-select">
+        <option value="">Todas las dificultades</option>
+        <option value="0">Fácil</option>
+        <option value="1">Medio</option>
+        <option value="2">Difícil</option>
+      </select>
+      <label for="sort-by" class="sr-only">Ordenar por</label>
+      <select id="sort-by" class="form-input filter-select">
+        <option value="created_at">Fecha de creación</option>
+        <option value="front">Frente</option>
+        <option value="difficulty">Dificultad</option>
+      </select>
+      <button class="btn btn-primary" onclick="searchFlashcards()">
+        🔍 Buscar
+      </button>
+    </div>
+    
+    <!-- Import/Export Section -->
+    <div class="import-export-container">
+      <div class="import-section">
+        <h3 class="section-title">📥 Importar Deck</h3>
+        <div class="file-upload-area" id="file-upload-area" onclick="document.getElementById('file-input').click()">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Haz clic o arrastra un archivo aquí</div>
+          <div class="upload-hint">Formatos soportados: JSON, CSV, TXT</div>
+        </div>
+        <label for="file-input" class="sr-only">Seleccionar archivo para importar</label>
+        <input type="file" id="file-input" accept=".json,.csv,.txt" style="display: none;" onchange="handleFileUpload(event)">
+        
+        <div class="form-group mt-3">
+          <label for="import-deck-name" class="form-label">Nombre del deck importado</label>
+          <input type="text" id="import-deck-name" class="form-input" placeholder="Nombre del nuevo deck">
+        </div>
+        
+        <button class="btn btn-success" onclick="importDeck()">
+          📥 Importar
+        </button>
+      </div>
+      
+      <div class="export-section">
+        <h3 class="section-title">📤 Exportar Deck</h3>
+        <div class="export-options" id="export-options">
+          <!-- Export options will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Search Results -->
+    <div class="search-results" id="search-results">
+      <!-- Search results will be displayed here -->
+    </div>
+    
+    <!-- Deck Management -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h3 class="card-title">Gestionar Decks</h3>
+      </div>
+      <div class="deck-grid" id="manage-decks">
+        <!-- Decks for management will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.search-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: end;
+}
+
+.import-export-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.file-upload-area {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.file-upload-area:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.upload-text {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.upload-hint {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .import-export-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+</style>

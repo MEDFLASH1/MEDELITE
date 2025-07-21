@@ -1,0 +1,136 @@
+<!-- ===== SECCIÓN CREAR ===== -->
+<section id="crear" class="section">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Crear Nuevo Contenido</h2>
+      <p class="text-muted">Crea nuevos decks y flashcards para tu aprendizaje</p>
+    </div>
+    
+    <!-- Create Deck Form -->
+    <form id="deck-form" class="deck-form">
+      <div class="form-group">
+        <label for="deck-name" class="form-label">Nombre del Deck</label>
+        <input type="text" id="deck-name" class="form-input" placeholder="Ej: Vocabulario Inglés" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="deck-description" class="form-label">Descripción</label>
+        <textarea id="deck-description" class="form-input form-textarea" placeholder="Describe el contenido de este deck..."></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="deck-public"> Hacer público
+        </label>
+      </div>
+      
+      <button id="create-deck-btn" class="btn btn-primary" data-action="create-deck" type="button">
+        ➕ Crear Deck
+      </button>
+    </form>
+    
+    <hr style="margin: 2rem 0; border: 1px solid rgba(255, 255, 255, 0.1);">
+    
+    <!-- Create Flashcard Form -->
+    <form id="flashcard-form" class="flashcard-form">
+      <h3 class="card-title mb-3">Agregar Flashcard</h3>
+      
+      <div class="form-group">
+        <label for="flashcard-deck" class="form-label">Seleccionar Deck</label>
+        <select id="flashcard-deck" class="form-input form-select" required>
+          <option value="">Selecciona un deck...</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="flashcard-front" class="form-label">Frente (Pregunta)</label>
+        <textarea id="flashcard-front" class="form-input form-textarea" placeholder="Escribe la pregunta o término..." required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="flashcard-back" class="form-label">Reverso (Respuesta)</label>
+        <textarea id="flashcard-back" class="form-input form-textarea" placeholder="Escribe la respuesta o definición..." required></textarea>
+      </div>
+      
+      <button id="create-flashcard-btn" class="btn btn-success" data-action="create-flashcard" type="button">
+        ➕ Crear Flashcard
+      </button>
+    </form>
+    
+    <!-- Quick Create Templates -->
+    <div class="quick-templates-section mt-4">
+      <h3 class="card-title mb-3">Plantillas Rápidas</h3>
+      <div class="templates-grid">
+        <div class="template-card" onclick="loadTemplate('vocabulary')">
+          <div class="template-icon">📚</div>
+          <h4>Vocabulario</h4>
+          <p>Ideal para aprender palabras nuevas</p>
+        </div>
+        <div class="template-card" onclick="loadTemplate('definitions')">
+          <div class="template-icon">📝</div>
+          <h4>Definiciones</h4>
+          <p>Para conceptos y definiciones</p>
+        </div>
+        <div class="template-card" onclick="loadTemplate('formulas')">
+          <div class="template-icon">🧮</div>
+          <h4>Fórmulas</h4>
+          <p>Matemáticas y ciencias</p>
+        </div>
+        <div class="template-card" onclick="loadTemplate('dates')">
+          <div class="template-icon">📅</div>
+          <h4>Fechas</h4>
+          <p>Historia y eventos importantes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.template-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.template-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.template-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.template-card h4 {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.template-card p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.quick-templates-section {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+</style>
