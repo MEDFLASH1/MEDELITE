@@ -1,11 +1,18 @@
 // @ts-check
-// ===== CONFIGURACIÓN GLOBAL =====
+
+// ===== IMPORTACIÓN DE TIPOS =====
 /**
- * @typedef {object} AppConfig
- * @property {string} API_BASE_URL
- * @property {string} STORAGE_PREFIX
- * @property {boolean} DEBUG
+ * @typedef {import('./src/types/index.js').UserStats} UserStats
+ * @typedef {import('./src/types/index.js').NotificationConfig} NotificationConfig
+ * @typedef {import('./src/types/index.js').APIResponse} APIResponse
+ * @typedef {import('./src/types/index.js').CreateDeckForm} CreateDeckForm
+ * @typedef {import('./src/types/index.js').CreateFlashcardForm} CreateFlashcardForm
+ * @typedef {import('./src/types/index.js').AlgorithmType} AlgorithmType
+ * @typedef {import('./src/types/index.js').ReviewRating} ReviewRating
  */
+
+// ===== CONFIGURACIÓN GLOBAL =====
+/** @type {{ API_BASE_URL: string, STORAGE_PREFIX: string, DEBUG: boolean }} */
 const CONFIG = {
     API_BASE_URL: "https://flashcard-u10n.onrender.com/api",
     STORAGE_PREFIX: "studyingflash_",
@@ -38,7 +45,7 @@ const Utils = {
     
     /**
      * @param {string} message
-     * @param {'success' | 'error'} [type]
+     * @param {'success' | 'error' | 'warning' | 'info'} [type]
      */
     showNotification: (message, type = "success") => {
         // Crear notificación visual
