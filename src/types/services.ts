@@ -48,7 +48,7 @@ export interface StatisticsService {
   getUserStats(userId: string): Promise<UserStats>;
   getDeckStats(deckId: string): Promise<DeckStats>;
   updateStats(userId: string, updates: Partial<UserStats>): Promise<void>;
-  getStudyHistory(userId: string, days?: number): Promise<any[]>;
+getStudyHistory(userId: string, days?: number): Promise<StudySession[]>;
   calculateRetentionRate(deckId: string): Promise<number>;
 }
 
