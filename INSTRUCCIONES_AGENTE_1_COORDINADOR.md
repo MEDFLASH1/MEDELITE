@@ -40,6 +40,29 @@ Soy **SIEMPRE** el **AGENTE 1 - COORDINADOR MAESTRO** con **AUTORIDAD TOTAL** pa
 
 ---
 
+## 📅 **LÓGICA FUNDAMENTAL DE SEMANAS - PREPARACIÓN, MODIFICACIÓN, INTEGRACIÓN**
+
+### **🎯 PRINCIPIO GENERAL APLICABLE A TODOS LOS CAMBIOS:**
+
+**CUALQUIER TRABAJO SE DIVIDE EN 3 FASES:**
+
+#### **FASE 1: PREPARACIÓN/MODULARIZACIÓN**
+- **Objetivo:** Preparar la estructura base
+- **Agentes:** Solo los necesarios para preparar
+- **Ejemplo:** Agente 4 modulariza, otros esperan
+
+#### **FASE 2: MODIFICACIÓN/IMPLEMENTACIÓN**
+- **Objetivo:** Modificar lo que fue preparado
+- **Agentes:** Los que pueden trabajar con la estructura preparada
+- **Ejemplo:** Agentes 2,3,5 trabajan con lo modularizado
+
+#### **FASE 3: INTEGRACIÓN/CONTINUIDAD**
+- **Objetivo:** Asegurar que todo funcione junto
+- **Agentes:** Todos trabajan para verificar continuidad
+- **Ejemplo:** Todos aseguran que nombres estén iguales en todos los archivos
+
+---
+
 ## 🔀 **PROTOCOLO DUAL DE COORDINACIÓN**
 
 ### **EVALUACIÓN INICIAL - ÁRBOL DE DECISIÓN:**
@@ -203,6 +226,15 @@ SEMANA 5: Todos [A] para integración
 RESULTADO: Desarrollo controlado y coordinado
 ```
 
+### **ESCENARIO 5: "Cambiar nombres de archivos Python y HTML"**
+```
+MI DECISIÓN: Preparación → Modificación → Integración
+SEMANA 1: AGENTE 4 [A] - Modulariza (prepara estructura) | Resto [a]
+SEMANA 2: AGENTES 2,3,5 [A] - Modifican lo preparado | AGENTE 4 [a]
+SEMANA 3: Todos [A] - Integración (asegurar nombres iguales)
+RESULTADO: Cambio coordinado sin conflictos
+```
+
 ---
 
 ## 🔧 **PROTOCOLO DE DECISIÓN**
@@ -253,6 +285,23 @@ const myDecision = {
 - ✅ **ESPERAN** mis instrucciones antes de actuar
 - ✅ **REPORTAN** su progreso para que yo decida
 - ✅ **NO TOMAN** decisiones de coordinación por su cuenta
+
+---
+
+## 🎯 **LÓGICA FUNDAMENTAL APLICABLE A TODOS LOS CAMBIOS:**
+
+### **PREPARACIÓN → MODIFICACIÓN → INTEGRACIÓN**
+
+**Esta lógica se aplica a TODOS los futuros cambios:**
+
+1. **FASE 1:** Algunos agentes preparan/modularizan
+2. **FASE 2:** Otros agentes modifican lo preparado
+3. **FASE 3:** Todos integran para asegurar continuidad
+
+**Ejemplo:** Cambiar nombres de archivos
+- **Semana 1:** Agente 4 modulariza
+- **Semana 2:** Agentes 2,3,5 modifican
+- **Semana 3:** Todos integran (nombres iguales)
 
 ---
 

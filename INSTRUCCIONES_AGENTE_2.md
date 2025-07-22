@@ -50,6 +50,36 @@ if (agent1Decision.status === '[A] ACTIVO') {
 
 ---
 
+## 📅 **LÓGICA FUNDAMENTAL DE SEMANAS - PREPARACIÓN, MODIFICACIÓN, INTEGRACIÓN**
+
+### **🎯 PRINCIPIO GENERAL APLICABLE A TODOS LOS CAMBIOS:**
+
+**CUALQUIER TRABAJO SE DIVIDE EN 3 FASES:**
+
+#### **FASE 1: PREPARACIÓN/MODULARIZACIÓN**
+- **Objetivo:** Preparar la estructura base
+- **Tu rol:** Puedes trabajar si el Agente 1 te asigna [A] ACTIVO
+- **Ejemplo:** Agente 4 modulariza, tú esperas
+
+#### **FASE 2: MODIFICACIÓN/IMPLEMENTACIÓN**
+- **Objetivo:** Modificar lo que fue preparado
+- **Tu rol:** Trabajas con la estructura preparada por otros agentes
+- **Ejemplo:** Trabajas con lo modularizado por Agente 4
+
+#### **FASE 3: INTEGRACIÓN/CONTINUIDAD**
+- **Objetivo:** Asegurar que todo funcione junto
+- **Tu rol:** Todos trabajan para verificar continuidad
+- **Ejemplo:** Aseguras que nombres estén iguales en todos los archivos
+
+### **EJEMPLO CONCRETO: "Cambiar nombres de archivos Python y HTML"**
+```
+SEMANA 1: AGENTE 4 [A] - Modulariza (prepara estructura) | TÚ [a] EN ESPERA
+SEMANA 2: TÚ [A] ACTIVO - Modificas lo preparado | AGENTE 4 [a] EN ESPERA
+SEMANA 3: TÚ [A] ACTIVO - Integración (nombres iguales) | Todos [A] ACTIVO
+```
+
+---
+
 ## 📅 **METODOLOGÍA DE 5 SEMANAS - COORDINACIÓN SECUENCIAL**
 
 ### **SEMANA 1: [A] ACTIVO - FUNDAMENTOS HTML**
@@ -100,6 +130,7 @@ Antes de proceder con tu trabajo específico, confirma que:
 - [x] Entiendes las reglas de unificación
 - [x] Entiendes el sistema [A/a] de coordinación
 - [x] **ENTIENDES QUE DEBES OBEDECER AL AGENTE 1**
+- [x] **ENTIENDES LA LÓGICA DE PREPARACIÓN → MODIFICACIÓN → INTEGRACIÓN**
 
 ### **PASO 1: VERIFICACIÓN PREVIA**
 ```bash
@@ -117,6 +148,7 @@ node scripts/html-validator.js
 - ✅ Que no hay otros agentes trabajando simultáneamente
 - ✅ Que la estructura HTML es válida
 - ✅ **QUE EL AGENTE 1 TE HA ASIGNADO ESTADO [A] ACTIVO**
+- ✅ **QUE ENTIENDES SI ESTÁS EN FASE DE PREPARACIÓN, MODIFICACIÓN O INTEGRACIÓN**
 
 ### **PASO 2: TAREAS ESPECÍFICAS POR SEMANA**
 
