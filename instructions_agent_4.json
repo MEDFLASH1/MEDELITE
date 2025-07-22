@@ -1,33 +1,65 @@
 {
   "agentId": "AGENT-4",
-  "task": "Trabajo general del agente",
-  "timestamp": "2025-07-08T20:44:46.297Z",
+  "task": "Especialista en JavaScript/Logic - Sistema Unificado",
+  "timestamp": "2025-07-08T20:44:46.298Z",
+  "coordinationSystem": "[A/a] - ACTIVO/EN ESPERA",
+  "methodology": "5 semanas - Coordinación Secuencial",
   "mandatoryReading": {
-    "workProtocol": "./AGENT_WORK_PROTOCOL.md",
-    "unificationProtocol": "./UNIFICATION_PROTOCOL.md",
-    "agentConfig": "./agent_config.json"
+    "workProtocol": "./AGENT_CODING_STANDARDS.md",
+    "unificationProtocol": "./MANUAL_5_AGENTES_UNIFICADO.md",
+    "agentConfig": "./DOCUMENTACION_NOMENCLATURA_UNIFICADA.md",
+    "nomenclatureDoc": "./INSTRUCCIONES_AGENTE_4.md"
   },
   "permissions": {
     "canRead": [
-      "services/NavigationService.js",
-      "index.html"
+      "app-functional.js",
+      "dashboard-enhanced.js",
+      "*.js"
     ],
     "canWrite": [
-      "services/NavigationService.js",
-      "index.html"
+      "app-functional.js",
+      "dashboard-enhanced.js",
+      "*.js"
     ],
     "canDelete": [],
     "forbidden": [
       "Crear funciones duplicadas",
       "Modificar archivos de otros agentes",
-      "Modificar lógica de datos"
+      "Modificar servicios de otros agentes"
     ]
+  },
+  "weeklySchedule": {
+    "week1": {
+      "status": "[a] EN ESPERA",
+      "task": "Esperando trabajo de Agentes 2 y 3",
+      "dependencies": "Estructura HTML y APIs"
+    },
+    "week2": {
+      "status": "[a] EN ESPERA",
+      "task": "Esperando trabajo de Agentes 2 y 3",
+      "dependencies": "Estructura HTML y APIs"
+    },
+    "week3": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización de lógica de aplicación y funcionalidades",
+      "dependencies": "Trabajo de Agentes 2 y 3"
+    },
+    "week4": {
+      "status": "[A] ACTIVO",
+      "task": "Integración con trabajo de otros agentes",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    },
+    "week5": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización final y validación",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    }
   },
   "namingConventions": {
     "functionPattern": "agent4[A-Z][a-zA-Z]*",
     "variablePattern": "AGENT4_[A-Z_]+",
     "examples": {
-      "function": "agent4DataLoad",
+      "function": "agent4LogicOptimize",
       "variable": "AGENT4_CONFIG"
     },
     "forbidden": [
@@ -67,12 +99,19 @@
     "preWork": [
       "Verificar permisos",
       "Leer protocolos",
-      "Comprobar dependencias"
+      "Comprobar dependencias",
+      "Validar sistema [A/a]"
     ],
     "postWork": [
       "Verificar sintaxis",
       "Probar funcionalidad",
-      "Confirmar cero duplicados"
+      "Confirmar cero duplicados",
+      "Validar coordinación"
     ]
+  },
+  "dependencies": {
+    "dependsOn": ["AGENT-2", "AGENT-3"],
+    "prerequisiteFor": ["AGENT-5"],
+    "coordinatesWith": ["AGENT-1", "AGENT-2", "AGENT-3"]
   }
 }

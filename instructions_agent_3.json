@@ -1,31 +1,65 @@
 {
   "agentId": "AGENT-3",
-  "task": "Trabajo general del agente",
-  "timestamp": "2025-07-08T20:44:46.296Z",
+  "task": "Especialista en Backend/API - Sistema Unificado",
+  "timestamp": "2025-07-08T20:44:46.297Z",
+  "coordinationSystem": "[A/a] - ACTIVO/EN ESPERA",
+  "methodology": "5 semanas - Coordinación Secuencial",
   "mandatoryReading": {
-    "workProtocol": "./AGENT_WORK_PROTOCOL.md",
-    "unificationProtocol": "./UNIFICATION_PROTOCOL.md",
-    "agentConfig": "./agent_config.json"
+    "workProtocol": "./AGENT_CODING_STANDARDS.md",
+    "unificationProtocol": "./MANUAL_5_AGENTES_UNIFICADO.md",
+    "agentConfig": "./DOCUMENTACION_NOMENCLATURA_UNIFICADA.md",
+    "nomenclatureDoc": "./INSTRUCCIONES_AGENTE_3.md"
   },
   "permissions": {
     "canRead": [
-      "flashcard-app-final.js"
+      "flashcards.service.js",
+      "*.js",
+      "backend/*"
     ],
     "canWrite": [
-      "flashcard-app-final.js"
+      "flashcards.service.js",
+      "*.js",
+      "backend/*"
     ],
     "canDelete": [],
     "forbidden": [
       "Crear funciones duplicadas",
       "Modificar archivos de otros agentes",
-      "Modificar UI directamente"
+      "Modificar servicios de otros agentes"
     ]
+  },
+  "weeklySchedule": {
+    "week1": {
+      "status": "[a] EN ESPERA",
+      "task": "Esperando trabajo del Agente 2",
+      "dependencies": "Estructura HTML del Agente 2"
+    },
+    "week2": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización de APIs y servicios backend",
+      "dependencies": "Estructura HTML de Semana 1"
+    },
+    "week3": {
+      "status": "[a] EN ESPERA",
+      "task": "Completado en Semana 2",
+      "dependencies": "Trabajo de Agente 4"
+    },
+    "week4": {
+      "status": "[A] ACTIVO",
+      "task": "Integración con trabajo de otros agentes",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    },
+    "week5": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización final y validación",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    }
   },
   "namingConventions": {
     "functionPattern": "agent3[A-Z][a-zA-Z]*",
     "variablePattern": "AGENT3_[A-Z_]+",
     "examples": {
-      "function": "agent3DataLoad",
+      "function": "agent3ApiOptimize",
       "variable": "AGENT3_CONFIG"
     },
     "forbidden": [
@@ -65,12 +99,19 @@
     "preWork": [
       "Verificar permisos",
       "Leer protocolos",
-      "Comprobar dependencias"
+      "Comprobar dependencias",
+      "Validar sistema [A/a]"
     ],
     "postWork": [
       "Verificar sintaxis",
       "Probar funcionalidad",
-      "Confirmar cero duplicados"
+      "Confirmar cero duplicados",
+      "Validar coordinación"
     ]
+  },
+  "dependencies": {
+    "dependsOn": ["AGENT-2"],
+    "prerequisiteFor": ["AGENT-4", "AGENT-5"],
+    "coordinatesWith": ["AGENT-1", "AGENT-2", "AGENT-4"]
   }
 }
