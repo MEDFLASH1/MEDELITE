@@ -1486,9 +1486,17 @@
       console.log('🎉 [Main] App integration ready!');
       
       // Verificar estado de la integración
-      if (window.AppIntegration) {
-        const status = window.AppIntegration.getStatus();
-        console.log('📊 [Main] Integration status:', status);
+// In app-integration.js:
+const status = this.getStatus();
+document.dispatchEvent(new CustomEvent('appIntegrationReady', { detail: { status } }));
+
+// In index.html:
+document.addEventListener('appIntegrationReady', (e) => {
+  console.log('🎉 [Main] App integration ready!');
+  if (e.detail && e.detail.status) {
+    console.log('📊 [Main] Integration status:', e.detail.status);
+  }
+});
       }
     });
     
