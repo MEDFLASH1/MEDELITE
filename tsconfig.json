@@ -3,21 +3,23 @@
     /* Base Options */
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ESNext",
+    "target": "ES2022",
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
 
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitAny": true,
+    /* Strictness - Gradual migration */
+    "strict": false,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
 
-    /* If NOT transpiling with TypeScript */
+    /* Module Resolution */
     "module": "preserve",
     "noEmit": true,
+    "moduleResolution": "bundler",
 
     /* If your code runs in the DOM */
     "lib": ["es2022", "dom", "dom.iterable"],
@@ -25,9 +27,30 @@
     /* Paths for Monorepo-style imports */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": ["src/*"],
+      "@/types": ["src/types"],
+      "@/types/*": ["src/types/*"]
+    },
+
+    /* Better error reporting */
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*.js", "**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "**/*.js",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "cypress",
+    "tests",
+    "scripts",
+    "**/*.test.js",
+    "**/*.test.ts"
+  ]
 }

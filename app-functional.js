@@ -1,7 +1,20 @@
 // @ts-check
+
+// ===== DECLARACIONES GLOBALES =====
+/** @type {StudyingFlashApp} */
+let app;
+
+// ===== IMPORTACIÓN DE TIPOS =====
 /**
- * @typedef {import('./types').Deck} Deck
- * @typedef {import('./types').Flashcard} Flashcard
+ * @typedef {import('./src/types/index.js').Deck} TypeDeck
+ * @typedef {import('./src/types/index.js').Flashcard} TypeFlashcard
+ * @typedef {import('./src/types/index.js').UserStats} UserStats
+ * @typedef {import('./src/types/index.js').NotificationConfig} NotificationConfig
+ * @typedef {import('./src/types/index.js').APIResponse} APIResponse
+ * @typedef {import('./src/types/index.js').CreateDeckForm} CreateDeckForm
+ * @typedef {import('./src/types/index.js').CreateFlashcardForm} CreateFlashcardForm
+ * @typedef {import('./src/types/index.js').AlgorithmType} AlgorithmType
+ * @typedef {import('./src/types/index.js').ReviewRating} ReviewRating
  */
 // ===== CONFIGURACIÓN GLOBAL =====
 /**
@@ -42,18 +55,25 @@ const Utils = {
     
     /**
      * @param {string} message
-     * @param {'success' | 'error'} [type]
+     * @param {'success' | 'error' | 'warning' | 'info'} [type]
      */
     showNotification: (message, type = "success") => {
         // Crear notificación visual
         const notification = document.createElement("div");
         notification.className = `notification ${type}`;
         notification.textContent = message;
+        const colors = {
+            success: "#10b981",
+            error: "#ef4444", 
+            warning: "#f59e0b",
+            info: "#3b82f6"
+        };
+        
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === "success" ? "#10b981" : "#ef4444"};
+            background: ${colors[type] || colors.success};
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
@@ -229,34 +249,17 @@ const ApiService = {
     }
 };
 
-// ===== DEFINICIONES DE TIPOS =====
-/**
- * @typedef {object} Deck
- * @property {string} id
- * @property {string} name
- * @property {string} description
- * @property {string} createdAt
- */
-
-/**
- * @typedef {object} Flashcard
- * @property {string} id
- * @property {string} deckId
- * @property {string} question
- * @property {string} answer
- * @property {number} interval
- * @property {number} repetitions
- * @property {number} easeFactor
- * @property {string} dueDate
- * @property {string} createdAt
- */
-
+// ===== TIPOS LOCALES (compatibilidad con código existente) =====
 /**
  * @typedef {object} Stats
  * @property {number} totalDecks
  * @property {number} totalFlashcards
  * @property {number} studiedToday
  * @property {number} dueToday
+ * @property {number} totalSessions
+ * @property {number} totalCorrect
+ * @property {number} totalAnswered
+ * @property {string} lastStudyDate
  */
 
 
@@ -264,9 +267,9 @@ const ApiService = {
 class StudyingFlashApp {
     constructor() {
         this.currentSection = 'dashboard';
-        /** @type {Deck[]} */
+        /** @type {TypeDeck[]} */
         this.decks = JSON.parse(localStorage.getItem('studyingflash_decks') || '[]');
-        /** @type {Flashcard[]} */
+        /** @type {TypeFlashcard[]} */
         this.flashcards = JSON.parse(localStorage.getItem('studyingflash_flashcards') || '[]');
         /** @type {Partial<Stats>} */
         this.stats = JSON.parse(localStorage.getItem('studyingflash_stats') || '{}');
@@ -473,9 +476,9 @@ class StudyingFlashApp {
      * @returns {Promise<void>}
      */
     async createDeck() {
-        const nameInput = document.getElementById('deck-name');
-        const descriptionInput = document.getElementById('deck-description');
-        const publicCheckbox = document.getElementById('deck-public');
+        const nameInput = /** @type {HTMLInputElement} */ (document.getElementById('deck-name'));
+        const descriptionInput = /** @type {HTMLInputElement} */ (document.getElementById('deck-description'));
+        const publicCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('deck-public'));
         
         if (!nameInput || !descriptionInput) {
             return;
@@ -545,9 +548,9 @@ class StudyingFlashApp {
     async createFlashcard() {
         Utils.log('🔧 [StudyingFlash] Iniciando creación de flashcard');
         
-        const deckSelect = document.getElementById('flashcard-deck');
-        const frontInput = document.querySelector('textarea#flashcard-front');
-        const backInput = document.querySelector('textarea#flashcard-back');
+        const deckSelect = /** @type {HTMLSelectElement} */ (document.getElementById('flashcard-deck'));
+        const frontInput = /** @type {HTMLTextAreaElement} */ (document.querySelector('textarea#flashcard-front'));
+        const backInput = /** @type {HTMLTextAreaElement} */ (document.querySelector('textarea#flashcard-back'));
         
         Utils.log('🔧 [StudyingFlash] Elementos encontrados:', {
             deckSelect: !!deckSelect,
@@ -561,15 +564,15 @@ class StudyingFlashApp {
             return;
         }
 
-        const deckId = deckSelect?.value || '';
+        const deckId = deckSelect.value || '';
         const front_content = {
-            text: frontInput?.value?.trim() || '',
+            text: frontInput.value.trim() || '',
             image_url: null,
             audio_url: null,
             video_url: null
         };
         const back_content = {
-            text: backInput?.value?.trim() || '',
+            text: backInput.value.trim() || '',
             image_url: null,
             audio_url: null,
             video_url: null
@@ -598,7 +601,8 @@ class StudyingFlashApp {
                 ease_factor: 2.5,
                 interval: 1,
                 repetitions: 0,
-                next_review: new Date().toISOString()
+                next_review: new Date().toISOString(),
+                difficulty: 0
             }
         };
 
@@ -635,9 +639,9 @@ class StudyingFlashApp {
 
         // Limpiar formulario
         Utils.log('🔧 [StudyingFlash] Limpiando formulario');
-        frontInput.value = '';
-        backInput.value = '';
-        deckSelect.value = '';
+        if (frontInput) frontInput.value = '';
+        if (backInput) backInput.value = '';
+        if (deckSelect) deckSelect.value = '';
 
         // Actualizar estadísticas del deck
         Utils.log('🔧 [StudyingFlash] Actualizando estadísticas del deck');
@@ -909,8 +913,8 @@ class StudyingFlashApp {
         if (frontText) frontText.textContent = currentCard.front_content.text;
         if (backText) backText.textContent = currentCard.back_content.text;
         if (deckName) deckName.textContent = session.deckName;
-        if (currentCardSpan) currentCardSpan.textContent = session.currentCardIndex + 1;
-        if (totalCardsSpan) totalCardsSpan.textContent = session.cards.length;
+        if (currentCardSpan) currentCardSpan.textContent = String(session.currentCardIndex + 1);
+        if (totalCardsSpan) totalCardsSpan.textContent = String(session.cards.length);
         
         // Actualizar barra de progreso
         if (progressFill) {
@@ -949,19 +953,21 @@ class StudyingFlashApp {
 
     /**
      * Registra la evaluación del usuario sobre la tarjeta actual
-     * @param {number} difficulty - Dificultad de 1 (otra vez) a 4 (fácil)
+     * @param {string|number} difficulty - Dificultad de 1 (otra vez) a 4 (fácil)
      */
     evaluateCard(difficulty) {
+        // Convertir a número si es string
+        const difficultyNum = typeof difficulty === 'string' ? parseInt(difficulty) : difficulty;
         if (!this.currentStudySession || !this.currentStudySession.isFlipped) return;
 
         const session = this.currentStudySession;
         const currentCard = session.cards[session.currentCardIndex];
 
         // Actualizar algoritmo de repetición espaciada
-        this.updateSpacedRepetition(currentCard, difficulty);
+        this.updateSpacedRepetition(currentCard, difficultyNum);
 
         // Actualizar estadísticas de la sesión
-        if (difficulty >= 3) {
+        if (difficultyNum >= 3) {
             session.stats.correct++;
         } else {
             session.stats.incorrect++;
@@ -1075,7 +1081,7 @@ class StudyingFlashApp {
         Object.entries(statsElements).forEach(([id, value]) => {
             const element = document.getElementById(id);
             if (element) {
-                element.textContent = value;
+                element.textContent = String(value);
             }
         });
     }
@@ -1276,6 +1282,81 @@ class StudyingFlashApp {
         
         console.log('✅ Navegación re-inicializada');
     }
+
+    /**
+     * Obtiene el número de tarjetas estudiadas hoy
+     * @returns {number}
+     */
+    getStudiedToday() {
+        const today = new Date().toDateString();
+        const lastStudyDate = this.stats.lastStudyDate ? new Date(this.stats.lastStudyDate).toDateString() : null;
+        return lastStudyDate === today ? (this.stats.totalAnswered || 0) : 0;
+    }
+
+    /**
+     * Obtiene la racha actual de días de estudio
+     * @returns {number}
+     */
+    getCurrentStreak() {
+        // Implementación básica - podría ser más sofisticada
+        const lastStudyDate = this.stats.lastStudyDate;
+        if (!lastStudyDate) return 0;
+        
+        const today = new Date();
+        const lastStudy = new Date(lastStudyDate);
+        const diffTime = Math.abs(today.getTime() - lastStudy.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        return diffDays <= 1 ? 1 : 0; // Simplificado por ahora
+    }
+
+    /**
+     * Calcula estadísticas de ranking
+     * @returns {object}
+     */
+    calculateRankingStats() {
+        const totalCards = this.flashcards.length;
+        const studiedCards = this.flashcards.filter(card => 
+            card.algorithm_data && card.algorithm_data.repetitions > 0
+        ).length;
+        
+        return {
+            totalCards,
+            studiedCards,
+            accuracy: this.stats.totalAnswered ? 
+                Math.round((this.stats.totalCorrect / this.stats.totalAnswered) * 100) : 0
+        };
+    }
+
+    // ===== MÉTODOS ALIAS PARA COMPATIBILIDAD =====
+    
+    /**
+     * Alias para cargar decks
+     */
+    loadDecks() {
+        this.updateDecksList();
+    }
+
+    /**
+     * Alias para salir de sesión de estudio
+     */
+    exitStudySession() {
+        this.endStudySession();
+    }
+
+    /**
+     * Alias para iniciar nueva sesión
+     */
+    startNewSession() {
+        this.loadStudySection();
+    }
+
+    /**
+     * Alias para arreglar navegación
+     */
+    fixNavigation() {
+        this.reinitializeNavigation();
+    }
 }
 
 // ===== INICIALIZACIÓN =====
@@ -1283,7 +1364,8 @@ document.addEventListener('DOMContentLoaded', function() {
     Utils.log('DOM cargado, inicializando app');
     
     // Crear instancia global de la app
-    window.app = new StudyingFlashApp();
+    app = new StudyingFlashApp();
+    window.app = app;
     
     // Exponer funciones globales para onclick en HTML
     window.showSection = (sectionName) => app.showSection(sectionName);
@@ -1347,7 +1429,7 @@ const AuthModule = {
         const loginButtons = document.querySelectorAll('#apple-login-btn, .btn[onclick*="showLoginModal"]');
         loginButtons.forEach(btn => {
             btn.textContent = `👤 ${email.split('@')[0]}`;
-            btn.onclick = () => AuthModule.showUserMenu();
+            /** @type {HTMLButtonElement} */ (btn).onclick = () => AuthModule.showUserMenu();
         });
 
         localStorage.setItem('studyingflash_user', JSON.stringify({ email, loggedIn: true }));
