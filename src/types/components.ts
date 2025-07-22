@@ -137,8 +137,8 @@ export interface FormFieldProps extends BaseComponentProps {
   label: string;
   name: string;
   type?: 'text' | 'textarea' | 'select' | 'checkbox' | 'number';
-  value: any;
-  onChange: (value: any) => void;
+value: string | number | boolean;
+onChange: (value: string | number | boolean) => void;
   error?: string;
   required?: boolean;
   placeholder?: string;
