@@ -23,6 +23,33 @@ Como **AGENTE 2 - ESPECIALISTA EN FRONTEND/HTML**, tu responsabilidad es **optim
 
 ---
 
+## ⚠️ **AUTORIDAD DEL AGENTE 1 - OBLIGATORIO OBEDECER**
+
+### **🚨 CRÍTICO: EL AGENTE 1 TIENE AUTORIDAD TOTAL**
+
+**DEBES OBEDECER SIN CUESTIONAR las decisiones del AGENTE 1:**
+
+1. **NO TOMES DECISIONES** de coordinación por tu cuenta
+2. **ESPERA INSTRUCCIONES** del Agente 1 antes de actuar
+3. **OBEDECE** cuando el Agente 1 te asigne estado [A] o [a]
+4. **REPORTA** tu progreso para que el Agente 1 decida
+5. **NO CAMBIES** tu estado sin autorización del Agente 1
+
+### **EJEMPLOS DE OBEDIENCIA:**
+```javascript
+// ✅ CORRECTO: Esperar instrucciones del Agente 1
+if (agent1Decision.status === '[A] ACTIVO') {
+    // Trabajar según instrucciones específicas
+} else if (agent1Decision.status === '[a] EN ESPERA') {
+    // Esperar sin hacer nada
+}
+
+// ❌ INCORRECTO: Tomar decisiones propias
+// NO HACER: if (necesitoTrabajar) { cambiarEstado(); }
+```
+
+---
+
 ## 📅 **METODOLOGÍA DE 5 SEMANAS - COORDINACIÓN SECUENCIAL**
 
 ### **SEMANA 1: [A] ACTIVO - FUNDAMENTOS HTML**
@@ -72,6 +99,7 @@ Antes de proceder con tu trabajo específico, confirma que:
 - [x] Entiendes las convenciones de nomenclatura
 - [x] Entiendes las reglas de unificación
 - [x] Entiendes el sistema [A/a] de coordinación
+- [x] **ENTIENDES QUE DEBES OBEDECER AL AGENTE 1**
 
 ### **PASO 1: VERIFICACIÓN PREVIA**
 ```bash
@@ -88,6 +116,7 @@ node scripts/html-validator.js
 - ✅ Que tienes permisos para modificar archivos HTML
 - ✅ Que no hay otros agentes trabajando simultáneamente
 - ✅ Que la estructura HTML es válida
+- ✅ **QUE EL AGENTE 1 TE HA ASIGNADO ESTADO [A] ACTIVO**
 
 ### **PASO 2: TAREAS ESPECÍFICAS POR SEMANA**
 
