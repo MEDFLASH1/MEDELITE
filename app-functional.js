@@ -8,12 +8,12 @@ let app;
 // ===== TIPOS =====
 // Los tipos están definidos globalmente en types/global.d.ts
 /**
- * @typedef {import('./types/exports').Deck} Deck
- * @typedef {import('./types/exports').Flashcard} Flashcard
- * @typedef {import('./types/exports').StudySession} StudySession
- * @typedef {import('./types/exports').UserStats} UserStats
- * @typedef {import('./types/exports').DeckStats} DeckStats
- * @typedef {import('./types/exports').ValidationErrors} ValidationErrors
+ * @typedef {import('./src/types/index.js').Deck} Deck
+ * @typedef {import('./src/types/index.js').Flashcard} Flashcard
+ * @typedef {import('./src/types/index.js').StudySession} StudySession
+ * @typedef {import('./src/types/index.js').UserStats} UserStats
+ * @typedef {import('./src/types/index.js').DeckStats} DeckStats
+ * @typedef {import('./src/types/index.js').ValidationErrors} ValidationErrors
  */
 // ===== CONFIGURACIÓN GLOBAL =====
 const CONFIG = {
