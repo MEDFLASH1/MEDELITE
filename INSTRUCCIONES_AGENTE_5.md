@@ -73,13 +73,30 @@ Antes de proceder con tu trabajo específico, confirma que:
 - [x] Entiendes las reglas de unificación
 - [x] Entiendes el sistema [A/a] de coordinación
 
-### **PASO 1: VERIFICACIÓN PREVIA**
+### **PASO 1: VERIFICACIÓN DE DEPENDENCIAS OBLIGATORIA (NUEVO)**
 ```bash
-# Ejecutar DESPUÉS de leer los archivos base
-node scripts/enhanced_agent1_coordinator_fixed.cjs
+# ANTES DE COMENZAR CUALQUIER TRABAJO, EJECUTAR OBLIGATORIAMENTE:
+./scripts/verify_agent_dependencies.sh 5 [WEEK_NUMBER]
 
-# Verificar que Agentes 2, 3 y 4 completaron su trabajo
-ls -la index.html flashcards.service.js app-functional.js
+# SOLO continuar si retorna "AUTORIZADO"
+# Si retorna "BLOQUEADO", DEBE ESPERAR
+
+# Ejemplo para Semana 1:
+./scripts/verify_agent_dependencies.sh 5 1
+# Debe verificar que Agente 4 completó componentes base
+```
+
+**⚠️ CRÍTICO PARA SEMANA 1:**
+- **DEBE esperar** que Agente 4 complete componentes React base
+- **DEBE revisar** estructura de componentes para configurar testing
+- **NO puede proceder** sin componentes listos para testing
+
+### **PASO 1.5: NOTIFICACIÓN DE COMPLETACIÓN (NUEVO - OBLIGATORIO)**
+```bash
+# AL COMPLETAR CUALQUIER SEMANA, EJECUTAR OBLIGATORIAMENTE:
+node scripts/notify_dependent_agents.cjs 5 [WEEK_NUMBER]
+
+# Esto notificará la completación para coordinación general
 ```
 
 **Debes confirmar:**

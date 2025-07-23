@@ -1,0 +1,124 @@
+{
+  "version": "2.0",
+  "description": "Matriz de dependencias para coordinación de agentes",
+  "last_updated": "2025-07-23T10:30:00Z",
+  "dependencies": {
+    "agent_2": {
+      "week_1": {
+        "requires": [],
+        "description": "Sin dependencias - Estructura HTML base"
+      },
+      "week_2": {
+        "requires": ["AGENT_1_COORDINATION_COMPLETE"],
+        "description": "Requiere coordinación inicial del Agente 1"
+      },
+      "week_3": {
+        "requires": ["AGENT_3_DATA_STRUCTURE_READY"],
+        "description": "Requiere estructura de datos del Agente 3"
+      }
+    },
+    "agent_3": {
+      "week_1": {
+        "requires": [],
+        "description": "Sin dependencias - Análisis de datos independiente"
+      },
+      "week_2": {
+        "requires": ["AGENT_2_HTML_STRUCTURE_READY"],
+        "description": "Requiere estructura HTML del Agente 2"
+      },
+      "week_3": {
+        "requires": ["AGENT_4_LOGIC_INTEGRATION_READY"],
+        "description": "Requiere integración lógica del Agente 4"
+      }
+    },
+    "agent_4": {
+      "week_1": {
+        "requires": ["AGENT_3_WEEK_1_COMPLETE"],
+        "description": "CRÍTICO: Requiere análisis de datos del Agente 3",
+        "critical_info": "Debe conocer discrepancia question/answer vs front_content/back_content"
+      },
+      "week_2": {
+        "requires": ["AGENT_2_WEEK_2_COMPLETE", "AGENT_3_WEEK_2_COMPLETE"],
+        "description": "Requiere componentes HTML y estructura de APIs"
+      },
+      "week_3": {
+        "requires": ["AGENT_2_UI_COMPLETE", "AGENT_3_BACKEND_READY"],
+        "description": "Requiere UI completa y backend estable"
+      }
+    },
+    "agent_5": {
+      "week_1": {
+        "requires": ["AGENT_4_WEEK_1_COMPLETE"],
+        "description": "CRÍTICO: Requiere componentes base del Agente 4",
+        "critical_info": "Necesita componentes React para configurar testing"
+      },
+      "week_2": {
+        "requires": ["AGENT_4_WEEK_2_COMPLETE", "AGENT_2_INTEGRATION_COMPLETE"],
+        "description": "Requiere hooks y integración completa"
+      },
+      "week_3": {
+        "requires": ["AGENT_4_TESTING_SETUP", "AGENT_3_DATA_STABLE"],
+        "description": "Requiere setup de testing y datos estables"
+      }
+    }
+  },
+  "release_matrix": {
+    "description": "Qué agentes se desbloquean cuando otro completa",
+    "releases": {
+      "agent_3_week_1": [
+        {
+          "unlocks_agent": 4,
+          "unlocks_week": 1,
+          "task": "Next.js migration with data structure analysis",
+          "critical_handoff": "question/answer vs front_content/back_content discrepancy"
+        }
+      ],
+      "agent_4_week_1": [
+        {
+          "unlocks_agent": 5,
+          "unlocks_week": 1,
+          "task": "Testing setup for Next.js components",
+          "critical_handoff": "React components and testing infrastructure"
+        }
+      ],
+      "agent_2_week_2": [
+        {
+          "unlocks_agent": 4,
+          "unlocks_week": 2,
+          "task": "Integration with HTML structure",
+          "critical_handoff": "HTML components ready for React integration"
+        }
+      ],
+      "agent_4_week_2": [
+        {
+          "unlocks_agent": 5,
+          "unlocks_week": 2,
+          "task": "Testing of hooks and advanced components",
+          "critical_handoff": "Custom hooks and context providers"
+        }
+      ]
+    }
+  },
+  "validation_rules": {
+    "tag_format": "AGENT_{ID}_WEEK_{N}_COMPLETE",
+    "commit_format": "AGENT_{ID}_WEEK_{N}_COMPLETE: [Description]",
+    "status_file_format": ".agent_status/agent_{id}_week_{n}_complete.json",
+    "prerequisite_file_format": ".agent_status/agent_{id}_week_{n}_prerequisites.json"
+  },
+  "critical_dependencies": {
+    "description": "Dependencias que NO pueden ser omitidas",
+    "critical_paths": [
+      {
+        "path": "Agent 3 Week 1 → Agent 4 Week 1",
+        "reason": "Data structure analysis required for Next.js migration",
+        "risk_if_skipped": "Incompatible data structures, major rework needed"
+      },
+      {
+        "path": "Agent 4 Week 1 → Agent 5 Week 1", 
+        "reason": "React components required for testing setup",
+        "risk_if_skipped": "Testing framework cannot be configured properly"
+      }
+    ]
+  }
+}
+

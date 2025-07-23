@@ -1,0 +1,11 @@
+{
+  "agent_id": 3,
+  "week": 1,
+  "status": "COMPLETE",
+  "completion_timestamp": "2025-07-23T06:57:06.002Z",
+  "dependencies_released": [
+    "AGENT_3_WEEK_1_READY"
+  ],
+  "tag_created": "AGENT_3_WEEK_1_COMPLETE",
+  "notification_sent": true
+}

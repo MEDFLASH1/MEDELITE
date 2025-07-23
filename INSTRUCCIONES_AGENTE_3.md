@@ -73,13 +73,25 @@ Antes de proceder con tu trabajo específico, confirma que:
 - [x] Entiendes las reglas de unificación
 - [x] Entiendes el sistema [A/a] de coordinación
 
-### **PASO 1: VERIFICACIÓN PREVIA**
+### **PASO 1: VERIFICACIÓN PREVIA Y DEPENDENCIAS**
 ```bash
-# Ejecutar DESPUÉS de leer los archivos base
-node scripts/enhanced_agent1_coordinator_fixed.cjs
+# NUEVO: Verificar dependencias antes de comenzar
+./scripts/verify_agent_dependencies.sh 3 [WEEK_NUMBER]
 
-# Verificar que Agente 2 completó su trabajo
-ls -la index.html
+# Solo continuar si retorna "AUTORIZADO"
+# Si retorna "BLOQUEADO", DEBE ESPERAR
+
+# Verificar que no hay locks activos
+ls -la *.lock 2>/dev/null || echo "No hay locks activos"
+```
+
+### **PASO 1.5: NOTIFICACIÓN DE COMPLETACIÓN (NUEVO - OBLIGATORIO)**
+```bash
+# AL COMPLETAR CUALQUIER SEMANA, EJECUTAR OBLIGATORIAMENTE:
+node scripts/notify_dependent_agents.cjs 3 [WEEK_NUMBER]
+
+# Esto desbloqueará automáticamente a los agentes dependientes
+# Ejemplo: Al completar Semana 1, desbloquea Agente 4 para Semana 1
 ```
 
 **Debes confirmar:**

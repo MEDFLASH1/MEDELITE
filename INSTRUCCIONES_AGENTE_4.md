@@ -73,13 +73,31 @@ Antes de proceder con tu trabajo específico, confirma que:
 - [x] Entiendes las reglas de unificación
 - [x] Entiendes el sistema [A/a] de coordinación
 
-### **PASO 1: VERIFICACIÓN PREVIA**
+### **PASO 1: VERIFICACIÓN DE DEPENDENCIAS OBLIGATORIA (NUEVO)**
 ```bash
-# Ejecutar DESPUÉS de leer los archivos base
-node scripts/enhanced_agent1_coordinator_fixed.cjs
+# ANTES DE COMENZAR CUALQUIER TRABAJO, EJECUTAR OBLIGATORIAMENTE:
+./scripts/verify_agent_dependencies.sh 4 [WEEK_NUMBER]
 
-# Verificar que Agentes 2 y 3 completaron su trabajo
-ls -la index.html flashcards.service.js
+# SOLO continuar si retorna "AUTORIZADO"
+# Si retorna "BLOQUEADO", DEBE ESPERAR
+
+# Ejemplo para Semana 1:
+./scripts/verify_agent_dependencies.sh 4 1
+# Debe verificar que Agente 3 completó análisis de datos
+```
+
+**⚠️ CRÍTICO PARA SEMANA 1:**
+- **DEBE esperar** que Agente 3 complete análisis de estructura de datos
+- **DEBE revisar** discrepancia question/answer vs front_content/back_content
+- **NO puede proceder** sin esta información crítica
+
+### **PASO 1.5: NOTIFICACIÓN DE COMPLETACIÓN (NUEVO - OBLIGATORIO)**
+```bash
+# AL COMPLETAR CUALQUIER SEMANA, EJECUTAR OBLIGATORIAMENTE:
+node scripts/notify_dependent_agents.cjs 4 [WEEK_NUMBER]
+
+# Esto desbloqueará automáticamente a los agentes dependientes
+# Ejemplo: Al completar Semana 1, desbloquea Agente 5 para Semana 1
 ```
 
 **Debes confirmar:**
