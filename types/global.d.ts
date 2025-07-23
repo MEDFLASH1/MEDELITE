@@ -35,11 +35,12 @@ interface Flashcard {
   };
   createdAt: string;
   algorithm_data: {
+    algorithm_type?: string;
     difficulty: number;
     interval: number;
     repetitions: number;
-    easeFactor: number;
-    nextReview: string;
+    ease_factor: number;
+    next_review: string;
   };
 }
 

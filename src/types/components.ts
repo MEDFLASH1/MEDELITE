@@ -12,7 +12,7 @@ import type {
   CreateFlashcardForm,
   StudySettings,
   ReviewRating
-} from './index.js';
+} from './index';
 
 // ===== PROPS DE COMPONENTES BASE =====
 
