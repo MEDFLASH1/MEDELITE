@@ -10,7 +10,7 @@ import type {
   UserStats, 
   DeckStats, 
   ReviewRating 
-} from './index.js';
+} from './index';
 
 export interface StorageService {
   get<T>(key: string): T | null;
