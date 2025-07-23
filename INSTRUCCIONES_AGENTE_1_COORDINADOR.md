@@ -237,16 +237,201 @@ RESULTADO: Cambio coordinado sin conflictos
 
 ---
 
-## 🔧 **PROTOCOLO DE DECISIÓN**
+## 🔧 **PROTOCOLO DE DECISIÓN CON SISTEMA DE DEPENDENCIAS**
 
 ### **CUANDO RECIBO UNA TAREA:**
 
+#### **PASO 1: ANÁLISIS INICIAL**
 1. **ANALIZAR** la complejidad y requerimientos
 2. **EVALUAR** qué agentes son necesarios
-3. **DECIDIR** el patrón de trabajo (secuencial/paralelo/selectivo)
-4. **ASIGNAR** estados [A/a] a cada agente
-5. **COMUNICAR** mis decisiones a todos los agentes
-6. **MONITOREAR** y ajustar según sea necesario
+3. **IDENTIFICAR DEPENDENCIAS CRÍTICAS** usando la matriz de dependencias
+4. **CONSULTAR** `DEPENDENCY_MATRIX.json` para verificar prerrequisitos
+
+#### **PASO 2: VERIFICACIÓN DE ESTADO ACTUAL**
+```bash
+# COMANDOS OBLIGATORIOS PARA VERIFICAR ESTADO:
+
+# 1. Verificar qué agentes pueden trabajar ahora
+./scripts/verify_agent_dependencies.sh 2 [WEEK]
+./scripts/verify_agent_dependencies.sh 3 [WEEK]
+./scripts/verify_agent_dependencies.sh 4 [WEEK]
+./scripts/verify_agent_dependencies.sh 5 [WEEK]
+
+# 2. Revisar archivos de estado existentes
+ls -la .agent_status/
+
+# 3. Verificar tags de completación
+git tag -l | grep "AGENT_.*_WEEK_.*_COMPLETE"
+
+# 4. Revisar matriz de dependencias
+cat DEPENDENCY_MATRIX.json | grep -A 5 -B 5 "agent_[2-5]"
+```
+
+#### **PASO 3: DECISIÓN INTELIGENTE CON DEPENDENCIAS**
+**🚨 NUEVA LÓGICA OBLIGATORIA:**
+
+**ANTES de asignar [A] o [a], DEBO:**
+1. ✅ **Verificar prerrequisitos** de cada agente
+2. ✅ **Respetar dependencias críticas** definidas en matriz
+3. ✅ **No asignar [A]** a agentes bloqueados por dependencias
+4. ✅ **Explicar al usuario** por qué ciertos agentes están en [a]
+
+**EJEMPLOS DE DECISIÓN CORRECTA:**
+
+**❌ DECISIÓN INCORRECTA (ANTERIOR):**
+```
+SEMANA 1: AGENTE 4 [A] - Migración Next.js
+```
+
+**✅ DECISIÓN CORRECTA (NUEVA):**
+```
+SEMANA 1: 
+- AGENTE 3 [A] - Análisis de datos (SIN DEPENDENCIAS)
+- AGENTE 4 [a] - BLOQUEADO: Esperando análisis del Agente 3
+- AGENTE 5 [a] - BLOQUEADO: Esperando componentes del Agente 4
+
+RAZÓN: Agente 4 DEBE esperar análisis de estructura de datos del Agente 3
+```
+
+#### **PASO 4: ASIGNACIÓN CON VERIFICACIÓN AUTOMÁTICA**
+```bash
+# PROCESO OBLIGATORIO PARA ASIGNAR TRABAJO:
+
+# 1. Para cada agente que quiero activar [A]:
+./scripts/verify_agent_dependencies.sh [AGENT_ID] [WEEK]
+
+# 2. Solo si retorna "AUTORIZADO", asignar [A]
+# 3. Si retorna "BLOQUEADO", asignar [a] y explicar dependencia
+
+# 4. Documentar decisión:
+echo "DECISIÓN AGENTE 1: 
+Agente [ID] asignado [A/a] porque [RAZÓN]
+Dependencias verificadas: [SÍ/NO]
+Prerrequisitos: [LISTA]" >> .agent_status/coordination_decisions.log
+```
+
+#### **PASO 5: COMUNICACIÓN CLARA DE DEPENDENCIAS**
+**FORMATO OBLIGATORIO para comunicar asignaciones:**
+
+```
+🎯 ASIGNACIÓN SEMANA [N] - COORDINADOR AGENTE 1
+
+AGENTES ACTIVOS [A]:
+- Agente [ID]: [TAREA] 
+  ✅ Dependencias: SATISFECHAS
+  📋 Prerrequisitos: [LISTA]
+
+AGENTES EN ESPERA [a]:
+- Agente [ID]: BLOQUEADO
+  ❌ Esperando: [DEPENDENCIA ESPECÍFICA]
+  ⏳ Se desbloqueará cuando: [CONDICIÓN]
+  🔄 Verificar con: ./scripts/verify_agent_dependencies.sh [ID] [WEEK]
+
+DEPENDENCIAS CRÍTICAS IDENTIFICADAS:
+- [AGENTE A] → [AGENTE B]: [RAZÓN]
+- [AGENTE B] → [AGENTE C]: [RAZÓN]
+
+PRÓXIMOS DESBLOQUEOS ESPERADOS:
+- Al completar Agente [ID]: Se desbloqueará Agente [ID]
+```
+
+#### **PASO 6: MONITOREO CON HERRAMIENTAS AUTOMÁTICAS**
+```bash
+# COMANDOS PARA MONITOREO CONTINUO:
+
+# 1. Verificar progreso de agentes activos
+git log --oneline --grep="AGENT_.*_WEEK_.*_COMPLETE" | head -5
+
+# 2. Revisar archivos de estado actualizados
+find .agent_status -name "*.json" -newer .agent_status -exec ls -la {} \;
+
+# 3. Verificar si hay nuevos desbloqueos disponibles
+for agent in 2 3 4 5; do
+  for week in 1 2 3; do
+    echo "Verificando Agente $agent, Semana $week:"
+    ./scripts/verify_agent_dependencies.sh $agent $week 2>/dev/null | grep -E "(AUTORIZADO|BLOQUEADO)"
+  done
+done
+
+# 4. Revisar notificaciones automáticas
+ls -la .agent_status/*_complete.json | tail -3
+```
+
+#### **PASO 7: GESTIÓN DE COMPLETACIONES**
+**CUANDO UN AGENTE REPORTA COMPLETACIÓN:**
+
+```bash
+# 1. VERIFICAR que realmente completó (no solo reportó)
+ls -la .agent_status/agent_[ID]_week_[N]_complete.json
+
+# 2. VERIFICAR que ejecutó notificación automática
+git tag -l | grep "AGENT_[ID]_WEEK_[N]_COMPLETE"
+
+# 3. VERIFICAR qué agentes se desbloquearon
+cat .agent_status/agent_*_prerequisites.json | grep -l "all_dependencies_met.*true"
+
+# 4. COMUNICAR nuevos desbloqueos al usuario
+echo "🔓 AGENTES DESBLOQUEADOS:
+- Agente [ID] ahora puede proceder con Semana [N]
+- Verificar con: ./scripts/verify_agent_dependencies.sh [ID] [N]"
+```
+
+---
+
+## 📋 **MATRIZ DE DEPENDENCIAS PARA COORDINACIÓN**
+
+### **DEPENDENCIAS CRÍTICAS QUE DEBO RESPETAR:**
+
+```javascript
+// NUNCA ASIGNAR [A] SI ESTAS DEPENDENCIAS NO ESTÁN SATISFECHAS:
+
+AGENTE 4 SEMANA 1: 
+- ❌ NO puede trabajar sin: AGENT_3_WEEK_1_COMPLETE
+- 🎯 Razón: Necesita análisis de estructura de datos
+- ⚠️ Riesgo si ignoro: Incompatibilidad de datos, retrabajos mayores
+
+AGENTE 5 SEMANA 1:
+- ❌ NO puede trabajar sin: AGENT_4_WEEK_1_COMPLETE  
+- 🎯 Razón: Necesita componentes React para testing
+- ⚠️ Riesgo si ignoro: Testing framework mal configurado
+
+AGENTE 4 SEMANA 2:
+- ❌ NO puede trabajar sin: AGENT_2_WEEK_2_COMPLETE + AGENT_3_WEEK_2_COMPLETE
+- 🎯 Razón: Necesita estructura HTML y APIs
+- ⚠️ Riesgo si ignoro: Integración defectuosa
+
+AGENTE 5 SEMANA 2:
+- ❌ NO puede trabajar sin: AGENT_4_WEEK_2_COMPLETE + AGENT_2_INTEGRATION_COMPLETE
+- 🎯 Razón: Necesita hooks y componentes integrados
+- ⚠️ Riesgo si ignoro: Tests incompletos o incorrectos
+```
+
+### **AGENTES SIN DEPENDENCIAS (PUEDEN EMPEZAR SIEMPRE):**
+- **AGENTE 2 SEMANA 1**: Estructura HTML base
+- **AGENTE 3 SEMANA 1**: Análisis de datos independiente
+
+---
+
+## 🔄 **NUEVOS ESCENARIOS DE COORDINACIÓN**
+
+### **ESCENARIO ACTUALIZADO: "Migración Frontend-First Next.js"**
+```
+MI DECISIÓN CORRECTA CON DEPENDENCIAS:
+
+SEMANA 1: 
+- AGENTE 3 [A] - Análisis de datos (AUTORIZADO: Sin dependencias)
+- AGENTE 2 [A] - Estructura HTML (AUTORIZADO: Sin dependencias)  
+- AGENTE 4 [a] - BLOQUEADO: Esperando análisis Agente 3
+- AGENTE 5 [a] - BLOQUEADO: Esperando componentes Agente 4
+
+SEMANA 2:
+- AGENTE 3 [A] - APIs y migración (AUTORIZADO: HTML listo)
+- AGENTE 2 [A] - Componentes base (AUTORIZADO: Datos analizados)
+- AGENTE 4 [A] - DESBLOQUEADO: Migración Next.js (Análisis completo)
+- AGENTE 5 [A] - DESBLOQUEADO: Testing setup (Componentes listos)
+
+RESULTADO: Migración coordinada sin retrabajos
+```
 
 ### **COMANDOS DE DECISIÓN:**
 ```javascript
