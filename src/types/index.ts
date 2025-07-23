@@ -23,7 +23,7 @@ export interface Deck {
   description: string;
   isPublic: boolean;
   createdAt: string;
-  flashcards: Flashcard[];
+  flashcards?: Flashcard[];
   stats: {
     total: number;
     studied: number;
