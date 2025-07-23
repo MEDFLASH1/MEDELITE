@@ -1,4 +1,4 @@
-import type { Deck, Flashcard } from './index';
+import type { Deck, Flashcard } from './index.js';
 
 /**
  * Props for the Navigation component.

@@ -1,20 +1,19 @@
 // @ts-check
+/// <reference path="./types/global.d.ts" />
 
 // ===== DECLARACIÓN GLOBAL =====
 /** @type {StudyingFlashApp} */
 let app;
 
-// ===== IMPORTACIÓN DE TIPOS =====
+// ===== TIPOS =====
+// Los tipos están definidos globalmente en types/global.d.ts
 /**
  * @typedef {import('./src/types/index.js').Deck} Deck
  * @typedef {import('./src/types/index.js').Flashcard} Flashcard
+ * @typedef {import('./src/types/index.js').StudySession} StudySession
  * @typedef {import('./src/types/index.js').UserStats} UserStats
- * @typedef {import('./src/types/index.js').NotificationConfig} NotificationConfig
- * @typedef {import('./src/types/index.js').APIResponse} APIResponse
- * @typedef {import('./src/types/index.js').CreateDeckForm} CreateDeckForm
- * @typedef {import('./src/types/index.js').CreateFlashcardForm} CreateFlashcardForm
- * @typedef {import('./src/types/index.js').AlgorithmType} AlgorithmType
- * @typedef {import('./src/types/index.js').ReviewRating} ReviewRating
+ * @typedef {import('./src/types/index.js').DeckStats} DeckStats
+ * @typedef {import('./src/types/index.js').ValidationErrors} ValidationErrors
  */
 // ===== CONFIGURACIÓN GLOBAL =====
 const CONFIG = {
@@ -22,7 +21,23 @@ const CONFIG = {
     STORAGE_PREFIX: "studyingflash_",
     DEBUG: true,
     maxRetries: 3,
-    timeoutMs: 5000
+    timeoutMs: 5000,
+    STORAGE_KEYS: {
+        DECKS: "studyingflash_decks",
+        CURRENT_SESSION: "studyingflash_current_session",
+        USER_PREFERENCES: "studyingflash_user_preferences",
+        STUDY_STATS: "studyingflash_study_stats"
+    },
+    SPACED_REPETITION: {
+        INITIAL_INTERVAL: 1,
+        EASE_FACTOR: 2.5,
+        MIN_EASE_FACTOR: 1.3,
+        MAX_EASE_FACTOR: 2.5
+    },
+    UI: {
+        ANIMATION_DURATION: 300,
+        NOTIFICATION_TIMEOUT: 3000
+    }
 };
 
 // ===== UTILIDADES GLOBALES =====
@@ -109,6 +124,59 @@ const Utils = {
 
     generateId: () => {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    },
+
+    /**
+     * @param {Partial<Deck>} deck
+     * @returns {object}
+     */
+    validateDeck: (deck) => {
+        const errors = {};
+        if (!deck.name || deck.name.trim() === '') {
+            errors.name = 'El nombre del mazo es requerido';
+        }
+        return errors;
+    },
+
+    /**
+     * @param {Partial<Flashcard>} card
+     * @returns {object}
+     */
+    validateFlashcard: (card) => {
+        const errors = {};
+        if (!card.front_content || !card.front_content.text || card.front_content.text.trim() === '') {
+            errors.front = 'El contenido del frente es requerido';
+        }
+        if (!card.back_content || !card.back_content.text || card.back_content.text.trim() === '') {
+            errors.back = 'El contenido del reverso es requerido';
+        }
+        return errors;
+    },
+
+    /**
+     * @param {string} key
+     * @param {any} data
+     */
+    saveToStorage: (key, data) => {
+        try {
+            localStorage.setItem(CONFIG.STORAGE_PREFIX + key, JSON.stringify(data));
+        } catch (error) {
+            Utils.error('Error al guardar en localStorage', error);
+        }
+    },
+
+    /**
+     * @param {string} key
+     * @returns {any}
+     */
+    loadFromStorage: (key) => {
+        try {
+            const data = localStorage.getItem(CONFIG.STORAGE_PREFIX + key);
+            return data ? JSON.parse(data) : null;
+        } catch (error) {
+            Utils.error('Error al cargar desde localStorage', error);
+            return null;
+        }
     }
 };
 
@@ -242,6 +310,53 @@ const ApiService = {
      */
     async delete(endpoint) {
         return this.request(endpoint, { method: "DELETE" });
+    },
+
+    /**
+     * @param {any} error
+     */
+    handleError(error) {
+        Utils.error('API Error:', error);
+        if (error.message) {
+            Utils.showNotification(error.message, 'error');
+        }
+    },
+
+    /**
+     * @returns {boolean}
+     */
+    isOnline() {
+        return navigator.onLine;
+    },
+
+    /**
+     * @param {string} endpoint
+     * @param {object} options
+     */
+    saveOffline(endpoint, options) {
+        const offlineData = Utils.loadFromStorage('offline_queue') || [];
+        offlineData.push({ endpoint, options, timestamp: Date.now() });
+        Utils.saveToStorage('offline_queue', offlineData);
+    },
+
+    /**
+     * @returns {Promise<void>}
+     */
+    async syncOfflineData() {
+        if (!this.isOnline()) return;
+        
+        const offlineData = Utils.loadFromStorage('offline_queue') || [];
+        const failedRequests = [];
+        
+        for (const request of offlineData) {
+            try {
+                await this.request(request.endpoint, request.options);
+            } catch (error) {
+                failedRequests.push(request);
+            }
+        }
+        
+        Utils.saveToStorage('offline_queue', failedRequests);
     }
 };
 

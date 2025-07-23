@@ -1,17 +1,5 @@
 // ===== TIPOS PARA SERVICIOS =====
 
-import type { 
-  Deck, 
-  Flashcard, 
-  StudySession, 
-  StudySettings, 
-  SessionStats, 
-  NotificationConfig, 
-  UserStats, 
-  DeckStats, 
-  ReviewRating 
-} from './index.js';
-
 export interface StorageService {
   get<T>(key: string): T | null;
   set<T>(key: string, value: T): void;
@@ -71,3 +59,16 @@ export interface SyncService {
   needsSync(): boolean;
   enableAutoSync(enabled: boolean): void;
 }
+
+// Tipos de importación para usar en JSDoc
+import type { 
+  Deck, 
+  Flashcard, 
+  StudySession, 
+  StudySettings, 
+  SessionStats, 
+  NotificationConfig, 
+  UserStats, 
+  DeckStats, 
+  ReviewRating 
+} from './index.js';
