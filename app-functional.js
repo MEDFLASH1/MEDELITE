@@ -1,13 +1,13 @@
 // @ts-check
 
-// ===== DECLARACIONES GLOBALES =====
+// ===== DECLARACIÓN GLOBAL =====
 /** @type {StudyingFlashApp} */
 let app;
 
 // ===== IMPORTACIÓN DE TIPOS =====
 /**
- * @typedef {import('./src/types/index.js').Deck} TypeDeck
- * @typedef {import('./src/types/index.js').Flashcard} TypeFlashcard
+ * @typedef {import('./src/types/index.js').Deck} Deck
+ * @typedef {import('./src/types/index.js').Flashcard} Flashcard
  * @typedef {import('./src/types/index.js').UserStats} UserStats
  * @typedef {import('./src/types/index.js').NotificationConfig} NotificationConfig
  * @typedef {import('./src/types/index.js').APIResponse} APIResponse
@@ -17,16 +17,12 @@ let app;
  * @typedef {import('./src/types/index.js').ReviewRating} ReviewRating
  */
 // ===== CONFIGURACIÓN GLOBAL =====
-/**
- * @typedef {object} AppConfig
- * @property {string} API_BASE_URL
- * @property {string} STORAGE_PREFIX
- * @property {boolean} DEBUG
- */
 const CONFIG = {
     API_BASE_URL: "https://flashcard-u10n.onrender.com/api",
     STORAGE_PREFIX: "studyingflash_",
-    DEBUG: true
+    DEBUG: true,
+    maxRetries: 3,
+    timeoutMs: 5000
 };
 
 // ===== UTILIDADES GLOBALES =====
@@ -267,9 +263,9 @@ const ApiService = {
 class StudyingFlashApp {
     constructor() {
         this.currentSection = 'dashboard';
-        /** @type {TypeDeck[]} */
+        /** @type {Deck[]} */
         this.decks = JSON.parse(localStorage.getItem('studyingflash_decks') || '[]');
-        /** @type {TypeFlashcard[]} */
+        /** @type {Flashcard[]} */
         this.flashcards = JSON.parse(localStorage.getItem('studyingflash_flashcards') || '[]');
         /** @type {Partial<Stats>} */
         this.stats = JSON.parse(localStorage.getItem('studyingflash_stats') || '{}');
