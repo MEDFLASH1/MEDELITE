@@ -71,4 +71,4 @@ import type {
   UserStats, 
   DeckStats, 
   ReviewRating 
-} from './index';
+} from './index.js';
