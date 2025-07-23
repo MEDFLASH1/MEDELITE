@@ -62,6 +62,12 @@ interface ApiOptions {
   body?: string;
 }
 
+interface RequestOptions {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
+
 interface ValidationErrors {
   deckSelect?: boolean;
   frontInput?: boolean;
@@ -139,46 +145,28 @@ declare class StudyingFlashApp {
 
 declare const CONFIG: {
   API_BASE_URL: string;
-  STORAGE_KEYS: {
-    DECKS: string;
-    CURRENT_SESSION: string;
-    USER_PREFERENCES: string;
-    STUDY_STATS: string;
-  };
-  SPACED_REPETITION: {
-    INITIAL_INTERVAL: number;
-    EASE_FACTOR: number;
-    MIN_EASE_FACTOR: number;
-    MAX_EASE_FACTOR: number;
-  };
-  UI: {
-    ANIMATION_DURATION: number;
-    NOTIFICATION_TIMEOUT: number;
-  };
+  STORAGE_PREFIX: string;
+  DEBUG: boolean;
+  maxRetries: number;
+  timeoutMs: number;
 };
 
 declare const Utils: {
-  log(message: string): void;
-  error(message: string): void;
-  showNotification(message: string): void;
-  formatDate(date: Date): string;
-  debounce(func: Function, delay: number): Function;
-  generateId(): string;
-  validateDeck(deck: Partial<Deck>): ValidationErrors;
-  validateFlashcard(card: Partial<Flashcard>): ValidationErrors;
-  saveToStorage(key: string, data: any): void;
-  loadFromStorage(key: string): any;
+  log: (message: string, data?: any) => void;
+  error: (message: string, error?: Error | null) => void;
+  showNotification: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
+  formatDate: (date: string | number | Date) => string;
+  debounce: (func: Function, delay: number) => (...args: any[]) => void;
+  generateId: () => string;
 };
 
 declare const ApiService: {
+  request(endpoint: string, options?: RequestOptions): Promise<any>;
+  fallbackToLocalStorage(endpoint: string, options: RequestOptions): any;
   get(endpoint: string): Promise<any>;
   post(endpoint: string, data: any): Promise<any>;
   put(endpoint: string, data: any): Promise<any>;
   delete(endpoint: string): Promise<any>;
-  handleError(error: any): void;
-  isOnline(): boolean;
-  saveOffline(endpoint: string, options: ApiOptions): void;
-  syncOfflineData(): Promise<void>;
 };
 
 // ===== MÓDULO DE AUTENTICACIÓN =====
