@@ -4,8 +4,8 @@
  * Script para verificar la integridad del proyecto después de eliminación de duplicados
  */
 
-const  = require('');
-const  = require('');
+const fs = require('fs');
+const path = require('path');
 
 class IntegrityChecker {
     constructor() {
@@ -23,13 +23,13 @@ class IntegrityChecker {
     checkMainFile() {
         this.log('Verificando archivo principal...');
         
-        if (!.existsSync(this.mainFile)) {
+        if (!fsfs.existsSync(this.mainFile)) {
             this.errors.push(`Archivo principal no encontrado: ${this.mainFile}`);
             return false;
         }
         
         try {
-            const content = .readFileSync(this.mainFile, 'utf8');
+            const content = fs.readFileSync(this.mainFile, 'utf8');
             
             // Verificar sintaxis básica
             if (content.includes('<<<<<<< HEAD') || content.includes('>>>>>>> ')) {
@@ -61,13 +61,13 @@ class IntegrityChecker {
         
         const backupDir = './backup_js';
         
-        if (!.existsSync(backupDir)) {
+        if (!fs.existsSync(backupDir)) {
             this.warnings.push('Directorio backup_js no encontrado');
             return true;
         }
         
         try {
-            const files = .readdirSync(backupDir);
+            const files = fs.readdirSync(backupDir);
             const jsFiles = files.filter(f => f.endsWith('.js'));
             
             this.log(`Archivos en backup: ${jsFiles.length}`);
@@ -84,7 +84,7 @@ class IntegrityChecker {
                 
                 // Verificar contenido básico
                 try {
-                    const content = .readFileSync(filePath, 'utf8');
+                    const content = fs.readFileSync(filePath, 'utf8');
                     if (content.includes('<<<<<<< HEAD') || content.includes('>>>>>>> ')) {
                         this.errors.push(`Marcadores de merge conflict en: ${file}`);
                     }
@@ -107,9 +107,9 @@ class IntegrityChecker {
         const serviceDirs = ['./services', './utils', './store'];
         
         serviceDirs.forEach(dir => {
-            if (.existsSync(dir)) {
+            if (fs.existsSync(dir)) {
                 try {
-                    const files = .readdirSync(dir);
+                    const files = fs.readdirSync(dir);
                     const jsFiles = files.filter(f => f.endsWith('.js'));
                     
                     this.log(`${dir}: ${jsFiles.length} archivos JavaScript`);
@@ -117,7 +117,7 @@ class IntegrityChecker {
                     jsFiles.forEach(file => {
                         const filePath = .join(dir, file);
                         try {
-                            const content = .readFileSync(filePath, 'utf8');
+                            const content = fs.readFileSync(filePath, 'utf8');
                             if (content.includes('<<<<<<< HEAD') || content.includes('>>>>>>> ')) {
                                 this.errors.push(`Marcadores de merge conflict en: ${filePath}`);
                             }
@@ -167,8 +167,8 @@ class IntegrityChecker {
         
         const lockDir = '.agent-locks';
         
-        if (.existsSync(lockDir)) {
-            const lockFiles = .readdirSync(lockDir);
+        if (fs.existsSync(lockDir)) {
+            const lockFiles = fs.readdirSync(lockDir);
             
             if (lockFiles.length > 0) {
                 this.warnings.push(`Archivos de lock encontrados: ${lockFiles.join(', ')}`);
@@ -177,7 +177,7 @@ class IntegrityChecker {
                 lockFiles.forEach(lockFile => {
                     try {
                         const lockPath = .join(lockDir, lockFile);
-                        const lockData = JSON.parse(.readFileSync(lockPath, 'utf8'));
+                        const lockData = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
                         const lockAge = Date.now() - lockData.timestamp;
                         
                         if (lockAge > 300000) { // 5 minutos
@@ -215,11 +215,11 @@ class IntegrityChecker {
         const existingReports = [];
         
         reportFiles.forEach(reportFile => {
-            if (.existsSync(reportFile)) {
+            if (fs.existsSync(reportFile)) {
                 existingReports.push(reportFile);
                 
                 try {
-                    const report = JSON.parse(.readFileSync(reportFile, 'utf8'));
+                    const report = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
                     this.log(`Reporte válido: ${reportFile}`);
                 } catch (error) {
                     this.errors.push(`Reporte corrupto: ${reportFile} - ${error.message}`);
@@ -251,7 +251,7 @@ class IntegrityChecker {
             warnings: this.warnings
         };
         
-        .writeFileSync('integrity_check_report.json', JSON.stringify(report, null, 2));
+        fs.writeFileSync('integrity_check_report.json', JSON.stringify(report, null, 2));
         this.log(`Reporte de integridad guardado: integrity_check_report.json`);
         
         return report;

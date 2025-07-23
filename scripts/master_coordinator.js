@@ -4,9 +4,9 @@
  * Script principal para coordinar la ejecución simultánea de todos los agentes
  */
 
-const  = require('');
-const  = require('');
-const { spawn, execSync } = require('');
+const fs = require('fs');
+const path = require('path');
+const { spawn, execSync } = require('child_process');
 
 class MasterCoordinator {
     constructor() {
@@ -61,26 +61,26 @@ class MasterCoordinator {
         this.log('Inicializando entorno de coordinación...');
         
         // Crear directorio de locks
-        if (!.existsSync('.agent-locks')) {
+        if (!fs.existsSync('.agent-locks')) {
             .mkdirSync('.agent-locks');
             this.log('Directorio de locks creado');
         }
         
         // Limpiar locks existentes
-        const lockFiles = .readdirSync('.agent-locks');
+        const lockFiles = fs.readdirSync('.agent-locks');
         for (const lockFile of lockFiles) {
-            .unlinkSync(.join('.agent-locks', lockFile));
+            fs.unlinkSync(path.join('.agent-locks', lockFile));
         }
         this.log('Locks anteriores limpiados');
         
         // Crear directorio de scripts si no existe
-        if (!.existsSync('scripts')) {
+        if (!fs.existsSync('scripts')) {
             .mkdirSync('scripts');
         }
         
         // Verificar que todos los scripts existen
         for (const agent of this.agents) {
-            if (!.existsSync(agent.script)) {
+            if (!fs.existsSync(agent.script)) {
                 this.log(`ADVERTENCIA: Script no encontrado: ${agent.script}`);
                 agent.status = 'missing';
             }
@@ -163,7 +163,7 @@ class MasterCoordinator {
         
         for (const priority of priorities) {
             const agentsInPriority = priorityGroups.get(priority);
-            this.log(`Ejecutando prioridad ${priority}: ${agentsInPriority.map(a => a.id).join(', ')}`);
+            this.log(`Ejecutando prioridad ${priority}: ${agentsInPriority.map(a => a.id)path.join(', ')}`);
             
             if (priority === 1) {
                 }
@@ -191,9 +191,9 @@ class MasterCoordinator {
         ];
         
         for (const reportFile of reportFiles) {
-            if (.existsSync(reportFile)) {
+            if (fs.existsSync(reportFile)) {
                 try {
-                    const report = JSON.parse(.readFileSync(reportFile, 'utf8'));
+                    const report = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
                     reports.push({
                         file: reportFile,
                         data: report
@@ -236,7 +236,7 @@ class MasterCoordinator {
             }
         };
         
-        .writeFileSync('master_coordination_report.json', JSON.stringify(masterReport, null, 2));
+        fs.writeFileSync('master_coordination_report.json', JSON.stringify(masterReport, null, 2));
         this.log('Reporte maestro generado: master_coordination_report.json');
         
         return masterReport;
@@ -274,10 +274,10 @@ class MasterCoordinator {
         }
         
         // Limpiar locks
-        if (.existsSync('.agent-locks')) {
-            const lockFiles = .readdirSync('.agent-locks');
+        if (fs.existsSync('.agent-locks')) {
+            const lockFiles = fs.readdirSync('.agent-locks');
             for (const lockFile of lockFiles) {
-                .unlinkSync(.join('.agent-locks', lockFile));
+                fs.unlinkSync(path.join('.agent-locks', lockFile));
             }
         }
         
