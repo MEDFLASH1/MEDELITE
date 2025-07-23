@@ -143,7 +143,7 @@ export interface FormFieldProps extends BaseComponentProps {
   required?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  options?: Array<{ value: any; label: string }>;
+  options?: Array<{ value: string | number; label: string }>;
 }
 
 export interface ButtonProps extends BaseComponentProps {
