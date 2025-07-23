@@ -1,25 +1,106 @@
 # INSTRUCCIONES ESPECÍFICAS - AGENTE 2
-## ESPECIALISTA EN ARCHIVO PRINCIPAL
+## ESPECIALISTA EN FRONTEND/HTML - SISTEMA UNIFICADO
 
 **Asignado por:** AGENTE 1 (Coordinador Maestro)  
 **Fecha:** 8 de Julio, 2025  
 **Prioridad:** CRÍTICA  
+**Sistema de Coordinación:** [A/a] - ACTIVO/EN ESPERA  
 
 ---
 
 ## 🎯 **TU MISIÓN ESPECÍFICA**
 
-Como **AGENTE 2 - ESPECIALISTA EN ARCHIVO PRINCIPAL**, tu responsabilidad es **consolidar todas las funciones duplicadas en `flashcard-app-final.js`** y eliminar las versiones duplicadas de otros archivos.
+Como **AGENTE 2 - ESPECIALISTA EN FRONTEND/HTML**, tu responsabilidad es **optimizar la estructura HTML y componentes principales** siguiendo el sistema de coordinación unificado.
 
-### **DUPLICACIONES CRÍTICAS QUE DEBES ELIMINAR:**
+### **ESTADOS DE TRABAJO:**
+- **[A] ACTIVO:** Ejecutando, modificando o creando código
+- **[a] EN ESPERA:** No ejecutando, esperando prerrequisitos
 
-1. **`debounce(func, wait, immediate)`** - Duplicada en `utils/helpers.js`
-2. **`executedFunction()`** - Duplicada en `utils/helpers.js`  
-3. **`showNotification(message, type, duration)`** - Duplicada en `utils/helpers.js`
-4. **`formatDate(date, format)`** - Duplicada en `utils/helpers.js`
-5. **`generateId(prefix)`** - Duplicada en `utils/helpers.js`
-6. **`later()`** - Duplicada en `utils/helpers.js`
-7. **`error()`** - Duplicada en `utils/loading.js`
+### **DEPENDENCIAS CON OTROS AGENTES:**
+- **Independiente:** Puede trabajar sin depender de otros agentes
+- **Prerrequisito para:** Agente 3 (Backend/API) y Agente 4 (JavaScript/Logic)
+- **Coordinación con:** Agente 1 (Coordinador) y Agente 5 (CSS/Styling)
+
+---
+
+## ⚠️ **AUTORIDAD DEL AGENTE 1 - OBLIGATORIO OBEDECER**
+
+### **🚨 CRÍTICO: EL AGENTE 1 TIENE AUTORIDAD TOTAL**
+
+**DEBES OBEDECER SIN CUESTIONAR las decisiones del AGENTE 1:**
+
+1. **NO TOMES DECISIONES** de coordinación por tu cuenta
+2. **ESPERA INSTRUCCIONES** del Agente 1 antes de actuar
+3. **OBEDECE** cuando el Agente 1 te asigne estado [A] o [a]
+4. **REPORTA** tu progreso para que el Agente 1 decida
+5. **NO CAMBIES** tu estado sin autorización del Agente 1
+
+### **EJEMPLOS DE OBEDIENCIA:**
+```javascript
+// ✅ CORRECTO: Esperar instrucciones del Agente 1
+if (agent1Decision.status === '[A] ACTIVO') {
+    // Trabajar según instrucciones específicas
+} else if (agent1Decision.status === '[a] EN ESPERA') {
+    // Esperar sin hacer nada
+}
+
+// ❌ INCORRECTO: Tomar decisiones propias
+// NO HACER: if (necesitoTrabajar) { cambiarEstado(); }
+```
+
+---
+
+## 📅 **LÓGICA FUNDAMENTAL DE SEMANAS - PREPARACIÓN, MODIFICACIÓN, INTEGRACIÓN**
+
+### **🎯 PRINCIPIO GENERAL APLICABLE A TODOS LOS CAMBIOS:**
+
+**CUALQUIER TRABAJO SE DIVIDE EN 3 FASES:**
+
+#### **FASE 1: PREPARACIÓN/MODULARIZACIÓN**
+- **Objetivo:** Preparar la estructura base
+- **Tu rol:** Puedes trabajar si el Agente 1 te asigna [A] ACTIVO
+- **Ejemplo:** Agente 4 modulariza, tú esperas
+
+#### **FASE 2: MODIFICACIÓN/IMPLEMENTACIÓN**
+- **Objetivo:** Modificar lo que fue preparado
+- **Tu rol:** Trabajas con la estructura preparada por otros agentes
+- **Ejemplo:** Trabajas con lo modularizado por Agente 4
+
+#### **FASE 3: INTEGRACIÓN/CONTINUIDAD**
+- **Objetivo:** Asegurar que todo funcione junto
+- **Tu rol:** Todos trabajan para verificar continuidad
+- **Ejemplo:** Aseguras que nombres estén iguales en todos los archivos
+
+### **EJEMPLO CONCRETO: "Cambiar nombres de archivos Python y HTML"**
+```
+SEMANA 1: AGENTE 4 [A] - Modulariza (prepara estructura) | TÚ [a] EN ESPERA
+SEMANA 2: TÚ [A] ACTIVO - Modificas lo preparado | AGENTE 4 [a] EN ESPERA
+SEMANA 3: TÚ [A] ACTIVO - Integración (nombres iguales) | Todos [A] ACTIVO
+```
+
+---
+
+## 📅 **METODOLOGÍA DE 5 SEMANAS - COORDINACIÓN SECUENCIAL**
+
+### **SEMANA 1: [A] ACTIVO - FUNDAMENTOS HTML**
+**Tarea:** Optimización de estructura HTML y componentes principales
+**Dependencias:** Ninguna (puede trabajar independientemente)
+
+### **SEMANA 2: [a] EN ESPERA - ESPERANDO PRERREQUISITOS**
+**Estado:** Completado en Semana 1
+**Dependencias:** Trabajo de Agentes 3 y 4
+
+### **SEMANA 3: [a] EN ESPERA - ESPERANDO PRERREQUISITOS**
+**Estado:** Completado en Semana 1
+**Dependencias:** Trabajo de Agentes 3 y 4
+
+### **SEMANA 4: [A] ACTIVO - INTEGRACIÓN**
+**Tarea:** Integración con trabajo de otros agentes
+**Dependencias:** Trabajo de todas las semanas anteriores
+
+### **SEMANA 5: [A] ACTIVO - OPTIMIZACIÓN FINAL**
+**Tarea:** Optimización final y validación
+**Dependencias:** Trabajo de todas las semanas anteriores
 
 ---
 
@@ -30,8 +111,8 @@ Como **AGENTE 2 - ESPECIALISTA EN ARCHIVO PRINCIPAL**, tu responsabilidad es **c
 **📚 ARCHIVOS OBLIGATORIOS EN GITHUB:**
 - ✅ **`AGENT_CODING_STANDARDS.md`** - Estándares de codificación y nomenclatura
 - ✅ **`MANUAL_5_AGENTES_UNIFICADO.md`** - Manual completo del sistema
-- ✅ **`AGENT_WORK_PROTOCOL.md`** - Protocolo de trabajo entre agentes
-- ✅ **`UNIFICATION_PROTOCOL.md`** - Reglas para evitar duplicaciones
+- ✅ **`AI_AGENT_HTML_GUIDELINES.md`** - Guías específicas HTML
+- ✅ **`DOCUMENTACION_NOMENCLATURA_UNIFICADA.md`** - Estructura de datos
 
 **⚠️ CRÍTICO:** NO puedes empezar a trabajar sin leer estos 4 archivos. Contienen:
 - Convenciones de nombres que DEBES seguir
@@ -43,238 +124,198 @@ Como **AGENTE 2 - ESPECIALISTA EN ARCHIVO PRINCIPAL**, tu responsabilidad es **c
 Antes de proceder con tu trabajo específico, confirma que:
 - [x] Leíste completamente `AGENT_CODING_STANDARDS.md`
 - [x] Leíste completamente `MANUAL_5_AGENTES_UNIFICADO.md`
-- [x] Leíste completamente `AGENT_WORK_PROTOCOL.md`
-- [x] Leíste completamente `UNIFICATION_PROTOCOL.md`
+- [x] Leíste completamente `AI_AGENT_HTML_GUIDELINES.md`
+- [x] Leíste completamente `DOCUMENTACION_NOMENCLATURA_UNIFICADA.md`
 - [x] Entiendes las convenciones de nomenclatura
 - [x] Entiendes las reglas de unificación
+- [x] Entiendes el sistema [A/a] de coordinación
+- [x] **ENTIENDES QUE DEBES OBEDECER AL AGENTE 1**
+- [x] **ENTIENDES LA LÓGICA DE PREPARACIÓN → MODIFICACIÓN → INTEGRACIÓN**
 
-### **PASO 1: ANÁLISIS PREVIO**
+### **PASO 1: VERIFICACIÓN PREVIA**
 ```bash
 # Ejecutar DESPUÉS de leer los archivos base
 node scripts/enhanced_agent1_coordinator_fixed.cjs
+
+# Validar estructura HTML
+node scripts/html-validator.js
 ```
 
-**Debes verificar:**
+**Debes confirmar:**
 - ✅ Que leíste y entendiste los 4 archivos base
-- ✅ Que las 7 duplicaciones están confirmadas
-- ✅ Que tienes permisos para modificar `flashcard-app-final.js`
+- ✅ Que entiendes el sistema [A/a] de coordinación
+- ✅ Que tienes permisos para modificar archivos HTML
 - ✅ Que no hay otros agentes trabajando simultáneamente
+- ✅ Que la estructura HTML es válida
+- ✅ **QUE EL AGENTE 1 TE HA ASIGNADO ESTADO [A] ACTIVO**
+- ✅ **QUE ENTIENDES SI ESTÁS EN FASE DE PREPARACIÓN, MODIFICACIÓN O INTEGRACIÓN**
 
-### **PASO 2: CONSOLIDACIÓN DE CADA FUNCIÓN**
+### **PASO 2: TAREAS ESPECÍFICAS POR SEMANA**
 
-**Para CADA función duplicada, sigue este proceso:**
+#### **SEMANA 1 - [A] ACTIVO:**
+1. **Validar estructura HTML** en `index.html`
+2. **Optimizar componentes** de flashcards para soporte multimedia
+3. **Implementar mejoras** en la interfaz de usuario
+4. **Asegurar responsividad** completa en dispositivos móviles
 
-1. **Comparar Implementaciones:**
-   - Abrir `flashcard-app-final.js` y localizar la función
-   - Abrir el archivo duplicado (`utils/helpers.js` o `utils/loading.js`)
-   - Comparar línea por línea las dos implementaciones
+#### **SEMANA 4 - [A] ACTIVO:**
+1. **Integrar con trabajo** de Agentes 3 y 4
+2. **Verificar compatibilidad** entre componentes
+3. **Optimizar rendimiento** general
+4. **Validar funcionalidad** completa
 
-2. **Determinar Versión Óptima:**
-   - ¿Cuál tiene más funcionalidad?
-   - ¿Cuál está más actualizada?
-   - ¿Cuál tiene mejor documentación?
-   - ¿Cuál maneja mejor los errores?
-
-3. **Consolidar en Archivo Principal:**
-   - Mantener la versión más completa en `flashcard-app-final.js`
-   - Si la versión de utils es mejor, copiar mejoras al archivo principal
-   - Asegurar que la función consolidada funcione perfectamente
-
-4. **Eliminar Versión Duplicada:**
-   - Remover la función del archivo utils correspondiente
-   - Actualizar exports si es necesario
-   - Verificar que no se rompan imports
+#### **SEMANA 5 - [A] ACTIVO:**
+1. **Optimización final** de estructura HTML
+2. **Validación completa** de componentes
+3. **Reporte final** de mejoras implementadas
 
 ### **PASO 3: VERIFICACIÓN OBLIGATORIA**
 
-**Después de consolidar CADA función:**
+**Después de cada semana:**
 ```bash
 # Verificar que no hay errores de sintaxis
-node -c flashcard-app-final.js
+node -c index.html
 
-# Verificar que la función funciona
-node -e "
-const fs = require('fs');
-const code = fs.readFileSync('flashcard-app-final.js', 'utf8');
-console.log('✅ Archivo principal verificado');
-"
+# Validar estructura HTML
+node scripts/html-validator.js
+
+# Verificar que la funcionalidad funciona
+echo "✅ Verificación completada"
 ```
 
 ---
 
-## 🔧 **INSTRUCCIONES TÉCNICAS ESPECÍFICAS**
+## 🔄 **SISTEMA DE COMUNICACIÓN CON OTROS AGENTES**
 
-### **FUNCIÓN `debounce()`:**
+### **COMUNICACIÓN CON AGENTE 1 (COORDINADOR):**
 ```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar "function debounce"
-// UBICACIÓN EN UTILS: utils/helpers.js línea ~XX
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils
-// VERIFICAR: Que funciona en formularios y búsquedas
+// Reportar estado de trabajo
+window.dispatchEvent(new CustomEvent('agent-communication', {
+    detail: { 
+        from: 'AGENT-2', 
+        action: 'STATUS_UPDATE', 
+        data: { 
+            status: '[A] ACTIVO', 
+            week: 1, 
+            progress: '50%' 
+        } 
+    }
+}));
 ```
 
-### **FUNCIÓN `showNotification()`:**
+### **COMUNICACIÓN CON AGENTE 3 (BACKEND):**
 ```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar "function showNotification"  
-// UBICACIÓN EN UTILS: utils/helpers.js línea ~XX
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils
-// VERIFICAR: Que todos los tipos de notificación funcionan
+// Notificar cuando HTML está listo para APIs
+window.dispatchEvent(new CustomEvent('agent-communication', {
+    detail: { 
+        from: 'AGENT-2', 
+        action: 'HTML_READY', 
+        data: { 
+            components: ['flashcards', 'forms', 'navigation'] 
+        } 
+    }
+}));
 ```
 
-### **FUNCIÓN `formatDate()`:**
+### **COMUNICACIÓN CON AGENTE 4 (JAVASCRIPT):**
 ```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar "function formatDate"
-// UBICACIÓN EN UTILS: utils/helpers.js línea ~XX  
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils
-// VERIFICAR: Que todos los formatos de fecha funcionan
+// Notificar cuando estructura HTML está lista para JavaScript
+window.dispatchEvent(new CustomEvent('agent-communication', {
+    detail: { 
+        from: 'AGENT-2', 
+        action: 'HTML_STRUCTURE_READY', 
+        data: { 
+            selectors: ['#flashcard-container', '.deck-grid', '.study-section'] 
+        } 
+    }
+}));
 ```
 
-### **FUNCIÓN `generateId()`:**
+### **COMUNICACIÓN CON AGENTE 5 (CSS):**
 ```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar "function generateId"
-// UBICACIÓN EN UTILS: utils/helpers.js línea ~XX
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils  
-// VERIFICAR: Que genera IDs únicos correctamente
-```
-
-### **FUNCIÓN `executedFunction()` y `later()`:**
-```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar estas funciones
-// UBICACIÓN EN UTILS: utils/helpers.js
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils
-// VERIFICAR: Que el sistema de ejecución diferida funciona
-```
-
-### **FUNCIÓN `error()`:**
-```javascript
-// UBICACIÓN EN ARCHIVO PRINCIPAL: Buscar "function error"
-// UBICACIÓN EN UTILS: utils/loading.js línea ~XX
-// ACCIÓN: Consolidar en archivo principal, eliminar de utils/loading.js
-// VERIFICAR: Que el manejo de errores funciona correctamente
+// Notificar cuando HTML está listo para estilos
+window.dispatchEvent(new CustomEvent('agent-communication', {
+    detail: { 
+        from: 'AGENT-2', 
+        action: 'HTML_READY_FOR_STYLING', 
+        data: { 
+            classes: ['flashcard', 'deck', 'study'], 
+            ids: ['main-container', 'navigation'] 
+        } 
+    }
+}));
 ```
 
 ---
 
-## ⚠️ **REGLAS CRÍTICAS - NO VIOLAR**
+## 📊 **REPORTES Y SEGUIMIENTO**
 
-### **PROHIBIDO ABSOLUTAMENTE:**
-- ❌ **NO crear nuevas funciones** - Solo consolidar existentes
-- ❌ **NO cambiar nombres** de funciones - Mantener nombres exactos
-- ❌ **NO modificar parámetros** - Preservar interfaces existentes
-- ❌ **NO tocar otros archivos** que no sean los especificados
-- ❌ **NO trabajar si otro agente está activo** - Verificar locks
-
-### **OBLIGATORIO SIEMPRE:**
-- ✅ **Hacer backup** antes de cada modificación importante
-- ✅ **Verificar sintaxis** después de cada cambio
-- ✅ **Probar funcionalidad** de cada función consolidada
-- ✅ **Documentar cambios** en comentarios del código
-- ✅ **Reportar progreso** al Agente 1 regularmente
-
----
-
-## 📊 **CRITERIOS DE ÉXITO**
-
-### **Tu trabajo estará COMPLETO cuando:**
-
-1. **Cero Duplicaciones:** Las 7 funciones duplicadas están consolidadas
-2. **Funcionalidad Preservada:** Todas las funciones funcionan igual que antes
-3. **Archivo Principal Optimizado:** `flashcard-app-final.js` contiene todas las funciones
-4. **Utils Limpiados:** Los archivos utils ya no contienen las funciones duplicadas
-5. **Sintaxis Correcta:** No hay errores de JavaScript en ningún archivo
-6. **Referencias Intactas:** Todas las llamadas a funciones siguen funcionando
-
-### **Verificación Final:**
-```bash
-# Ejecutar al terminar tu trabajo
-node scripts/enhanced_agent1_coordinator_fixed.cjs
-
-# Debe mostrar: "0 duplicaciones detectadas para AGENT-2"
+### **REPORTE SEMANAL OBLIGATORIO:**
+```javascript
+const weeklyReport = {
+    agent: 'AGENT-2',
+    week: 1,
+    status: '[A] ACTIVO',
+    tasksCompleted: [
+        'Validación HTML completada',
+        'Componentes optimizados',
+        'Responsividad implementada'
+    ],
+    nextWeek: '[a] EN ESPERA',
+    dependencies: 'Esperando Agentes 3 y 4',
+    issues: [],
+    recommendations: []
+};
 ```
+
+### **ENTREGABLES POR SEMANA:**
+- **Semana 1:** HTML optimizado y validado
+- **Semana 4:** Integración completada
+- **Semana 5:** Optimización final y reporte
 
 ---
 
 ## 🚨 **PROTOCOLO DE EMERGENCIA**
 
-### **Si encuentras errores:**
+### **SI SE DETECTAN PROBLEMAS:**
+1. **PARAR INMEDIATAMENTE** el trabajo
+2. **NOTIFICAR** al Agente 1 (Coordinador)
+3. **EVALUAR** impacto del problema
+4. **COORDINAR** solución con agentes afectados
+5. **VALIDAR** antes de continuar
+6. **DOCUMENTAR** problema y solución
 
-1. **Parar inmediatamente** el trabajo
-2. **No hacer más cambios** hasta resolver el error
-3. **Reportar al Agente 1** el problema específico
-4. **Restaurar backup** si es necesario
-5. **Esperar instrucciones** antes de continuar
-
-### **Si no puedes consolidar una función:**
-
-1. **Documentar el problema** específico encontrado
-2. **Reportar al Agente 1** qué función no se puede consolidar
-3. **Explicar la razón** técnica del problema
-4. **Proponer solución alternativa** si la tienes
-5. **Esperar instrucciones** del coordinador
-
----
-
-## 📝 **REPORTE OBLIGATORIO**
-
-### **Al completar tu trabajo, debes generar:**
-
-**Archivo:** `AGENTE_2_REPORTE_FINAL.md`
-
-**Contenido obligatorio:**
-```markdown
-# REPORTE FINAL - AGENTE 2
-
-## FUNCIONES CONSOLIDADAS:
-- [x] debounce() - Consolidada exitosamente
-- [x] showNotification() - Consolidada exitosamente  
-- [x] formatDate() - Consolidada exitosamente
-- [x] generateId() - Consolidada exitosamente
-- [x] executedFunction() - Consolidada exitosamente
-- [x] later() - Consolidada exitosamente
-- [x] error() - Consolidada exitosamente
-
-## ARCHIVOS MODIFICADOS:
-- flashcard-app-final.js - 7 funciones consolidadas
-- utils/helpers.js - 6 funciones eliminadas
-- utils/loading.js - 1 función eliminada
-
-## VERIFICACIONES REALIZADAS:
-- [x] Sintaxis correcta en todos los archivos
-- [x] Funcionalidad preservada al 100%
-- [x] Cero duplicaciones restantes
-- [x] Referencias funcionando correctamente
-
-## TIEMPO DE EJECUCIÓN: XX minutos
-## ESTADO FINAL: COMPLETADO EXITOSAMENTE
-```
-
----
-
-## 🎯 **COMANDO PARA INICIAR**
-
-**Cuando estés listo para empezar:**
+### **COMANDOS DE VERIFICACIÓN:**
 ```bash
-# 1. Verificar estado inicial
-node scripts/enhanced_agent1_coordinator_fixed.cjs
+# Validar estructura HTML
+node scripts/html-validator.js
 
-# 2. Iniciar tu trabajo como Agente 2
-echo "AGENTE 2 INICIANDO CONSOLIDACIÓN DE ARCHIVO PRINCIPAL"
+# Verificar estado actual
+cat final_test_results.md
 
-# 3. Trabajar función por función según las instrucciones
-# 4. Verificar después de cada consolidación
-# 5. Generar reporte final
+# Validar nomenclatura
+grep -r "front_content\|back_content" --include="*.html" .
 ```
 
 ---
 
-## ✅ **CONFIRMACIÓN DE LECTURA**
+## ✅ **CRITERIOS DE ÉXITO**
 
-**Antes de empezar, confirma que entiendes:**
-- ✅ Tu rol específico como Agente 2
-- ✅ Las 7 funciones que debes consolidar
-- ✅ El protocolo paso a paso a seguir
-- ✅ Las reglas críticas que no puedes violar
-- ✅ Los criterios de éxito que debes cumplir
-- ✅ El reporte final que debes generar
+### **AL FINALIZAR CADA SEMANA:**
+- ✅ HTML válido y sin errores
+- ✅ Componentes optimizados
+- ✅ Responsividad completa
+- ✅ Compatibilidad con otros agentes
+- ✅ Documentación actualizada
 
-**¡AGENTE 2, ESTÁS LISTO PARA ELIMINAR LAS DUPLICACIONES DEL ARCHIVO PRINCIPAL!**
+### **AL FINALIZAR EL PROYECTO:**
+- ✅ Estructura HTML completamente optimizada
+- ✅ Integración perfecta con otros agentes
+- ✅ Rendimiento optimizado
+- ✅ Código limpio sin duplicados
+- ✅ Documentación completa
+
+---
+
+**¿Estás listo para comenzar con la Semana 1 como [A] ACTIVO?**
 

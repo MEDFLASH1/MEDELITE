@@ -1,15 +1,19 @@
 /* Footer Styles - Design baseado na imagem fornecida */
-.footer {
+.main-footer {
     background-color: #1a1a1a;
     color: #ffffff;
     padding: 60px 40px 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin-top: auto;
     position: relative;
+    display: block !important;
+    width: 100% !important;
+    z-index: 1000;
+    clear: both;
 }
 
 /* Efeito de pontos verdes no topo do rodapé */
-.footer::before {
+.main-footer::before {
     content: '';
     position: absolute;
     top: 0;
@@ -100,71 +104,75 @@
     justify-content: center;
     width: 40px;
     height: 40px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .social-links a:hover {
-    transform: scale(1.1);
     color: #ffffff;
+    transform: translateY(-3px);
+    background-color: rgba(34, 197, 94, 0.2);
 }
 
 .social-links .icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
 }
 
 /* Footer Bottom */
 .footer-bottom {
-    text-align: center;
+    border-top: 1px solid #333333;
     margin-top: 40px;
     padding-top: 20px;
-    border-top: 1px solid #333333;
-    color: #a0a0a0;
-    font-size: 14px;
-    font-weight: 400;
-    position: relative;
-    z-index: 1;
+    text-align: center;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .footer {
-        padding: 40px 20px 20px;
+.footer-bottom p {
+    color: #666666;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 40px;
     }
     
+    .main-footer {
+        padding: 40px 30px 20px;
+    }
+}
+
+@media (max-width: 768px) {
     .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: left;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+    
+    .main-footer {
+        padding: 30px 20px 20px;
     }
     
     .footer-section h3 {
         font-size: 18px;
-        margin-bottom: 16px;
     }
     
     .footer-section p,
     .footer-section ul li a {
         font-size: 14px;
     }
-    
-    .social-links {
-        justify-content: flex-start;
-        margin-top: 16px;
-    }
-    
-    .footer-bottom {
-        margin-top: 30px;
-        font-size: 12px;
-    }
 }
 
 @media (max-width: 480px) {
-    .footer {
-        padding: 30px 16px 16px;
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .footer-content {
-        gap: 30px;
+    .main-footer {
+        padding: 20px 15px 15px;
     }
     
     .footer-section h3 {
@@ -177,3 +185,20 @@
     }
 }
 
+/* CORRECCIÓN ESPECÍFICA PARA FOOTER VISIBLE */
+body {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+.app-container {
+    flex: 1 !important;
+}
+
+.main-footer {
+    position: relative !important;
+    z-index: 999 !important;
+    display: block !important;
+    margin-top: auto !important;
+}

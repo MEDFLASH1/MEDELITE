@@ -6,24 +6,26 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 class IntegrityChecker {
     constructor() {
         this.startTime = Date.now();
         this.errors = [];
         this.warnings = [];
-        this.mainFile = './flashcard-app-final.js';
+        this.mainFile = './app-functional.js';
     }
 
     log(message, type = 'info') {
         const timestamp = new Date().toISOString();
         const prefix = type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️';
+        console.log(`[${timestamp}] ${prefix} ${message}`);
     }
 
     checkMainFile() {
         this.log('Verificando archivo principal...');
         
-        if (!fsfs.existsSync(this.mainFile)) {
+        if (!fs.existsSync(this.mainFile)) {
             this.errors.push(`Archivo principal no encontrado: ${this.mainFile}`);
             return false;
         }
@@ -74,15 +76,15 @@ class IntegrityChecker {
             
             // Verificar archivos sospechosos
             jsFiles.forEach(file => {
-                const filePath = .join(backupDir, file);
-                const stats = .statSync(filePath);
+                const filePath = path.join(backupDir, file);
+                const stats = fs.statSync(filePath);
                 
                 // Archivos muy pequeños podrían ser problemáticos
                 if (stats.size < 100) {
                     this.warnings.push(`Archivo muy pequeño en backup: ${file} (${stats.size} bytes)`);
                 }
                 
-                // Verificar contenido básico
+                // Verificar marcadores de conflicto
                 try {
                     const content = fs.readFileSync(filePath, 'utf8');
                     if (content.includes('<<<<<<< HEAD') || content.includes('>>>>>>> ')) {
@@ -115,7 +117,7 @@ class IntegrityChecker {
                     this.log(`${dir}: ${jsFiles.length} archivos JavaScript`);
                     
                     jsFiles.forEach(file => {
-                        const filePath = .join(dir, file);
+                        const filePath = path.join(dir, file);
                         try {
                             const content = fs.readFileSync(filePath, 'utf8');
                             if (content.includes('<<<<<<< HEAD') || content.includes('>>>>>>> ')) {
@@ -139,18 +141,18 @@ class IntegrityChecker {
         this.log('Verificando estado de Git...');
         
         try {
-            const { execSync } = require('');
-            
             // Verificar si hay cambios sin commit
             const status = execSync('git status --porcelain', { encoding: 'utf8' });
             
             if (status.trim()) {
                 this.warnings.push('Hay cambios sin commit en el repositorio');
                 this.log('Cambios detectados:');
+                console.log(status);
+            } else {
                 this.log('Repositorio limpio - sin cambios pendientes');
             }
             
-            // Verificar branch actual
+            // Obtener branch actual
             const branch = execSync('git branch --show-current', { encoding: 'utf8' }).trim();
             this.log(`Branch actual: ${branch}`);
             
@@ -165,7 +167,7 @@ class IntegrityChecker {
     checkLockFiles() {
         this.log('Verificando archivos de lock...');
         
-        const lockDir = '.agent-locks';
+        const lockDir = './locks';
         
         if (fs.existsSync(lockDir)) {
             const lockFiles = fs.readdirSync(lockDir);
@@ -173,14 +175,13 @@ class IntegrityChecker {
             if (lockFiles.length > 0) {
                 this.warnings.push(`Archivos de lock encontrados: ${lockFiles.join(', ')}`);
                 
-                // Verificar si están expirados
+                // Verificar edad de los locks
                 lockFiles.forEach(lockFile => {
                     try {
-                        const lockPath = .join(lockDir, lockFile);
                         const lockData = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
                         const lockAge = Date.now() - lockData.timestamp;
                         
-                        if (lockAge > 300000) { // 5 minutos
+                        if (lockAge > 3600000) { // Más de 1 hora
                             this.warnings.push(`Lock expirado: ${lockFile} (${Math.round(lockAge / 1000)}s)`);
                         } else {
                             this.warnings.push(`Lock activo: ${lockFile} (${lockData.agentId})`);
@@ -201,15 +202,14 @@ class IntegrityChecker {
         this.log('Verificando archivos de reporte...');
         
         const reportFiles = [
-            'js_duplicates_analysis.json',
-            'agent_distribution_plan.json',
+            'final_coordination_report.json',
+            'enhanced_coordination_report.json',
             'agent1_report.json',
             'agent2_report.json',
             'agent3_report.json',
             'agent4_report.json',
             'agent5_report.json',
-            'final_coordination_report.json',
-            'master_coordination_report.json'
+            'unified_coordination_report.json'
         ];
         
         const existingReports = [];
@@ -234,21 +234,14 @@ class IntegrityChecker {
         const report = {
             timestamp: new Date().toISOString(),
             executionTime: Date.now() - this.startTime,
-            status: this.errors.length === 0 ? 'PASS' : 'FAIL',
             summary: {
                 errors: this.errors.length,
                 warnings: this.warnings.length,
-                checks: [
-                    'mainFile',
-                    'backupDirectory',
-                    'serviceDirectories',
-                    'gitStatus',
-                    'lockFiles',
-                    'reportFiles'
-                ]
+                status: this.errors.length === 0 ? 'PASSED' : 'FAILED'
             },
             errors: this.errors,
-            warnings: this.warnings
+            warnings: this.warnings,
+            recommendations: []
         };
         
         fs.writeFileSync('integrity_check_report.json', JSON.stringify(report, null, 2));
@@ -257,40 +250,44 @@ class IntegrityChecker {
         return report;
     }
 
-    async execute() {
-        try {
-            this.log('=== INICIANDO VERIFICACIÓN DE INTEGRIDAD ===');
-            
-            // Ejecutar todas las verificaciones
-            this.checkMainFile();
-            this.checkBackupDirectory();
-            this.checkServiceDirectories();
-            this.checkGitStatus();
-            this.checkLockFiles();
-            this.checkReportFiles();
-            
-            // Generar reporte
-            const report = this.generateIntegrityReport();
-            
-            // Mostrar resumen
-            console.log(`Advertencias: ${report.summary.warnings}`);
-            if (this.warnings.length > 0) {
-            
-            if (this.errors.length === 0 && this.warnings.length === 0) {
-            
-            
-            // Retornar código de salida apropiado
-        } catch (error) {
+    execute() {
+        this.log('=== INICIANDO VERIFICACIÓN DE INTEGRIDAD ===');
+        
+        // Ejecutar todas las verificaciones
+        this.checkMainFile();
+        this.checkBackupDirectory();
+        this.checkServiceDirectories();
+        this.checkGitStatus();
+        this.checkLockFiles();
+        this.checkReportFiles();
+        
+        // Generar reporte final
+        const report = this.generateIntegrityReport();
+        
+        // Mostrar resumen
+        console.log('\n=== RESUMEN DE INTEGRIDAD ===');
+        console.log(`Errores: ${report.summary.errors}`);
+        console.log(`Advertencias: ${report.summary.warnings}`);
+        console.log(`Estado: ${report.summary.status}`);
+        
+        if (report.errors.length > 0) {
+            console.log('\n❌ ERRORES ENCONTRADOS:');
+            report.errors.forEach(error => console.log(`  - ${error}`));
+        }
+        
+        if (report.warnings.length > 0) {
+            console.log('\n⚠️  ADVERTENCIAS:');
+            report.warnings.forEach(warning => console.log(`  - ${warning}`));
+        }
+        
+        // Retornar código de salida apropiado
+        if (report.summary.status === 'FAILED') {
             process.exit(1);
         }
     }
 }
 
-// Ejecutar si se llama directamente
-if (require.main === module) {
-    const checker = new IntegrityChecker();
-    checker.execute();
-}
-
-module.exports = IntegrityChecker;
+// Ejecutar verificación
+const checker = new IntegrityChecker();
+checker.execute();
 

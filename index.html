@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
   
   <!-- Stylesheets - Organizado con @import en main.css -->
-  <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="./main.css?v=20250718">
   
   <!-- Cargar iconos SVG embebidos -->
   <style>
@@ -38,8 +38,8 @@
     }
     
     .icon {
-      width: 20px;
-      height: 20px;
+      width: 32px;
+      height: 32px;
       display: inline-block;
       vertical-align: middle;
       margin-right: 8px;
@@ -126,7 +126,7 @@
           <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
         </linearGradient>
       </defs>
-      <text x="20" y="50" font-family="Inter, sans-serif" font-size="32" font-weight="800" fill="url(#textGradient)">StudyingFlash</text>
+      <text x="20" y="50" font-family="Inter, sans-serif" font-size="32" font-weight="800" fill="url(#textGradient)">MedFlascard</text>
       <circle cx="350" cy="25" r="8" fill="#4F46E5" opacity="0.6"/>
       <circle cx="370" cy="35" r="6" fill="#7C3AED" opacity="0.7"/>
       <circle cx="360" cy="50" r="5" fill="#C026D3" opacity="0.8"/>
@@ -252,7 +252,7 @@
         <span></span>
       </div>
     </button>
-    <a href="#" class="apple-logo">StudyingFlash</a>
+    <a href="#" class="apple-logo">MedFlascard</a>
     <div style="width: 44px;"></div> <!-- Spacer para centrar logo -->
   </header>
   
@@ -1471,7 +1471,45 @@
     </div>
   </footer>
 
-  <!-- Scripts principais da aplicação -->
+  <!-- Scripts principales da aplicação -->
   <script src="js/auth-system-fixed.js"></script>
+  
+  <!-- Scripts de integración modular -->
+  <script type="module" src="js/services-config.js"></script>
+  <script type="module" src="js/section-integration.js"></script>
+  <script type="module" src="js/app-integration.js"></script>
+  
+  <!-- Script de inicialización -->
+  <script>
+    // Verificar que la integración esté funcionando
+    document.addEventListener('appIntegrationReady', () => {
+      console.log('🎉 [Main] App integration ready!');
+      
+      // Verificar estado de la integración
+// In app-integration.js:
+const status = this.getStatus();
+document.dispatchEvent(new CustomEvent('appIntegrationReady', { detail: { status } }));
+
+// In index.html:
+document.addEventListener('appIntegrationReady', (e) => {
+  console.log('🎉 [Main] App integration ready!');
+  if (e.detail && e.detail.status) {
+    console.log('📊 [Main] Integration status:', e.detail.status);
+  }
+});
+      }
+    });
+    
+    // Verificar que las secciones estén funcionando
+    document.addEventListener('sectionIntegrationReady', () => {
+      console.log('🎉 [Main] Section integration ready!');
+      
+      // Verificar estado de las secciones
+      if (window.SectionIntegration) {
+        const status = window.SectionIntegration.getStatus();
+        console.log('📊 [Main] Section status:', status);
+      }
+    });
+  </script>
 </body>
 </html>

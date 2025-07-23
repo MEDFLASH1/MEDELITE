@@ -784,3 +784,7 @@ Si faltan guías de agentes, verificar que existan:
 - `AI_AGENT_HTML_GUIDELINES.md`  
 - `INSTRUCCIONES_AGENTE_*.md`
 
+
+
+<!-- Forçando atualização do GitHub Pages -->
+

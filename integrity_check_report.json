@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-07-21T21:08:04.950Z",
+  "executionTime": 14,
+  "summary": {
+    "errors": 0,
+    "warnings": 2,
+    "status": "PASSED"
+  },
+  "errors": [],
+  "warnings": [
+    "Directorio backup_js no encontrado",
+    "Hay cambios sin commit en el repositorio"
+  ],
+  "recommendations": []
+}

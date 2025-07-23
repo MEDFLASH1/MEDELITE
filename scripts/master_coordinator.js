@@ -62,7 +62,7 @@ class MasterCoordinator {
         
         // Crear directorio de locks
         if (!fs.existsSync('.agent-locks')) {
-            .mkdirSync('.agent-locks');
+            fs.mkdirSync('.agent-locks');
             this.log('Directorio de locks creado');
         }
         
@@ -75,7 +75,7 @@ class MasterCoordinator {
         
         // Crear directorio de scripts si no existe
         if (!fs.existsSync('scripts')) {
-            .mkdirSync('scripts');
+            fs.mkdirSync('scripts');
         }
         
         // Verificar que todos los scripts existen
@@ -115,6 +115,7 @@ class MasterCoordinator {
             process.stdout.on('data', (data) => {
                 const output = data.toString();
                 stdout += output;
+            });
             
             process.stderr.on('data', (data) => {
                 const output = data.toString();
@@ -166,6 +167,9 @@ class MasterCoordinator {
             this.log(`Ejecutando prioridad ${priority}: ${agentsInPriority.map(a => a.id)path.join(', ')}`);
             
             if (priority === 1) {
+                // Prioridad 1: Ejecutar secuencialmente (coordinador)
+                for (const agent of agentsInPriority) {
+                    await this.startAgent(agent);
                 }
             } else {
                 // Prioridades 2 y 3: Ejecutar en paralelo
@@ -300,8 +304,14 @@ class MasterCoordinator {
             // 4. Mostrar resumen final
             console.log('\n=== RESUMEN FINAL DE COORDINACIÓN ===');
             console.log(`Agentes saltados: ${masterReport.summary.skipped}`);
-            }
+            
+            this.log('=== COORDINACIÓN COMPLETADA EXITOSAMENTE ===');
+            return masterReport;
+            
+        } catch (error) {
+            this.log(`ERROR FATAL: ${error.message}`);
             throw error;
+        } finally {
             await this.cleanup();
         }
 }

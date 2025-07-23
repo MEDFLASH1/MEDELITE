@@ -1,20 +1,25 @@
 {
   "agentId": "AGENT-2",
-  "task": "Trabajo general del agente",
+  "task": "Especialista en Frontend/HTML - Sistema Unificado",
   "timestamp": "2025-07-08T20:44:46.296Z",
+  "coordinationSystem": "[A/a] - ACTIVO/EN ESPERA",
+  "methodology": "5 semanas - Coordinación Secuencial",
   "mandatoryReading": {
-    "workProtocol": "./AGENT_WORK_PROTOCOL.md",
-    "unificationProtocol": "./UNIFICATION_PROTOCOL.md",
-    "agentConfig": "./agent_config.json"
+    "workProtocol": "./AGENT_CODING_STANDARDS.md",
+    "unificationProtocol": "./MANUAL_5_AGENTES_UNIFICADO.md",
+    "agentConfig": "./AI_AGENT_HTML_GUIDELINES.md",
+    "nomenclatureDoc": "./DOCUMENTACION_NOMENCLATURA_UNIFICADA.md"
   },
   "permissions": {
     "canRead": [
       "index.html",
-      "flashcard-app-final.js"
+      "*.css",
+      "*.js"
     ],
     "canWrite": [
       "index.html",
-      "flashcard-app-final.js"
+      "*.css",
+      "*.js"
     ],
     "canDelete": [],
     "forbidden": [
@@ -22,6 +27,33 @@
       "Modificar archivos de otros agentes",
       "Modificar servicios de otros agentes"
     ]
+  },
+  "weeklySchedule": {
+    "week1": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización de estructura HTML y componentes principales",
+      "dependencies": "Ninguna (puede trabajar independientemente)"
+    },
+    "week2": {
+      "status": "[a] EN ESPERA",
+      "task": "Completado en Semana 1",
+      "dependencies": "Trabajo de Agentes 3 y 4"
+    },
+    "week3": {
+      "status": "[a] EN ESPERA",
+      "task": "Completado en Semana 1",
+      "dependencies": "Trabajo de Agentes 3 y 4"
+    },
+    "week4": {
+      "status": "[A] ACTIVO",
+      "task": "Integración con trabajo de otros agentes",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    },
+    "week5": {
+      "status": "[A] ACTIVO",
+      "task": "Optimización final y validación",
+      "dependencies": "Trabajo de todas las semanas anteriores"
+    }
   },
   "namingConventions": {
     "functionPattern": "agent2[A-Z][a-zA-Z]*",
@@ -67,12 +99,19 @@
     "preWork": [
       "Verificar permisos",
       "Leer protocolos",
-      "Comprobar dependencias"
+      "Comprobar dependencias",
+      "Validar sistema [A/a]"
     ],
     "postWork": [
       "Verificar sintaxis",
       "Probar funcionalidad",
-      "Confirmar cero duplicados"
+      "Confirmar cero duplicados",
+      "Validar coordinación"
     ]
+  },
+  "dependencies": {
+    "dependsOn": [],
+    "prerequisiteFor": ["AGENT-3", "AGENT-4"],
+    "coordinatesWith": ["AGENT-1", "AGENT-5"]
   }
 }

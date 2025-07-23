@@ -1,12 +1,36 @@
+// @ts-check
+
+// ===== DECLARACIÓN GLOBAL =====
+/** @type {StudyingFlashApp} */
+let app;
+
+// ===== IMPORTACIÓN DE TIPOS =====
+/**
+ * @typedef {import('./src/types/index.js').Deck} Deck
+ * @typedef {import('./src/types/index.js').Flashcard} Flashcard
+ * @typedef {import('./src/types/index.js').UserStats} UserStats
+ * @typedef {import('./src/types/index.js').NotificationConfig} NotificationConfig
+ * @typedef {import('./src/types/index.js').APIResponse} APIResponse
+ * @typedef {import('./src/types/index.js').CreateDeckForm} CreateDeckForm
+ * @typedef {import('./src/types/index.js').CreateFlashcardForm} CreateFlashcardForm
+ * @typedef {import('./src/types/index.js').AlgorithmType} AlgorithmType
+ * @typedef {import('./src/types/index.js').ReviewRating} ReviewRating
+ */
 // ===== CONFIGURACIÓN GLOBAL =====
 const CONFIG = {
     API_BASE_URL: "https://flashcard-u10n.onrender.com/api",
     STORAGE_PREFIX: "studyingflash_",
-    DEBUG: true
+    DEBUG: true,
+    maxRetries: 3,
+    timeoutMs: 5000
 };
 
 // ===== UTILIDADES GLOBALES =====
 const Utils = {
+    /**
+     * @param {string} message
+     * @param {any} [data]
+     */
     log: (message, data = null) => {
         if (CONFIG.DEBUG) {
             if (data) {
@@ -17,20 +41,35 @@ const Utils = {
         }
     },
     
+    /**
+     * @param {string} message
+     * @param {Error | null} [error]
+     */
     error: (message, error = null) => {
         console.error(`❌ [StudyingFlash] ${message}`, error || "");
     },
     
+    /**
+     * @param {string} message
+     * @param {'success' | 'error' | 'warning' | 'info'} [type]
+     */
     showNotification: (message, type = "success") => {
         // Crear notificación visual
         const notification = document.createElement("div");
         notification.className = `notification ${type}`;
         notification.textContent = message;
+        const colors = {
+            success: "#10b981",
+            error: "#ef4444", 
+            warning: "#f59e0b",
+            info: "#3b82f6"
+        };
+        
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === "success" ? "#10b981" : "#ef4444"};
+            background: ${colors[type] || colors.success};
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
@@ -41,18 +80,27 @@ const Utils = {
         document.body.appendChild(notification);
         
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentElement) {
+                notification.parentElement.removeChild(notification);
+            }
         }, 3000);
     },
     
+    /**
+     * @param {string | number | Date} date
+     */
     formatDate: (date) => {
         return new Date(date).toLocaleDateString("es-ES");
     },
 
-    // Función debounce para optimizar búsquedas
+    /**
+     * @param {Function} func
+     * @param {number} delay
+     */
     debounce: (func, delay) => {
         let timeout;
         return function(...args) {
+            // @ts-ignore
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), delay);
@@ -60,13 +108,23 @@ const Utils = {
     },
 
     generateId: () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }
 };
 
 // ===== API SERVICE =====
+/**
+ * @typedef {object} RequestOptions
+ * @property {string} [method]
+ * @property {Record<string, string>} [headers]
+ * @property {string} [body]
+ */
+
 const ApiService = {
-    // Hacer petición con fallback a localStorage
+    /**
+     * @param {string} endpoint
+     * @param {RequestOptions} [options]
+     */
     async request(endpoint, options = {}) {
         const url = `${CONFIG.API_BASE_URL}${endpoint}`;
         
@@ -76,7 +134,7 @@ const ApiService = {
             const response = await fetch(url, {
                 headers: {
                     "Content-Type": "application/json",
-                    ...options.headers
+                    ...(options.headers || {})
                 },
                 ...options
             });
@@ -90,14 +148,17 @@ const ApiService = {
             return data;
             
         } catch (error) {
-            Utils.error(`API Error: ${endpoint}`, error);
+            Utils.error(`API Error: ${endpoint}`, error instanceof Error ? error : new Error(String(error)));
             
             // Fallback a localStorage para desarrollo
             return this.fallbackToLocalStorage(endpoint, options);
         }
     },
     
-    // Fallback cuando la API no está disponible
+    /**
+     * @param {string} endpoint
+     * @param {RequestOptions} options
+     */
     fallbackToLocalStorage(endpoint, options) {
         Utils.log(`Using localStorage fallback for: ${endpoint}`);
         
@@ -110,6 +171,7 @@ const ApiService = {
                 return stored ? JSON.parse(stored) : [];
                 
             case "POST":
+                if (!options.body) return null;
                 const newData = JSON.parse(options.body);
                 newData.id = Utils.generateId();
                 newData.createdAt = new Date().toISOString();
@@ -121,10 +183,11 @@ const ApiService = {
                 return newData;
                 
             case "PUT":
+                if (!options.body) return null;
                 // Actualizar elemento existente
                 const updateData = JSON.parse(options.body);
                 const allItems = JSON.parse(localStorage.getItem(storageKey) || "[]");
-                const index = allItems.findIndex(item => item.id === updateData.id);
+                const index = allItems.findIndex((item) => item.id === updateData.id);
                 
                 if (index !== -1) {
                     allItems[index] = { ...allItems[index], ...updateData };
@@ -136,7 +199,7 @@ const ApiService = {
             case "DELETE":
                 const deleteId = endpoint.split("/").pop();
                 const items = JSON.parse(localStorage.getItem(storageKey) || "[]");
-                const filtered = items.filter(item => item.id !== deleteId);
+                const filtered = items.filter((item) => item.id !== deleteId);
                 localStorage.setItem(storageKey, JSON.stringify(filtered));
                 return { success: true };
                 
@@ -145,11 +208,17 @@ const ApiService = {
         }
     },
 
-    // Métodos específicos para la API
+    /**
+     * @param {string} endpoint
+     */
     async get(endpoint) {
         return this.request(endpoint, { method: "GET" });
     },
 
+    /**
+     * @param {string} endpoint
+     * @param {any} data
+     */
     async post(endpoint, data) {
         return this.request(endpoint, {
             method: "POST",
@@ -157,6 +226,10 @@ const ApiService = {
         });
     },
 
+    /**
+     * @param {string} endpoint
+     * @param {any} data
+     */
     async put(endpoint, data) {
         return this.request(endpoint, {
             method: "PUT",
@@ -164,17 +237,37 @@ const ApiService = {
         });
     },
 
+    /**
+     * @param {string} endpoint
+     */
     async delete(endpoint) {
         return this.request(endpoint, { method: "DELETE" });
     }
 };
 
+// ===== TIPOS LOCALES (compatibilidad con código existente) =====
+/**
+ * @typedef {object} Stats
+ * @property {number} totalDecks
+ * @property {number} totalFlashcards
+ * @property {number} studiedToday
+ * @property {number} dueToday
+ * @property {number} totalSessions
+ * @property {number} totalCorrect
+ * @property {number} totalAnswered
+ * @property {string} lastStudyDate
+ */
+
+
 // ===== CLASE PRINCIPAL (MANTENIDA DE app-functional.js) =====
 class StudyingFlashApp {
     constructor() {
         this.currentSection = 'dashboard';
+        /** @type {Deck[]} */
         this.decks = JSON.parse(localStorage.getItem('studyingflash_decks') || '[]');
+        /** @type {Flashcard[]} */
         this.flashcards = JSON.parse(localStorage.getItem('studyingflash_flashcards') || '[]');
+        /** @type {Partial<Stats>} */
         this.stats = JSON.parse(localStorage.getItem('studyingflash_stats') || '{}');
         
         this.init();
@@ -194,9 +287,11 @@ class StudyingFlashApp {
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const section = e.currentTarget.getAttribute('data-section');
-                console.log('🔗 Navegación clickeada:', section);
-                this.showSection(section);
+                const section = /** @type {HTMLElement} */ (e.currentTarget).getAttribute('data-section');
+                if (section) {
+                    console.log('🔗 Navegación clickeada:', section);
+                    this.showSection(section);
+                }
             });
         });
 
@@ -204,9 +299,11 @@ class StudyingFlashApp {
         document.querySelectorAll('.apple-nav-item[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const section = e.currentTarget.getAttribute('data-section');
-                this.showSection(section);
-                this.closeMobileMenu();
+                const section = /** @type {HTMLElement} */ (e.currentTarget).getAttribute('data-section');
+                if (section) {
+                    this.showSection(section);
+                    this.closeMobileMenu();
+                }
             });
         });
 
@@ -239,13 +336,16 @@ class StudyingFlashApp {
             const mobileMenu = document.querySelector('.mobile-menu');
             const menuBtn = document.getElementById('mobile-menu-btn');
             
-            if (mobileMenu && mobileMenu.classList.contains('active') && 
-                !mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            if (mobileMenu && menuBtn && mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(/** @type {Node} */ (e.target)) && !menuBtn.contains(/** @type {Node} */ (e.target))) {
                 this.closeMobileMenu();
             }
         });
     }
 
+    /**
+     * @param {string} sectionName
+     */
     showSection(sectionName) {
         console.log(`🎯 Mostrando sección: ${sectionName}`);
         Utils.log(`Navegando a sección: ${sectionName}`);
@@ -281,6 +381,9 @@ class StudyingFlashApp {
         }
     }
 
+    /**
+     * @param {string} sectionName
+     */
     loadSectionContent(sectionName) {
         // Cargar contenido específico según la sección
         switch (sectionName) {
@@ -369,9 +472,9 @@ class StudyingFlashApp {
      * @returns {Promise<void>}
      */
     async createDeck() {
-        const nameInput = document.getElementById('deck-name');
-        const descriptionInput = document.getElementById('deck-description');
-        const publicCheckbox = document.getElementById('deck-public');
+        const nameInput = /** @type {HTMLInputElement} */ (document.getElementById('deck-name'));
+        const descriptionInput = /** @type {HTMLInputElement} */ (document.getElementById('deck-description'));
+        const publicCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('deck-public'));
         
         if (!nameInput || !descriptionInput) {
             return;
@@ -441,9 +544,9 @@ class StudyingFlashApp {
     async createFlashcard() {
         Utils.log('🔧 [StudyingFlash] Iniciando creación de flashcard');
         
-        const deckSelect = document.getElementById('flashcard-deck');
-        const frontInput = document.querySelector('textarea#flashcard-front');
-        const backInput = document.querySelector('textarea#flashcard-back');
+        const deckSelect = /** @type {HTMLSelectElement} */ (document.getElementById('flashcard-deck'));
+        const frontInput = /** @type {HTMLTextAreaElement} */ (document.querySelector('textarea#flashcard-front'));
+        const backInput = /** @type {HTMLTextAreaElement} */ (document.querySelector('textarea#flashcard-back'));
         
         Utils.log('🔧 [StudyingFlash] Elementos encontrados:', {
             deckSelect: !!deckSelect,
@@ -457,15 +560,15 @@ class StudyingFlashApp {
             return;
         }
 
-        const deckId = deckSelect?.value || '';
+        const deckId = deckSelect.value || '';
         const front_content = {
-            text: frontInput?.value?.trim() || '',
+            text: frontInput.value.trim() || '',
             image_url: null,
             audio_url: null,
             video_url: null
         };
         const back_content = {
-            text: backInput?.value?.trim() || '',
+            text: backInput.value.trim() || '',
             image_url: null,
             audio_url: null,
             video_url: null
@@ -494,7 +597,8 @@ class StudyingFlashApp {
                 ease_factor: 2.5,
                 interval: 1,
                 repetitions: 0,
-                next_review: new Date().toISOString()
+                next_review: new Date().toISOString(),
+                difficulty: 0
             }
         };
 
@@ -531,9 +635,9 @@ class StudyingFlashApp {
 
         // Limpiar formulario
         Utils.log('🔧 [StudyingFlash] Limpiando formulario');
-        frontInput.value = '';
-        backInput.value = '';
-        deckSelect.value = '';
+        if (frontInput) frontInput.value = '';
+        if (backInput) backInput.value = '';
+        if (deckSelect) deckSelect.value = '';
 
         // Actualizar estadísticas del deck
         Utils.log('🔧 [StudyingFlash] Actualizando estadísticas del deck');
@@ -805,8 +909,8 @@ class StudyingFlashApp {
         if (frontText) frontText.textContent = currentCard.front_content.text;
         if (backText) backText.textContent = currentCard.back_content.text;
         if (deckName) deckName.textContent = session.deckName;
-        if (currentCardSpan) currentCardSpan.textContent = session.currentCardIndex + 1;
-        if (totalCardsSpan) totalCardsSpan.textContent = session.cards.length;
+        if (currentCardSpan) currentCardSpan.textContent = String(session.currentCardIndex + 1);
+        if (totalCardsSpan) totalCardsSpan.textContent = String(session.cards.length);
         
         // Actualizar barra de progreso
         if (progressFill) {
@@ -845,19 +949,21 @@ class StudyingFlashApp {
 
     /**
      * Registra la evaluación del usuario sobre la tarjeta actual
-     * @param {number} difficulty - Dificultad de 1 (otra vez) a 4 (fácil)
+     * @param {string|number} difficulty - Dificultad de 1 (otra vez) a 4 (fácil)
      */
     evaluateCard(difficulty) {
+        // Convertir a número si es string
+        const difficultyNum = typeof difficulty === 'string' ? parseInt(difficulty) : difficulty;
         if (!this.currentStudySession || !this.currentStudySession.isFlipped) return;
 
         const session = this.currentStudySession;
         const currentCard = session.cards[session.currentCardIndex];
 
         // Actualizar algoritmo de repetición espaciada
-        this.updateSpacedRepetition(currentCard, difficulty);
+        this.updateSpacedRepetition(currentCard, difficultyNum);
 
         // Actualizar estadísticas de la sesión
-        if (difficulty >= 3) {
+        if (difficultyNum >= 3) {
             session.stats.correct++;
         } else {
             session.stats.incorrect++;
@@ -971,7 +1077,7 @@ class StudyingFlashApp {
         Object.entries(statsElements).forEach(([id, value]) => {
             const element = document.getElementById(id);
             if (element) {
-                element.textContent = value;
+                element.textContent = String(value);
             }
         });
     }
@@ -1172,6 +1278,81 @@ class StudyingFlashApp {
         
         console.log('✅ Navegación re-inicializada');
     }
+
+    /**
+     * Obtiene el número de tarjetas estudiadas hoy
+     * @returns {number}
+     */
+    getStudiedToday() {
+        const today = new Date().toDateString();
+        const lastStudyDate = this.stats.lastStudyDate ? new Date(this.stats.lastStudyDate).toDateString() : null;
+        return lastStudyDate === today ? (this.stats.totalAnswered || 0) : 0;
+    }
+
+    /**
+     * Obtiene la racha actual de días de estudio
+     * @returns {number}
+     */
+    getCurrentStreak() {
+        // Implementación básica - podría ser más sofisticada
+        const lastStudyDate = this.stats.lastStudyDate;
+        if (!lastStudyDate) return 0;
+        
+        const today = new Date();
+        const lastStudy = new Date(lastStudyDate);
+        const diffTime = Math.abs(today.getTime() - lastStudy.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        return diffDays <= 1 ? 1 : 0; // Simplificado por ahora
+    }
+
+    /**
+     * Calcula estadísticas de ranking
+     * @returns {object}
+     */
+    calculateRankingStats() {
+        const totalCards = this.flashcards.length;
+        const studiedCards = this.flashcards.filter(card => 
+            card.algorithm_data && card.algorithm_data.repetitions > 0
+        ).length;
+        
+        return {
+            totalCards,
+            studiedCards,
+            accuracy: this.stats.totalAnswered ? 
+                Math.round((this.stats.totalCorrect / this.stats.totalAnswered) * 100) : 0
+        };
+    }
+
+    // ===== MÉTODOS ALIAS PARA COMPATIBILIDAD =====
+    
+    /**
+     * Alias para cargar decks
+     */
+    loadDecks() {
+        this.updateDecksList();
+    }
+
+    /**
+     * Alias para salir de sesión de estudio
+     */
+    exitStudySession() {
+        this.endStudySession();
+    }
+
+    /**
+     * Alias para iniciar nueva sesión
+     */
+    startNewSession() {
+        this.loadStudySection();
+    }
+
+    /**
+     * Alias para arreglar navegación
+     */
+    fixNavigation() {
+        this.reinitializeNavigation();
+    }
 }
 
 // ===== INICIALIZACIÓN =====
@@ -1179,7 +1360,8 @@ document.addEventListener('DOMContentLoaded', function() {
     Utils.log('DOM cargado, inicializando app');
     
     // Crear instancia global de la app
-    window.app = new StudyingFlashApp();
+    app = new StudyingFlashApp();
+    window.app = app;
     
     // Exponer funciones globales para onclick en HTML
     window.showSection = (sectionName) => app.showSection(sectionName);
@@ -1243,7 +1425,7 @@ const AuthModule = {
         const loginButtons = document.querySelectorAll('#apple-login-btn, .btn[onclick*="showLoginModal"]');
         loginButtons.forEach(btn => {
             btn.textContent = `👤 ${email.split('@')[0]}`;
-            btn.onclick = () => AuthModule.showUserMenu();
+            /** @type {HTMLButtonElement} */ (btn).onclick = () => AuthModule.showUserMenu();
         });
 
         localStorage.setItem('studyingflash_user', JSON.stringify({ email, loggedIn: true }));

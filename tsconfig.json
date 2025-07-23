@@ -1,23 +1,58 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": false,
+    /* Base Options */
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
     "allowJs": true,
-    "checkJs": false,
-    "jsx": "react-jsx",
-    "noEmit": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    /* Strictness - Gradual migration */
+    "strict": false,
+    "noUncheckedIndexedAccess": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "strictFunctionTypes": false,
+
+    /* Module Resolution */
+    "module": "preserve",
+    "noEmit": true,
+    "moduleResolution": "bundler",
+
+    /* If your code runs in the DOM */
+    "lib": ["es2022", "dom", "dom.iterable"],
+
+    /* Paths for Monorepo-style imports */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/types": ["src/types"],
+      "@/types/*": ["src/types/*"]
     },
-    "typeRoots": ["./types", "./node_modules/@types"]
+
+    /* Better error reporting */
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "types/**/*"],
-  "exclude": ["backup_*/**/*", "node_modules", "scripts/**/*"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "**/*.js",
+    "**/*.ts",
+    "types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "cypress",
+    "tests",
+    "scripts",
+    "**/*.test.js",
+    "**/*.test.ts",
+    "backup_*/**/*"
+  ]
 }

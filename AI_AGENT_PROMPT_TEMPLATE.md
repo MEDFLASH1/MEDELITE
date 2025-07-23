@@ -1,4 +1,52 @@
-# 🤖 PROMPT TEMPLATE PARA AGENTES DE IA
+                               +---------------------------+
+                               |   Backend API / Firebase  |  <-- ÚNICA FUENTE DE LA VERDAD
+                               +---------------------------+
+                                     ^                 ^
+                                     | (Pide datos)    | (Pide datos)
+                                     |                 |
++------------------------------------|-----------------|------------------------------------+
+|                                    |                 |                                    |
+|  Tu Aplicación Principal (Vanilla JS) - "El Contenedor"                                  |
+|                                    |                 |                                    |
+|  - Maneja el Login/Registro        |                 |                                    |
+|  - Navegación principal (menú, footer) |                 |                                    |
+|  - Sección de Estudio (Flashcards) |                 |                                    |
+|                                    |                 |                                    |                               +---------------------------+
+                               |   Backend API / Firebase  |  <-- ÚNICA FUENTE DE LA VERDAD
+                               +---------------------------+
+                                     ^                 ^
+                                     | (Pide datos)    | (Pide datos)
+                                     |                 |
++------------------------------------|-----------------|------------------------------------+
+|                                    |                 |                                    |
+|  Tu Aplicación Principal (Vanilla JS) - "El Contenedor"                                  |
+|                                    |                 |                                    |
+|  - Maneja el Login/Registro        |                 |                                    |
+|  - Navegación principal (menú, footer) |                 |                                    |
+|  - Sección de Estudio (Flashcards) |                 |                                    |
+|                                    |                 |                                    |
+|  +---------------------------------v-----------------v----------------------------------+  |
+|  |                                                                                     |  |
+|  |   AQUÍ DENTRO VIVE EL "WIDGET"                                                      |  |
+|  |                                                                                     |  |
+|  |   Dashboard / Ranking (Construido con un Framework como React o Vue)                |  |
+|  |   - Pide sus propios datos al backend en tiempo real.                               |  |
+|  |   - Se actualiza solo, sin que la app principal se entere.                          |  |
+|  |                                                                                     |  |
+|  +-------------------------------------------------------------------------------------+  |
+|                                                                                        |
++----------------------------------------------------------------------------------------+
+|  +---------------------------------v-----------------v----------------------------------+  |
+|  |                                                                                     |  |
+|  |   AQUÍ DENTRO VIVE EL "WIDGET"                                                      |  |
+|  |                                                                                     |  |
+|  |   Dashboard / Ranking (Construido con un Framework como React o Vue)                |  |
+|  |   - Pide sus propios datos al backend en tiempo real.                               |  |
+|  |   - Se actualiza solo, sin que la app principal se entere.                          |  |
+|  |                                                                                     |  |
+|  +-------------------------------------------------------------------------------------+  |
+|                                                                                        |
++----------------------------------------------------------------------------------------+# 🤖 PROMPT TEMPLATE PARA AGENTES DE IA
 
 ## Instrucciones Críticas para Modificación de HTML
 
