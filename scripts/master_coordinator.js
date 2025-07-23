@@ -4,9 +4,9 @@
  * Script principal para coordinar la ejecución simultánea de todos los agentes
  */
 
-const  = require('');
-const  = require('');
-const { spawn, execSync } = require('');
+const fs = require('fs');
+const path = require('path');
+const { spawn, execSync } = require('child_process');
 
 class MasterCoordinator {
     constructor() {
@@ -61,26 +61,26 @@ class MasterCoordinator {
         this.log('Inicializando entorno de coordinación...');
         
         // Crear directorio de locks
-        if (!.existsSync('.agent-locks')) {
-            .mkdirSync('.agent-locks');
+        if (!fs.existsSync('.agent-locks')) {
+            fs.mkdirSync('.agent-locks');
             this.log('Directorio de locks creado');
         }
         
         // Limpiar locks existentes
-        const lockFiles = .readdirSync('.agent-locks');
+        const lockFiles = fs.readdirSync('.agent-locks');
         for (const lockFile of lockFiles) {
-            .unlinkSync(.join('.agent-locks', lockFile));
+            fs.unlinkSync(path.join('.agent-locks', lockFile));
         }
         this.log('Locks anteriores limpiados');
         
         // Crear directorio de scripts si no existe
-        if (!.existsSync('scripts')) {
-            .mkdirSync('scripts');
+        if (!fs.existsSync('scripts')) {
+            fs.mkdirSync('scripts');
         }
         
         // Verificar que todos los scripts existen
         for (const agent of this.agents) {
-            if (!.existsSync(agent.script)) {
+            if (!fs.existsSync(agent.script)) {
                 this.log(`ADVERTENCIA: Script no encontrado: ${agent.script}`);
                 agent.status = 'missing';
             }
@@ -115,6 +115,7 @@ class MasterCoordinator {
             process.stdout.on('data', (data) => {
                 const output = data.toString();
                 stdout += output;
+            });
             
             process.stderr.on('data', (data) => {
                 const output = data.toString();
@@ -166,6 +167,9 @@ class MasterCoordinator {
             this.log(`Ejecutando prioridad ${priority}: ${agentsInPriority.map(a => a.id).join(', ')}`);
             
             if (priority === 1) {
+                // Prioridad 1: Ejecutar secuencialmente (coordinador)
+                for (const agent of agentsInPriority) {
+                    await this.startAgent(agent);
                 }
             } else {
                 // Prioridades 2 y 3: Ejecutar en paralelo
@@ -191,9 +195,9 @@ class MasterCoordinator {
         ];
         
         for (const reportFile of reportFiles) {
-            if (.existsSync(reportFile)) {
+            if (fs.existsSync(reportFile)) {
                 try {
-                    const report = JSON.parse(.readFileSync(reportFile, 'utf8'));
+                    const report = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
                     reports.push({
                         file: reportFile,
                         data: report
@@ -236,7 +240,7 @@ class MasterCoordinator {
             }
         };
         
-        .writeFileSync('master_coordination_report.json', JSON.stringify(masterReport, null, 2));
+        fs.writeFileSync('master_coordination_report.json', JSON.stringify(masterReport, null, 2));
         this.log('Reporte maestro generado: master_coordination_report.json');
         
         return masterReport;
@@ -274,10 +278,10 @@ class MasterCoordinator {
         }
         
         // Limpiar locks
-        if (.existsSync('.agent-locks')) {
-            const lockFiles = .readdirSync('.agent-locks');
+        if (fs.existsSync('.agent-locks')) {
+            const lockFiles = fs.readdirSync('.agent-locks');
             for (const lockFile of lockFiles) {
-                .unlinkSync(.join('.agent-locks', lockFile));
+                fs.unlinkSync(path.join('.agent-locks', lockFile));
             }
         }
         
@@ -300,8 +304,14 @@ class MasterCoordinator {
             // 4. Mostrar resumen final
             console.log('\n=== RESUMEN FINAL DE COORDINACIÓN ===');
             console.log(`Agentes saltados: ${masterReport.summary.skipped}`);
-            }
+            
+            this.log('=== COORDINACIÓN COMPLETADA EXITOSAMENTE ===');
+            return masterReport;
+            
+        } catch (error) {
+            this.log(`ERROR FATAL: ${error.message}`);
             throw error;
+        } finally {
             await this.cleanup();
         }
 }
