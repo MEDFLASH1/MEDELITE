@@ -1471,7 +1471,7 @@
     </div>
   </footer>
 
-  <!-- Scripts principales da aplicação -->
+  <!-- Scripts principais da aplicação -->
   <script src="js/auth-system-fixed.js"></script>
   
   <!-- Scripts de integración modular -->
@@ -1479,24 +1479,25 @@
   <script type="module" src="js/section-integration.js"></script>
   <script type="module" src="js/app-integration.js"></script>
   
-  <!-- Script de inicialización -->
+  <!-- Novos módulos de melhorias -->
+  <script type="module" src="performance-optimizer.js"></script>
+  <script type="module" src="accessibility-enhancer.js"></script>
+  <script type="module" src="advanced-study-system.js"></script>
+  <script type="module" src="notification-system.js"></script>
+  
+  <!-- Script principal da aplicação -->
+  <script src="app-functional.js"></script>
+  
+  <!-- Script de inicialização -->
   <script>
     // Verificar que la integración esté funcionando
     document.addEventListener('appIntegrationReady', () => {
       console.log('🎉 [Main] App integration ready!');
       
-      // Verificar estado de la integración
-// In app-integration.js:
-const status = this.getStatus();
-document.dispatchEvent(new CustomEvent('appIntegrationReady', { detail: { status } }));
-
-// In index.html:
-document.addEventListener('appIntegrationReady', (e) => {
-  console.log('🎉 [Main] App integration ready!');
-  if (e.detail && e.detail.status) {
-    console.log('📊 [Main] Integration status:', e.detail.status);
-  }
-});
+      // Verificar estado de la integração
+      if (window.app && window.app.getStatus) {
+        const status = window.app.getStatus();
+        console.log('📊 [Main] Integration status:', status);
       }
     });
     
@@ -1510,6 +1511,48 @@ document.addEventListener('appIntegrationReady', (e) => {
         console.log('📊 [Main] Section status:', status);
       }
     });
-  </script>
+    
+    // Inicializar melhorias quando tudo estiver carregado
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🚀 [Main] Inicializando melhorias...');
+      
+      // Verificar se os módulos foram carregados
+      setTimeout(() => {
+        if (window.PerformanceOptimizer) {
+          console.log('✅ Performance Optimizer carregado');
+        }
+        if (window.AccessibilityEnhancer) {
+          console.log('✅ Accessibility Enhancer carregado');
+        }
+        if (window.AdvancedStudySystem) {
+          console.log('✅ Advanced Study System carregado');
+        }
+        if (window.NotificationSystem) {
+          console.log('✅ Notification System carregado');
+        }
+        
+        // Mostrar notificação de boas-vindas
+        if (window.NotificationSystem) {
+          window.NotificationSystem.success('StudyingFlash carregado com melhorias!', {
+            title: 'Sistema Atualizado',
+            duration: 4000
+          });
+        }
+      }, 1000);
+    });
+    
+    // Registrar Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => {
+            console.log('✅ Service Worker registrado:', registration);
+          })
+          .catch(error => {
+            console.log('❌ Erro ao registrar Service Worker:', error);
+          });
+      });
+    }
+  </script>>
 </body>
 </html>
