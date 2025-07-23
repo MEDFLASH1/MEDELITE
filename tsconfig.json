@@ -1,53 +1,62 @@
 {
   "compilerOptions": {
-    /* Base Options */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "ES2022",
+    /* Next.js specific options */
+    "lib": ["dom", "dom.iterable", "es6"],
     "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-
-    /* Strictness - Gradual migration */
+    "skipLibCheck": true,
     "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    
+    /* TypeScript strict options - gradual migration */
     "noUncheckedIndexedAccess": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
-
-    /* Module Resolution */
-    "module": "preserve",
-    "noEmit": true,
-    "moduleResolution": "bundler",
-
-    /* If your code runs in the DOM */
-    "lib": ["es2022", "dom", "dom.iterable"],
-
-    /* Paths for Monorepo-style imports */
+    
+    /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/types": ["src/types"],
-      "@/types/*": ["src/types/*"]
+      "@/*": ["./src/*", "./app/*", "./components/*"],
+      "@/types": ["./src/types", "./types"],
+      "@/types/*": ["./src/types/*", "./types/*"],
+      "@/components/*": ["./src/components/*", "./components/*"],
+      "@/hooks/*": ["./src/hooks/*", "./hooks/*"],
+      "@/services/*": ["./src/services/*", "./services/*"]
     },
-
+    
     /* Better error reporting */
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "target": "es5"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "**/*.js",
+    "next-env.d.ts",
     "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/**/*",
+    "src/**/*",
+    "components/**/*",
+    "hooks/**/*",
     "types/**/*"
   ],
   "exclude": [
     "node_modules",
+    ".next",
+    "out",
     "dist",
     "build",
-    ".next",
     "cypress",
     "tests",
     "scripts",
