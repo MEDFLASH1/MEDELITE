@@ -4,6 +4,12 @@
  */
 
 // ===== INTERFACES PRINCIPALES =====
+interface RequestOptions {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
+
 interface Deck {
   id: string;
   name: string;
